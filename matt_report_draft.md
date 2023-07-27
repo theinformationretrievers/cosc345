@@ -5,6 +5,12 @@ The software will come with extended learning features included, similar to spac
 Our team consists of Jet, Jake, Matt & Cody ***Experience of each team member? ***
 
 
+datasets --
+
+For our data we need a high quality English to Maori Dictionary, and repository of public domain books. The latter is easily decided, as Project Gutenberg offers a fantastic database of books to draw from. The dictionary is maybe not quite as straight forward, as although many exist, they are not always up to date and well digitised. We propose to get around this by drawing from as many datasets as we can and using it to inform our final dataset for translating. Some notable sources of this data are Te Ngutu Kura, the Maori spell checker 
+
+
+
 What exists --
 
 We found in our research that this idea has been looked at many times before. The core concept of our app has a basis in research, with the best known promotion of this concept being the Diglot Weave technique as it became to be known, start with R. Burling in his "outlandish" 1968 paper. Other similar techniques have been known as the "Clockwork Orange" technique coming from research in the late 90s that had noticed those who read A Clockwork Orange learned and retained Russian slang words very well. 
@@ -13,7 +19,7 @@ As for commercial ventures there are some notable examples. Prismatext (prismate
 
 We also found that the Clockwork Orange Technique was being used, rather amusingly, to write children's books by onethirdstories (onethirdstories.com). They focus largely on offering physical books and only aimed at younger readers. They also have a fairly limited language selection, Maori not being on the list. 
 
-We also found weeve (https://shop.weeve.ie/) which offers both an app and physical books for sale. This one is of particular interest as it is an Irish company that offers texts in Irish, which faces similar challenges to adoption as Maori does. Ultimately, they rely holy on preprepared text to offer their translations, and don't have the ability to open your own.
+We also found Weeve (https://shop.weeve.ie/) which offers both an app and physical books for sale. This one is of particular interest as it is an Irish company that offers texts in Irish, which faces similar challenges to adoption as Maori does. Ultimately, they rely holy on preprepared text to offer their translations, and don't have the ability to open your own.
 
 Other more promising searches from a feature point of view do appear, though often lead nowhere. We have loomVue(https://loomvue.medium.com/loomvue-sneak-peak-320c6e385dba) that seemingly offered an extension to do this but it doesn't appear obvious if this is still around or indeed ever made it to market. They did however take a machine translation approach and dealt with alignment issues.
 
