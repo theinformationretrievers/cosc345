@@ -22,12 +22,37 @@ Can add diagram of what I think it'll look like. Mention C++, Ultralight etc as 
 
 Can mention the challenges we need to overcome to have a working app. Can discuss  
 Look at roles our team members will take. Talk about Agileish (with that hint of waterfall) which will lead into our schedule.
+We have made a rough diagram to show the architecture for the project
 
-include figma things
+![diagram](./mockups/diagram.png)  
+
+As seen in the diagram we are trying to split the application into three main areas:
+
+- Backend API
+- Controller
+- GUI
+
+### Backend API
+
+This is further split into three different sections:
+
+- User Profile
+- Translator
+- Substitute
+
+We aim to keep each part of the backend isolated, in that it will send and recieve data through the controller abstraction layer
+
+### Controller
+
+This will handle the data going between different areas of the code. The GUI will send text and any updates to user data to the controller, which will then make the API calls to coordinate the backend. Once the backend has finished its computation, the controller will then send the result to the GUI. 
+
+### GUI
 
 From a UI design perspective we are aiming to have a low clutter and simplistic design aimed to be easy on the eyes for long reading sessions. We have made some mockups in figma of some of the features that we envision for the app. These mockups will then be transferred to html and css using the ultralight framework as a html renderer. Figma itself allows for the designs to be exported to html and css, though there will also be some clean up on our end. Ultralight allows us to make an app using a UI framework we understand, html, but be able to easily couple it with C++. 
 
-**Insert mockups here**
+![landing_page](./mockups/landing_page.png) 
+![reader](./mockups/reader.png)  
+
 
 As seen we will have a landing page from which you can open recent books or documents. Additionally there is a sidebar which will show a typical file system to navigate to files, or optionally look through the users library. 
 
