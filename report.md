@@ -24,10 +24,6 @@ For our data we need a high quality English to Maori Dictionary, and repository 
 
 # How will we build it? 
 
-Can add diagram of what I think it'll look like. Mention C++, Ultralight etc as possible technologies. 
-
-Can mention the challenges we need to overcome to have a working app. Can discuss  
-Look at roles our team members will take. Talk about Agileish (with that hint of waterfall) which will lead into our schedule.
 We have made a rough diagram to show the architecture for the project
 
 ![diagram](./mockups/diagram.png)  
@@ -83,7 +79,7 @@ Other more promising searches from a feature point of view do appear, though oft
 
 Through all of this, we find a mixture of the features we like, yet nothing that is: free, open source, and offers Maori as an option. 
 
-# Is there interest in our app matt
+# Is there interest in our app?
 
 Measuring interest is not exactly straight forward. The fact that there are commercial companies based around a similar proposition suggests that there is interest in the core idea of mixing a second language into a first language's texts. Although it is also notable that none of them do this with machine translation on a commercial scale. 
 
