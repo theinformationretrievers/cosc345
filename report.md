@@ -16,7 +16,9 @@ Jet
 
 I'm Jet. I am almost finished undergrad computer science and am starting honours next year. I have experience with C++ in the context of graphics and computer vision. In addition to this I have designs skills and some artistic ability which I think will be valuable for this project.
 
+Cody
 
+Third year computer science student with an information science minor, including 4 years of experience in IT. This is my third team based software project. I have experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
 
 # What datasets are we using?
 
@@ -65,7 +67,15 @@ As seen we will have a landing page from which you can open recent books or docu
 
 
 # What is our schedule? cody
-- gantt
+
+Our sprints are separated into our milestones, leaving us with 4 weeks for the alpha, 2 for the beta, and 3 for the final product.
+
+The Alpha
+
+The alpha minimal viable product involves three main parts: Data organization, Frontend setup for the template of our app, and the implementation of the translation + controller architecture. This leaves us with an app that can switch out english words for maori, no more no less.
+
+![gantt_chart](mockups/gantt_chart.png)
+
 
 Gantt charts. Include hard deadlines such as assignments and end of semester + mid sem breaks. 
 
