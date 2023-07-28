@@ -92,7 +92,4 @@ We also believe that we offer something unique, that is the ability to read ones
 There is also a rather different cultural argument to its use in New Zealand, as New Zealand English (NZE) has a strong propensity to use Māori loanwords in place of their English counterparts. Data from the 2021 General Social Survey (GSS) showed that the ability of New Zealander's above the age of 15 to speak some Māori had increased. Between 2018 and 2021 the proportion of people able to speak more than just a few words or phrases in Māori had increased from 24% to 30%.
 
 The same survey showed that 3 in 5 New Zealander's think that Te Reo should be a core subject in primary school. This suggests that there is at least some demand for Te Reo resources 
-
-# Summary
-
  
