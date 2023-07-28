@@ -1,9 +1,11 @@
-# Intro matt
+---
+geometry: "top=2cm, bottom=2cm, left=2cm, right=2cm"
+---
+# Intro
 
 For our project we've decided to build a text reader with a Māori vocabulary training component. It will allow users to open a variety of text file formats (txt, ePub etc) occasionally substituting words with their Māori translation. The app will include a library of public domain eBooks for users to read. We see this as an option to replace the users default text reader, something akin to adobe pdf reader but for all text. 
 
 Our app will utilize the Diglot Weave approach, replacing words in the text with words from a language they wish to learn. The Diglot Weave approach aims to help users learn words by placing them in context. At first, we will focus on the Māori language, with the goal of extending to other languages in the future. 
-
 
 # The team
 Our team consists of Jet, Jake, Matt & Cody. 
@@ -40,7 +42,7 @@ This is further split into three different sections:
 - Translator
 - Substitute
 
-We aim to keep each part of the backend isolated, in that it will send and recieve data through the controller abstraction layer
+We aim to keep each part of the backend isolated, in that it will send and receive data through the controller abstraction layer
 
 ### Controller
 
@@ -56,11 +58,9 @@ From a UI design perspective we are aiming to have a low clutter and simplistic 
 
 As seen we will have a landing page from which you can open recent books or documents. Additionally there is a sidebar which will show a typical file system to navigate to files, or optionally look through the users library. 
 
+# What is our schedule?
 
-
-# What is our schedule? cody
-
-Alpha (4 weeks)
+### Alpha (4 weeks)
 
 Features:
 * Ability to open and read a file
@@ -71,7 +71,7 @@ The Alpha milestone focuses on creating a minimum viable product. It involves th
 
 Note: The schedule accounts for the mid-semester break.
 
-Beta (2 weeks)
+### Beta (2 weeks)
 
 Features:
 * Library tab
@@ -82,7 +82,7 @@ Features:
 
 The Beta phase aims to expand the app with primary components. Each feature can be implemented in parallel, but there are some dependencies within each feature's implementation. The focus shifts towards creating a customized learning tool rather than a simple word-switching reader.
 
-Final Product (3 weeks)
+### Final Product (3 weeks)
 
 Features:
 * Dark mode / Light mode support
@@ -92,7 +92,7 @@ Features:
 
 The Final Product phase introduces quality of life features. This allows some flexibility in the schedule, enabling us to address any unforeseen challenges encountered during the Beta phase. The tasks in this phase are organized to minimize dependencies and avoid overcommitting resources.
 
-Testing:
+### Testing:
 
 Testing is scheduled for the second half of each sprint, ensuring that the team has enough time to address any issues discovered during the testing phase.
 
