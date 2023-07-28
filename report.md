@@ -58,45 +58,39 @@ As seen we will have a landing page from which you can open recent books or docu
 
 # What is our schedule? cody
 
-Our sprints are separated into our milestones, leaving us with 4 weeks for the alpha, 2 for the beta, and 3 for the final product.
-
-![gantt_chart](mockups/gantt_chart.png)
-
-The Alpha
+Alpha (4 weeks)
 
 Features:
-* Can open a file to read
-* Switches out words for maori
-* can see what the translation is
+* Ability to open and read a file
+* Word substitution with Maori translations
+* Display of translations
+The Alpha milestone focuses on creating a minimum viable product. It involves three main components: Data organization, Frontend setup for the app's template, and the implementation of the translation and controller architecture. This phase heavily relies on sequence, with frontend components like the hover feature requiring mappings to show the correct translations on mouseover. Other frontend components such as the reader view and main menu also need to be integrated.
 
-The alpha minimal viable product involves three main parts: Data organization, Frontend setup for the template of our app, and the implementation of the translation + controller architecture.The alpha is the most dependant on sequence, with frontend components like the hover feature requiring the mappings to be created to show the correct translations when you hover over a moari word, and the other frontend components like the reader view and main menu.
+Note: The schedule accounts for the mid-semester break.
 
-
-The mid semester break has been taken into account for the schedule.
-
-The Beta
+Beta (2 weeks)
 
 Features:
 * Library tab
 * Blacklist / whitelist
-* Recent documents on hompage
-* Stats menu for progression
-* Test for words that have been learned
+* Recent documents on the homepage
+* Stats menu for progression tracking
+* Word learning tests
+The Beta phase aims to expand the app with primary components. Each feature can be implemented in parallel, but there are some dependencies within each feature's implementation. The focus shifts towards creating a customized learning tool rather than a simple word-switching reader.
 
-the beta aims to flesh out the app with primary components, each feature can be implemented in parrallel, but the features themselves have some form of sequence. A lot more "user profile" based features are implemented to move the app from a reader that switches out words to a customised learning tool.
-
-The Final Product
+Final Product (3 weeks)
 
 Features:
-* Dark mode / Lightmode support
-* Include docx
-* Include pdfs
+* Dark mode / Light mode support
+* Support for .docx and .pdf files
 * Legend for currently switched words
-* Documentation for the app
+* App documentation
+The Final Product phase introduces quality of life features. This allows some flexibility in the schedule, enabling us to address any unforeseen challenges encountered during the Beta phase. The tasks in this phase are organized to minimize dependencies and avoid overcommitting resources.
 
-the final product aims to implement many quality of life features, this provides wiggle room for schedule in case we need to perform some task dropping, as the Beta is quite sizeable. It contains the least sequence based tasks to avoid sunken cost.
+Testing:
+Testing is scheduled for the second half of each sprint, ensuring that the team has enough time to address any issues discovered during the testing phase.
 
-testing takes place on the second half of every sprint.
+![gantt_chart](mockups/gantt_chart.png)
 
 # What apps already exist?
 
