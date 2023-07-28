@@ -1,5 +1,7 @@
 ---
+title: "Diglot Reader" 
 geometry: "top=2cm, bottom=2cm, left=2cm, right=2cm"
+author: Jet Hughes, Cody Airey, Jake Norton, Matt Tyler
 ---
 
 # Intro
@@ -67,11 +69,8 @@ Our approach to planning is a mixture of Agile and Waterfall. We have set delive
 
 We used a process of requirements elicitation and planning poker to decide on these features and given them some score of difficulty to estimate their sizes. This is based off of the agile concept of user stories, however we focused on features. While we do not have the experience to confidently give each feature a size, we considered the process vital to ensuring we are all on the same page.
 
-<<<<<<< HEAD
-=======
 The schedule is managed using Jira, enabling the entire team to collaboratively view and assign tasks. It allows for task sizing and due-date assignments, acting as an interactive Gantt chart and Kanban board to facilitate easy project management.
 
->>>>>>> 9fd3aa24aafa841fa0683fccfc65cf96dd063237
 ### Alpha (4 weeks)
 
 Features:
@@ -121,13 +120,13 @@ We have set aside time in the beta part of our schedule specifically for user te
 
 We found in our research that this idea has been looked at many times before. The core concept of our app has a basis in research, with the best known promotion of this concept being the Diglot Weave technique as it became to be known, starting with R. Burling in his "outlandish" 1968 paper. Other similar techniques have been known as the "Clockwork Orange" technique coming from research in the late 90s that had noticed those who read A Clockwork Orange learned and retained Russian slang words very well.
 
-As for commercial ventures there are some notable examples. Prismatext (prismatext.com) cites the Diglot Weave technique as a core component of its technology. It has public domain books that have been edited by translators to slowly transition into a variety of different languages. Although it itself does not offer the ability to open your own text, the books cost money, and it does not appear to offer Māori as an option.
+As for commercial ventures there are some notable examples. [Prismatext](prismatext.com) cites the Diglot Weave technique as a core component of its technology. It has public domain books that have been edited by translators to slowly transition into a variety of different languages. Although it itself does not offer the ability to open your own text, the books cost money, and it does not appear to offer Māori as an option.
 
-We also found that the Clockwork Orange Technique was being used, rather amusingly, to write children's books by onethirdstories (onethirdstories.com). They focus largely on offering physical books and only aimed at younger readers. They also have a fairly limited language selection, Māori not being on the list.
+We also found that the Clockwork Orange Technique was being used, rather amusingly, to write children's books by [Onethirdstories](onethirdstories.com). They focus largely on offering physical books and only aimed at younger readers. They also have a fairly limited language selection, Māori not being on the list.
 
-Another company is Weeve (https://shop.weeve.ie/) which offers both an app and physical books for sale. This one is of particular interest as it is an Irish company that offers texts in Irish, which faces similar challenges to adoption as Māori does. Ultimately, they rely holy on preprepared text to offer their translations, and don't have the ability to open your own documents.
+Another company is [Weeve](https://shop.weeve.ie/) which offers both an app and physical books for sale. This one is of particular interest as it is an Irish company that offers texts in Irish, which faces similar challenges to adoption as Māori does. Ultimately, they rely holy on preprepared text to offer their translations, and don't have the ability to open your own documents.
 
-Other more promising apps from a feature point of view do appear in searches, though they often lead nowhere. There is loomVue(https://loomvue.medium.com/loomvue-sneak-peak-320c6e385dba) that seemingly offered an extension to do this but it doesn't appear obvious if this is still around or indeed ever made it to market. It looks as though their approach used machine translation instead of manually doing so, and worked on content the user chose.
+Other more promising apps from a feature point of view do appear in searches, though they often lead nowhere. There is [LoomVue](https://loomvue.medium.com/loomvue-sneak-peak-320c6e385dba) that seemingly offered an extension to do this but it doesn't appear obvious if this is still around or indeed ever made it to market. It looks as though their approach used machine translation instead of manually doing so, and worked on content the user chose.
 
 Through all of this, we find a mixture of the features we like, yet nothing that is: free, open source, and offers Te Reo Māori as an option.
 
