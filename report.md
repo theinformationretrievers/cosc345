@@ -14,7 +14,7 @@ Jet has almost finished his undergrad computer science and is starting honours n
 
 Cody is a third year computer science student with an information science minor, including 4 years of experience in IT. This is his third team based software project. He has experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
 
-Matt is a semi professional yo-yoer, with 28 years of life experience, some of which are in programming. He has heard of C++, but isn't sure why they didn't just call it d, or at least ++C so it would run quicker. 
+Matt is a semi professional fry cook with 28 years of life experience, some of which are in programming. He has heard of C++, but isn't sure why they didn't just call it D, or at least ++C so it would run quicker. 
 
 # What datasets are we using?
 
