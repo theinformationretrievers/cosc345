@@ -12,9 +12,7 @@ Jake is a third year computer science student with interest in low level program
 
 Jet has almost finished his undergrad computer science and is starting honours next year. He has experience with C++ in the context of graphics and computer vision, as well as designs skills and some artistic ability.
 
-Cody
-
-Third year computer science student with an information science minor, including 4 years of experience in IT. This is my third team based software project. I have experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
+Cody is a third year computer science student with an information science minor, including 4 years of experience in IT. This is his third team based software project. He has experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
 
 # What datasets are we using?
 
