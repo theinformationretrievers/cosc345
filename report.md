@@ -23,9 +23,7 @@ Matt is a semi professional fry cook with 28 years of life experience, some of w
 
 For our data we need a high quality English to Māori Dictionary, and repository of public domain books. The latter is easily decided, as Project Gutenberg offers a fantastic database of books to draw from. The dictionary is maybe not quite as straight forward, as although many exist, they are not always up to date and well digitised. We propose to get around this by drawing from as many datasets as we can and using it to inform our final dataset for translating. Some notable sources of this data are the Herbert Willliams' "Dictionary of the Māori Language", and "A Dictionary of Māori Computer & Social Media terms" compiled by Karaitiana N Taiuru. Both of which are released under creative commons. 
 
-To inform things such as which words we should prioritise switching, we will make great use of the research in the field. This will also be informed by the work of ******* which looked at Māori loan words as they appeared in tweets, which offer a great place to start as being able to understand the Te Reo that is most often used we see as a great starting point for many learners. 
-
-
+To inform things such as which words we should prioritise switching, we will make great use of the research in the field. This will also be informed by the work of David Trye which looked at Māori loan words as they appeared in tweets, which offer a great place to start as being able to understand the Te Reo that is most often used we see as a great starting point for many learners.
 
 # How will we build it? 
 
