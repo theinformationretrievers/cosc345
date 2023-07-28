@@ -62,14 +62,43 @@ As seen we will have a landing page from which you can open recent books or docu
 
 Our sprints are separated into our milestones, leaving us with 4 weeks for the alpha, 2 for the beta, and 3 for the final product.
 
-The Alpha
-
-The alpha minimal viable product involves three main parts: Data organization, Frontend setup for the template of our app, and the implementation of the translation + controller architecture. This leaves us with an app that can switch out english words for maori, no more no less.
-
 ![gantt_chart](mockups/gantt_chart.png)
 
+The Alpha
 
-Gantt charts. Include hard deadlines such as assignments and end of semester + mid sem breaks. 
+Features:
+* Can open a file to read
+* Switches out words for maori
+* can see what the translation is
+
+The alpha minimal viable product involves three main parts: Data organization, Frontend setup for the template of our app, and the implementation of the translation + controller architecture.The alpha is the most dependant on sequence, with frontend components like the hover feature requiring the mappings to be created to show the correct translations when you hover over a moari word, and the other frontend components like the reader view and main menu.
+
+
+The mid semester break has been taken into account for the schedule.
+
+The Beta
+
+Features:
+* Library tab
+* Blacklist / whitelist
+* Recent documents on hompage
+* Stats menu for progression
+* Test for words that have been learned
+
+the beta aims to flesh out the app with primary components, each feature can be implemented in parrallel, but the features themselves have some form of sequence. A lot more "user profile" based features are implemented to move the app from a reader that switches out words to a customised learning tool.
+
+The Final Product
+
+Features:
+* Dark mode / Lightmode support
+* Include docx
+* Include pdfs
+* Legend for currently switched words
+* Documentation for the app
+
+the final product aims to implement many quality of life features, this provides wiggle room for schedule in case we need to perform some task dropping, as the Beta is quite sizeable. It contains the least sequence based tasks to avoid sunken cost.
+
+testing takes place on the second half of every sprint.
 
 # What apps already exist?
 
