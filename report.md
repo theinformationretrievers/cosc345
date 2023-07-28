@@ -66,6 +66,7 @@ Features:
 * Ability to open and read a file
 * Word substitution with Maori translations
 * Display of translations
+
 The Alpha milestone focuses on creating a minimum viable product. It involves three main components: Data organization, Frontend setup for the app's template, and the implementation of the translation and controller architecture. This phase heavily relies on sequence, with frontend components like the hover feature requiring mappings to show the correct translations on mouseover. Other frontend components such as the reader view and main menu also need to be integrated.
 
 Note: The schedule accounts for the mid-semester break.
@@ -78,6 +79,7 @@ Features:
 * Recent documents on the homepage
 * Stats menu for progression tracking
 * Word learning tests
+
 The Beta phase aims to expand the app with primary components. Each feature can be implemented in parallel, but there are some dependencies within each feature's implementation. The focus shifts towards creating a customized learning tool rather than a simple word-switching reader.
 
 Final Product (3 weeks)
@@ -87,9 +89,11 @@ Features:
 * Support for .docx and .pdf files
 * Legend for currently switched words
 * App documentation
+
 The Final Product phase introduces quality of life features. This allows some flexibility in the schedule, enabling us to address any unforeseen challenges encountered during the Beta phase. The tasks in this phase are organized to minimize dependencies and avoid overcommitting resources.
 
 Testing:
+
 Testing is scheduled for the second half of each sprint, ensuring that the team has enough time to address any issues discovered during the testing phase.
 
 ![gantt_chart](mockups/gantt_chart.png)
