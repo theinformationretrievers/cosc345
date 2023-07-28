@@ -10,7 +10,13 @@ Our team consists of Jet, Jake, Matt & Cody ***Experience of each team member? *
 
 Jake
 
-I am a third year computer science student with interest in low level programming and design. I have some experience in natural language processing. I am well practiced in working with teams from my time as a chef, however this is the first time building an app as a team from scratch.   
+I am a third year computer science student with interest in low level programming and design. I have some experience in natural language processing. I am well practiced in working with teams from my time as a chef, however this is the first time building an app as a team from scratch.   '
+
+Jet
+
+I'm Jet. I am almost finished undergrad computer science and am starting honours next year. I have experience with C++ in the context of graphics and computer vision. In addition to this I have designs skills and some artistic ability which I think will be valuable for this project.
+
+
 
 # What datasets are we using?
 
