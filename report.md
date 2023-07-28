@@ -3,16 +3,17 @@ geometry: "top=2cm, bottom=2cm, left=2cm, right=2cm"
 ---
 # Intro
 
-For our project we've decided to build a text reader with a Māori vocabulary training component. It will allow users to open a variety of text file formats (txt, ePub etc) occasionally substituting words with their Māori translation. The app will include a library of public domain eBooks for users to read. We see this as an option to replace the users default text reader, something akin to adobe pdf reader but for all text. 
+For our project we've decided to build a text reader with a Te Reo Māori vocabulary training component. It will allow users to open a variety of text file formats (txt, ePub etc) occasionally substituting words with their Māori translation. The app will include a library of public domain eBooks for users to read. We see this as an option to replace the users default text reader, something akin to adobe pdf reader but for all text. 
 
-Our app will utilize the Diglot Weave approach, replacing words in the text with words from a language they wish to learn. The Diglot Weave approach aims to help users learn words by placing them in context. At first, we will focus on the Māori language, with the goal of extending to other languages in the future. 
+Our app will utilise the Diglot Weave approach, replacing words in the text with words from a language they wish to learn, increasing the proportion of text translated the further into the document. The Diglot Weave approach aims to help users learn words by placing them in a context they can understand. At first, we will focus on the Māori language, with the goal of extending to other languages in the future. 
 
 # The team
-Our team consists of Jet, Jake, Matt & Cody. 
 
-Jake is a third year computer science student with interest in low level programming and design. He has some experience in natural language processing. He is  well practised in working with teams from his time as a chef, however this is his first time building an app as a team from scratch. 
+Our team consists of Jet, Jake, Cody & Matt. 
 
 Jet has almost finished his undergrad computer science and is starting honours next year. He has experience with C++ in the context of graphics and computer vision, as well as designs skills and some artistic ability.
+
+Jake is a third year computer science student with interest in low level programming and design. He has some experience in natural language processing. He is  well practised in working with teams from his time as a chef, however this is his first time building an app as a team from scratch. 
 
 Cody is a third year computer science student with an information science minor, including 4 years of experience in IT. This is his third team based software project. He has experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
 
@@ -20,7 +21,11 @@ Matt is a semi professional fry cook with 28 years of life experience, some of w
 
 # What datasets are we using?
 
-For our data we need a high quality English to Māori Dictionary, and repository of public domain books. The latter is easily decided, as Project Gutenberg offers a fantastic database of books to draw from. The dictionary is maybe not quite as straight forward, as although many exist, they are not always up to date and well digitised. We propose to get around this by drawing from as many datasets as we can and using it to inform our final dataset for translating. Some notable sources of this data are Te Ngutu Kura, the Māori spell checker 
+For our data we need a high quality English to Māori Dictionary, and repository of public domain books. The latter is easily decided, as Project Gutenberg offers a fantastic database of books to draw from. The dictionary is maybe not quite as straight forward, as although many exist, they are not always up to date and well digitised. We propose to get around this by drawing from as many datasets as we can and using it to inform our final dataset for translating. Some notable sources of this data are the Herbert Willliams' "Dictionary of the Māori Language", and "A Dictionary of Māori Computer & Social Media terms" compiled by Karaitiana N Taiuru. Both of which are released under creative commons. 
+
+To inform things such as which words we should prioritise switching, we will make great use of the research in the field. This will also be informed by the work of ******* which looked at Māori loan words as they appeared in tweets, which offer a great place to start as being able to understand the Te Reo that is most often used we see as a great starting point for many learners. 
+
+
 
 # How will we build it? 
 
