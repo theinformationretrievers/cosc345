@@ -67,6 +67,11 @@ Our approach to planning is a mixture of Agile and Waterfall. We have set delive
 
 We used a process of requirements elicitation and planning poker to decide on these features and given them some score of difficulty to estimate their sizes. This is based off of the agile concept of user stories, however we focused on features. While we do not have the experience to confidently give each feature a size, we considered the process vital to ensuring we are all on the same page.
 
+<<<<<<< HEAD
+=======
+The schedule is managed using Jira, enabling the entire team to collaboratively view and assign tasks. It allows for task sizing and due-date assignments, acting as an interactive Gantt chart and Kanban board to facilitate easy project management.
+
+>>>>>>> 9fd3aa24aafa841fa0683fccfc65cf96dd063237
 ### Alpha (4 weeks)
 
 Features:
