@@ -14,6 +14,8 @@ Jet has almost finished his undergrad computer science and is starting honours n
 
 Cody is a third year computer science student with an information science minor, including 4 years of experience in IT. This is his third team based software project. He has experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
 
+Matt is a semi professional yo-yoer, with 28 years of life experience, some of which are in programming. He has heard of C++, but isn't sure why they didn't just call it d, or at least ++C so it would run quicker. 
+
 # What datasets are we using?
 
 For our data we need a high quality English to Māori Dictionary, and repository of public domain books. The latter is easily decided, as Project Gutenberg offers a fantastic database of books to draw from. The dictionary is maybe not quite as straight forward, as although many exist, they are not always up to date and well digitised. We propose to get around this by drawing from as many datasets as we can and using it to inform our final dataset for translating. Some notable sources of this data are Te Ngutu Kura, the Māori spell checker 
