@@ -29,7 +29,7 @@ To inform things such as which words we should prioritise switching, we will mak
 
 # How will we build it? 
 
-We have made a rough diagram to show the architecture for the project
+We have made a diagram to show the rough outline of the architecture we are considering for the project
 
 ![diagram](./mockups/diagram.png)  
 
@@ -55,24 +55,31 @@ This will handle the data going between different areas of the code. The GUI wil
 
 ### GUI
 
-From a UI design perspective we are aiming to have a low clutter and simplistic design aimed to be easy on the eyes for long reading sessions. We have made some mockups in figma of some of the features that we envision for the app. These mockups will then be transferred to html and css using the ultralight framework as a html renderer. Figma itself allows for the designs to be exported to html and css, though there will also be some clean up on our end. Ultralight allows us to make an app using a UI framework we understand, html, but be able to easily couple it with C++. 
+From a UI design perspective we are aiming to have a low clutter and simplistic design aimed to be easy on the eyes for long reading sessions. We have made some mockups in figma of some of the features that we envision for the app. These mockups will then be transferred to html and css using the Ultralight framework as an html renderer. Figma itself allows for the designs to be exported to html and css. We are considering Ultralight as it allows us to make an app using a UI language we understand, html, but be able to easily couple it with C++. 
 
 ![landing_page](./mockups/landing_page.png) 
 ![reader](./mockups/reader.png)  
 
 
-As seen we will have a landing page from which you can open recent books or documents. Additionally there is a sidebar which will show a typical file system to navigate to files, or optionally look through the users library. 
+As seen we will have a landing page from which you can open recent books or documents. Additionally there will be a sidebar which will show a typical file system to navigate to files, or optionally look through the user's library. 
 
 # What is our schedule?
+
+Our approach to planning is a mixture of Agile and Waterfall. We have set deliverables that require us to be finished to a clear level, while we intend to spend less time planning and more time adjusting as we go. For this reason we have broken the project up into three phases. Each phase is defined by the expectations of an alpha, beta and 'finished' application.
+
+We used a process of requirements elicitation and planning poker to decide on these features and given them some score of difficulty to estimate their sizes. This is based off of the agile concept of user stories, however we focused on features. While we do not have the experience to confidently give each feature a size, we considered the process vital to ensuring we are all on the same page.
+
 
 ### Alpha (4 weeks)
 
 Features:
 * Ability to open and read a file
-* Word substitution with Maori translations
+* Word substitution with Māori translations
 * Display of translations
 
-The Alpha milestone focuses on creating a minimum viable product. It involves three main components: Data organization, Frontend setup for the app's template, and the implementation of the translation and controller architecture. This phase heavily relies on sequence, with frontend components like the hover feature requiring mappings to show the correct translations on mouseover. Other frontend components such as the reader view and main menu also need to be integrated.
+The Alpha milestone focuses on creating a minimum viable product. Our goal is to have an application that implements our core features while being structured and written well enough to avoid large amounts of technical debt. We see this first stage as vitally important to ensuring the overall success of our application. 
+
+Some possible issues we may run into is feature dependency, as much of the core components of the application depend on each other. We will do our best to mitigate this by defining our API's and data formats early, as this will give us something to write to and test with.
 
 Note: The schedule accounts for the mid-semester break.
 
@@ -85,7 +92,7 @@ Features:
 * Stats menu for progression tracking
 * Word learning tests
 
-The Beta phase aims to expand the app with primary components. Each feature can be implemented in parallel, but there are some dependencies within each feature's implementation. The focus shifts towards creating a customized learning tool rather than a simple word-switching reader.
+The Beta phase aims to expand the app by adding in useful features, it will largely focus on user experience. The focus shifts towards creating a customised learning tool rather than a simple word-switching reader.
 
 ### Final Product (3 weeks)
 
@@ -95,17 +102,19 @@ Features:
 * Legend for currently switched words
 * App documentation
 
-The Final Product phase introduces quality of life features. This allows some flexibility in the schedule, enabling us to address any unforeseen challenges encountered during the Beta phase. The tasks in this phase are organized to minimize dependencies and avoid overcommitting resources.
+The Final Product phase introduces quality of life features, with a big emphasis on polish. We have allowed flexibility in the schedule, enabling us to address any unforeseen challenges encountered during the Beta phase. The tasks in this phase are organised to minimise dependencies and avoid overcommitting resources.
 
 ### Testing:
 
-Testing is scheduled for the second half of each sprint, ensuring that the team has enough time to address any issues discovered during the testing phase.
+A core component of the CI/CD approach is tests and as such we will make testing a priority. Each team member will be expected to write good tests for their code, and these tests will be reviewed as a part of the code review process. 
+
+We have set aside time in the beta part of our schedule specifically for user testing. At this point our app will be in a useable state, and each member will be able to use it and we can decide what needs changing, and find bugs that need fixing.
 
 ![gantt_chart](mockups/gantt_chart.png)
 
 # What apps already exist?
 
-We found in our research that this idea has been looked at many times before. The core concept of our app has a basis in research, with the best known promotion of this concept being the Diglot Weave technique as it became to be known, start with R. Burling in his "outlandish" 1968 paper. Other similar techniques have been known as the "Clockwork Orange" technique coming from research in the late 90s that had noticed those who read A Clockwork Orange learned and retained Russian slang words very well. 
+We found in our research that this idea has been looked at many times before. The core concept of our app has a basis in research, with the best known promotion of this concept being the Diglot Weave technique as it became to be known, starting with R. Burling in his "outlandish" 1968 paper. Other similar techniques have been known as the "Clockwork Orange" technique coming from research in the late 90s that had noticed those who read A Clockwork Orange learned and retained Russian slang words very well. 
 
 As for commercial ventures there are some notable examples. Prismatext (prismatext.com) cites the Diglot Weave technique as a core component of its technology. It has public domain books that have been edited by translators to slowly transition into a variety of different languages. Although it itself does not offer the ability to open your own text, and it does not appear to offer Māori as an option. 
 
