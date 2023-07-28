@@ -14,6 +14,8 @@ Jet has almost finished his undergrad computer science and is starting honours n
 
 Cody is a third year computer science student with an information science minor, including 4 years of experience in IT. This is his third team based software project. He has experience in NLP, doing research over the summer, which should hopefully prove useful for this project.
 
+Matt is a semi professional fry cook with 28 years of life experience, some of which are in programming. He has heard of C++, but isn't sure why they didn't just call it D, or at least ++C so it would run quicker. 
+
 # What datasets are we using?
 
 For our data we need a high quality English to Māori Dictionary, and repository of public domain books. The latter is easily decided, as Project Gutenberg offers a fantastic database of books to draw from. The dictionary is maybe not quite as straight forward, as although many exist, they are not always up to date and well digitised. We propose to get around this by drawing from as many datasets as we can and using it to inform our final dataset for translating. Some notable sources of this data are Te Ngutu Kura, the Māori spell checker 
@@ -58,16 +60,43 @@ As seen we will have a landing page from which you can open recent books or docu
 
 # What is our schedule? cody
 
-Our sprints are separated into our milestones, leaving us with 4 weeks for the alpha, 2 for the beta, and 3 for the final product.
+Alpha (4 weeks)
 
-The Alpha
+Features:
+* Ability to open and read a file
+* Word substitution with Maori translations
+* Display of translations
 
-The alpha minimal viable product involves three main parts: Data organization, Frontend setup for the template of our app, and the implementation of the translation + controller architecture. This leaves us with an app that can switch out english words for maori, no more no less.
+The Alpha milestone focuses on creating a minimum viable product. It involves three main components: Data organization, Frontend setup for the app's template, and the implementation of the translation and controller architecture. This phase heavily relies on sequence, with frontend components like the hover feature requiring mappings to show the correct translations on mouseover. Other frontend components such as the reader view and main menu also need to be integrated.
+
+Note: The schedule accounts for the mid-semester break.
+
+Beta (2 weeks)
+
+Features:
+* Library tab
+* Blacklist / whitelist
+* Recent documents on the homepage
+* Stats menu for progression tracking
+* Word learning tests
+
+The Beta phase aims to expand the app with primary components. Each feature can be implemented in parallel, but there are some dependencies within each feature's implementation. The focus shifts towards creating a customized learning tool rather than a simple word-switching reader.
+
+Final Product (3 weeks)
+
+Features:
+* Dark mode / Light mode support
+* Support for .docx and .pdf files
+* Legend for currently switched words
+* App documentation
+
+The Final Product phase introduces quality of life features. This allows some flexibility in the schedule, enabling us to address any unforeseen challenges encountered during the Beta phase. The tasks in this phase are organized to minimize dependencies and avoid overcommitting resources.
+
+Testing:
+
+Testing is scheduled for the second half of each sprint, ensuring that the team has enough time to address any issues discovered during the testing phase.
 
 ![gantt_chart](mockups/gantt_chart.png)
-
-
-Gantt charts. Include hard deadlines such as assignments and end of semester + mid sem breaks. 
 
 # What apps already exist?
 
