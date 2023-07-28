@@ -5,16 +5,12 @@ For our project we've decided to build a text reader with a Maori vocabulary tra
 The software will come with extended learning features included, and will utitlize the diglot weave approach which involves reading text in the users native language then slowly replacing words with the language which they wish to learn. In this case the focus will be on replacing head words with their maori counterparts. It will cycle words in and out to increase the vocabulary retention, and have the ability to mark words as learned. The app will provide the ability to swap out the dictionary mappings to different languages etc english to spanish. 
 
 
+# The team
+Our team consists of Jet, Jake, Matt & Cody. 
 
-Our team consists of Jet, Jake, Matt & Cody ***Experience of each team member? ***
+Jake is am a third year computer science student with interest in low level programming and design. He has some experience in natural language processing. He is  well practiced in working with teams from his time as a chef, however this is his first time building an app as a team from scratch. 
 
-Jake
-
-I am a third year computer science student with interest in low level programming and design. I have some experience in natural language processing. I am well practiced in working with teams from my time as a chef, however this is the first time building an app as a team from scratch.   '
-
-Jet
-
-I'm Jet. I am almost finished undergrad computer science and am starting honours next year. I have experience with C++ in the context of graphics and computer vision. In addition to this I have designs skills and some artistic ability which I think will be valuable for this project.
+Jet has almost finished his undergrad computer science and is starting honours next year. He has experience with C++ in the context of graphics and computer vision, as well as designs skills and some artistic ability.
 
 
 
