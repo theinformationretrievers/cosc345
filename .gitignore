@@ -1,4 +1,5 @@
 .vscode/
 personal/
-out/build
+out/build/
 .vs/
+MakeFile
