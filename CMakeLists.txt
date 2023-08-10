@@ -16,11 +16,14 @@ project ("Diglot")
 
 # Add Catch2 testing suite
 add_subdirectory(lib/Catch2)
-add_executable(tests tests/tests.cpp)
+file(GLOB TEST_SOURCES "tests/*/*.cpp")
+add_executable(tests ${TEST_SOURCES})
+# add_executable(tests tests/tests.cpp )
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 include(CTest)
 include(Catch)
-CATCH_DISCOVER_TESTS(tests)
+catch_discover_tests(tests)  # Automatically discover and register tests
+# CATCH_DISCOVER_TESTS(tests)
 
 # include Ultralight 
 include(cmake/App.cmake)
