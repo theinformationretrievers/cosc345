@@ -14,6 +14,30 @@ project ("Diglot")
 # Add source to this project's executable.
 # add_executable (Diglot "Diglot.cpp" "Diglot.h")
 
+
+# Set up include directories for the project
+# include_directories(${CMAKE_SOURCE_DIR}/src)
+
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/src/Substituter/include
+    ${CMAKE_SOURCE_DIR}/src/Translator/include
+    # Add more include directories as needed
+)
+
+
+
+add_executable(Substituter
+    src/Substituter/substituter.cpp
+)
+
+add_executable(Translator
+    src/Translator/translator.cpp
+)
+
+
+
+
 # Add Catch2 testing suite
 add_subdirectory(lib/Catch2)
 file(GLOB TEST_SOURCES "tests/*/*.cpp")
@@ -36,8 +60,12 @@ set(GUI_SOURCES "src/GUI/MyApp.h"
 ADD_APP("${GUI_SOURCES}")
 
 
-# register futher executeables here
-# add_executable(${})
+
+
+
+
+
+
 
 
 
