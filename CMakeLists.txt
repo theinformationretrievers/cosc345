@@ -14,28 +14,22 @@ project ("Diglot")
 # Add source to this project's executable.
 # add_executable (Diglot "Diglot.cpp" "Diglot.h")
 
-
-# Set up include directories for the project
-# include_directories(${CMAKE_SOURCE_DIR}/src)
-
-
-include_directories(
-    ${CMAKE_SOURCE_DIR}/src/Substituter/include
-    ${CMAKE_SOURCE_DIR}/src/Translator/include
-    # Add more include directories as needed
-)
-
-
-
-add_executable(Substituter
+add_library(SubstituterLib STATIC
     src/Substituter/substituter.cpp
 )
 
-add_executable(Translator
-    src/Translator/translator.cpp
+target_include_directories(SubstituterLib PUBLIC
+    ${CMAKE_SOURCE_DIR}/src/Substituter/include
 )
 
+add_executable(Substituter
+    src/Substituter/main_substituter.cpp
+)
 
+add_executable(Translator
+    src/Translator/main_translator.cpp
+)
+target_link_libraries(Translator SubstituterLib)
 
 
 # Add Catch2 testing suite
@@ -58,15 +52,6 @@ set(GUI_SOURCES "src/GUI/MyApp.h"
             "src/GUI/main.cpp")
 # Will register an exe with the name Diglot. 
 ADD_APP("${GUI_SOURCES}")
-
-
-
-
-
-
-
-
-
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
