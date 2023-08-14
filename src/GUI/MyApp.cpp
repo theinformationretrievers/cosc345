@@ -9,6 +9,7 @@ MyApp::MyApp() {
   ///
   app_ = App::Create();
 
+
   ///
   /// Create a resizable window by passing by OR'ing our window flags with
   /// kWindowFlags_Resizable.
