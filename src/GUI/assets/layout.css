@@ -14,14 +14,8 @@
 /* Grid layouts */
 body {
     display: grid;
+    height: 100vh;
     grid-template-columns: min-content 1fr;
-}
-
-/* Small screens (phones) */
-@media (max-width: 620px) {
-    header h1 {
-        font-size: 30px !important;
-    }
 }
 
 /* Flex layouts */
@@ -45,11 +39,11 @@ footer {
     justify-content: start;
     align-items: stretch;
     align-content: flex-start;
-    gap: 16px;
-    padding: 16px;
+    padding: 8px;
 }
 .library-grid-item {
     align-self: start;
+    margin: 8px 8px;
 }
 .ribbon-menu {
     display: flex;

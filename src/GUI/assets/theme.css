@@ -44,7 +44,7 @@ svg.svg-icon {
 /* App-wide elements */
 body {
     font-family: -apple-system, "Segoe UI Light", Ubuntu, Arial, sans-serif;
-    background-color: var(--color-base-05);
+    background-color: var(--color-base-00);
     color: var(--text-normal);
 }
 .ribbon-menu {
