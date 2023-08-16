@@ -1,0 +1,127 @@
+/* Colours */
+.theme-light {
+    color-scheme: light;
+    --color-base-00: #ffffff;
+    --color-base-05: #fcfcfc;
+    --color-base-10: #fafafa;
+    --color-base-20: #f6f6f6;
+    --color-base-25: #e3e3e3;
+    --color-base-30: #e0e0e0;
+    --color-base-35: #d4d4d4;
+    --color-base-40: #bdbdbd;
+    --color-base-50: #ababab;
+    --color-base-60: #707070;
+    --color-base-70: #5a5a5a;
+    --color-base-100: #222222;
+    --colour-tooltip-bg: rgba(0, 0, 0, 0.9);
+    /* TODO add customisable accent with hsl*/
+    --color-accent: #6b63d8;
+    --h1-color: var(--color-base-40);
+    --text-normal: var(--color-base-100);
+    --text-translated: var(--color-base-60);
+    --divider-color: var(--color-base-30);
+    --icon-small: 16px;
+    --icon-large: 18px;
+    --icon-stroke: 1.75px;
+    --font-small: 13px;
+}
+
+/* Icons */
+.clickable-icon {
+    border-radius: 4px;
+    padding: 4px 6px;
+    color: var(--color-base-80);
+}
+.clickable-icon:hover {
+    background-color: var(--color-base-30);
+}
+svg.svg-icon {
+    width: var(--icon-small);
+    height: var(--icon-small);
+    stroke-width: var(--icon-stroke);
+}
+
+/* App-wide elements */
+body {
+    font-family: -apple-system, "Segoe UI Light", Ubuntu, Arial, sans-serif;
+    background-color: var(--color-base-00);
+    color: var(--text-normal);
+}
+.ribbon-menu {
+    border-right: var(--divider-width) solid var(--divider-color);
+    color: var(--color-base-70);
+}
+.ribbon-top-icons svg.svg-icon {
+    width: var(--icon-large);
+    height: var(--icon-large);
+}
+
+/* Library */
+.library-grid-item {
+    text-decoration: none;
+    border: var(--divider-width) solid var(--divider-color);
+    color: var(--text-normal);
+    padding: 1em;
+}
+.library-grid-item:hover {
+    background-color: var(--color-base-30);
+}
+
+/* Reader */
+.reader {
+    color: var(--text-normal);
+    text-align: center;
+}
+.reader-content {
+    padding: 32px;
+}
+h1 {
+    margin-bottom: 10px;
+}
+.maori-word {
+    font-weight: bold;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: var(--colour-tooltip-bg);
+    color: var(--color-base-00);
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: var(--font-small);
+
+    /* Position the tooltip text */
+    position: absolute;
+    left: -50%;
+    z-index: 1;
+    bottom: 25px;
+    max-width: 300px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

@@ -1,0 +1,90 @@
+/* Layout */
+:root {
+    --footer-height: 50px;
+    --ribbon-width: 44px;
+    --header-height: 40px;
+    --divider-width: 1px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* Grid layouts */
+body {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: min-content 1fr;
+}
+
+/* Flex layouts */
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    gap: 8px;
+    height: var(--header-height);
+}
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--footer-height);
+}
+.library-grid {
+    flex-basis: calc(100vw - var(--ribbon-width));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: stretch;
+    align-content: flex-start;
+    padding: 8px;
+}
+.library-grid-item {
+    align-self: start;
+    margin: 8px 8px;
+}
+.ribbon-menu {
+    display: flex;
+    gap: 4px;
+    flex: 0 0 44px;
+    flex-direction: column;
+    padding: 8px 4px 12px;
+    width: var(--ribbon-width);
+}
+.ribbon-top-icons,
+.ribbon-bottom-icons {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.ribbon-bottom-icons {
+    margin-top: auto;
+}
+.clickable-icon {
+    margin: 0 auto;
+    display: flex;
+}
+.reader {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    min-height: 100vh;
+}
+.header-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+.footer-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+/* make sure everything is within the window */
+* {
+    max-width: 100%;
+}
