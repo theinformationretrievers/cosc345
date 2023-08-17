@@ -1,16 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
+import sys
+import re
+import json
 
-# URL of the website you want to scrape
 
 MAX_PAGE_NUMBER = 14
-
 pos_tags = ['a', 'ad', 'arch', 'art', 'conj', 'def', 'fig', 'freq', 'ib', 'indef', 'int', 'inter', 'ln', 'mod', 'n', 'num', 'pass', 'pers', 'pl', 'pos', 'prep', 'pron', 'pt', 'qv', 'sing', 'sp spp', 'var', 'vi', 'vt', 'v.i', 'v.t', 'N', 'v']
 
 
-output = {}
-
 def main():
+    maori_to_eng = {}
+    inverted_dict = {}
     
     with open('testscraper.txt', 'w', encoding='utf-8') as output_file:
 
@@ -45,20 +46,20 @@ def main():
 
                     
                     for word in maori_words:
-                        output_file.write(word+'\n')
+                        # output_file.write(word+'\n')
                         
                         for d in e_definitions:
-                            if word in output:
-                                output[word].append(d)
+                            if word in maori_to_eng:
+                                maori_to_eng[word].append(d)
                             else:
-                                output[word] = [d]
+                                maori_to_eng[word] = [d]
             else:
                 print('Failed to retrieve the webpage')
         
         
-        inverted_dict = {}
+        
 
-        for key, values in output.items():
+        for key, values in maori_to_eng.items():
             for value in values:
                 if value in inverted_dict:
                     inverted_dict[value].append(key)
@@ -67,6 +68,10 @@ def main():
         
         for k,v in inverted_dict.items():
             print(k,v)
+            
+    filename = "../clean_data/english_to_maori_dictionary_old.json"
+    with open(filename, "w") as file:
+        json.dump(inverted_dict, file)
 
 def retrieve_english_definitions(word):
     i_tags = word.find_all("i")
@@ -90,40 +95,25 @@ def retrieve_maori_words(translation_section):
     except:
         return None
     
-    if "‖" in maori_word or "(" in maori_word or "——" in maori_word:
+    bad_chars = ["‖", "(", "——"]
+    if any(char in maori_word for char in bad_chars):
         return None
     
     if maori_word[-1] in [":", ";"]:
         maori_word = maori_word[:-1]
         
-    maori_word.strip()
+    maori_word = maori_word.strip()
     
-    maori_word = maori_word.replace(". ",",")
-    maori_word = maori_word.replace("=",",")
-    maori_word = maori_word.replace(".—",",")
+    maori_word = re.sub(r'\. |=|\.\—', ',', maori_word)
     
-    if "," in maori_word:
-        maori_words = maori_word.split(",")
-
-    else:
-        maori_words = [maori_word]
-        
-    for i, mword in enumerate(maori_words):
-        maori_words[i] = mword.strip()
-        
-    for mword in maori_words:
-        if mword in pos_tags:
-            maori_words.remove(mword)
-        if mword.isnumeric():
-            maori_words.remove(mword)
-        if len(mword) == 0:
-            maori_words.remove(mword)
+    maori_words = [word.strip() for word in maori_word.split(",") if word.strip()]
+    
+    maori_words = [word for word in maori_words if word not in pos_tags and not word.isnumeric()]
     
     if maori_words:
         return maori_words
     else:
         return None
-    
     
     
 if __name__ == "__main__":
