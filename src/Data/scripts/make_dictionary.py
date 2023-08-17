@@ -39,11 +39,12 @@ def main():
                     if maori_words == None:
                         continue
                     
+                    # retrieve english definitions of maori word
                     e_definitions = retrieve_english_definitions(word)
                     if e_definitions == None:
                         continue
 
-                    
+                    # create dictionary
                     for word in maori_words:
                         for d in e_definitions:
                             if word in maori_to_eng:
