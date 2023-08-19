@@ -8,7 +8,7 @@ import json
 MAX_PAGE_NUMBER = 14
 pos_tags = ['a', 'ad', 'arch', 'art', 'conj', 'def', 'fig', 'freq', 'ib', 'indef', 'int', 'inter', 'ln', 'mod', 'n', 'num', 'pass', 'pers', 'pl', 'pos', 'prep', 'pron', 'pt', 'qv', 'sing', 'sp spp', 'var', 'vi', 'vt', 'v.i', 'v.t', 'N', 'v']
 
-
+pos_tags_punc = ['a.', 'ad.', 'arch.', 'art.', 'conj.', 'def.', 'fig.', 'freq.', 'ib.', 'indef.', 'int.', 'inter.', 'l.n.', 'mod.', 'n.', 'num.', 'pass.', 'pers.', 'pl.', 'pos.', 'prep.', 'pron.', 'pt.', 'q.v.', 'sing.', 'sp.,', 'spp.', 'var.', 'v.i.', 'v.t.']
 def main():
     maori_to_eng = {}
     
@@ -43,10 +43,20 @@ def main():
                     e_definitions = retrieve_english_definitions(word)
                     if e_definitions == None:
                         continue
+                    
+                    pos_and_defs = retrieve_pos_definitions(word)
+                    
+                    if pos_and_defs == None:
+                        continue
 
                     # create dictionary
                     for word in maori_words:
-                        for d in e_definitions:
+                        # for d in e_definitions:
+                        #     if word in maori_to_eng:
+                        #         maori_to_eng[word].append(d.lower())
+                        #     else:
+                        #         maori_to_eng[word] = [d.lower()]
+                        for d in pos_and_defs:
                             if word in maori_to_eng:
                                 maori_to_eng[word].append(d.lower())
                             else:
@@ -57,13 +67,15 @@ def main():
 
         english_to_maori = create_inverted_dictionary(maori_to_eng)
         
-        # # write to file for checking.
-        # for k,v in english_to_maori.items():
-        #     output_file.write(k + " " + str(v) + "\n")
+        # write to file for checking.
+        for k,v in english_to_maori.items():
+            output_file.write(k + " " + str(v) + "\n")
             
-    filename = "../clean_data/english_to_maori_dictionary.json"
+    filename = "../clean_data/english_to_maori_dictionary_pos.json"
     with open(filename, "w") as file:
         json.dump(english_to_maori, file)
+        
+    print(len(english_to_maori.keys()))
 
 def create_inverted_dictionary(dictionary):
     inverted_dict = {}
@@ -76,6 +88,29 @@ def create_inverted_dictionary(dictionary):
                 inverted_dict[value] = [key]
     
     return inverted_dict
+
+
+def retrieve_pos_definitions(word):
+    p_tags = word.find_all("p")
+    found_pos_tag = None
+    pos_and_defs = []
+    
+    for p_tag in p_tags:
+        
+        for pos_tag in pos_tags_punc:
+            if pos_tag in p_tag.get_text():
+                found_pos_tag = pos_tag
+                
+        definition = p_tag.find("i")
+        if definition and found_pos_tag:
+            pos_and_defs.append(found_pos_tag + " | " + definition.get_text())
+            # pos_and_defs.append([found_pos_tag, definition.get_text()])
+
+    if len(pos_and_defs) > 0:
+        return pos_and_defs
+    else:
+        return None
+
 
 def retrieve_english_definitions(word):
     
