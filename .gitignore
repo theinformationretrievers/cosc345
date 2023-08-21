@@ -1,6 +1,7 @@
 personal/
 out/build/
 .vs/
+.vscode/
 MakeFile
 build/*
 # vscode buildscript.
