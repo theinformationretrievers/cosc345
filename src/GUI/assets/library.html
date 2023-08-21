@@ -3,6 +3,7 @@
     <title>Diglot</title>
     <link rel="stylesheet" type="text/css" href="theme.css" />
     <link rel="stylesheet" type="text/css" href="layout.css" />
+    <script src="app.js" defer></script>
     <style>
         body {
             font-family: -apple-system, 'Segoe UI Light', Ubuntu, Arial, sans-serif;
@@ -35,6 +36,10 @@
         </div>
     </aside>
     <div class="library-grid">
+        <button onclick="HandleButton(event);" class="library-grid-item" id="btn-add-book">
+            <h2>+ Add Book</h2>
+            <p id="addbtntxt">Import a new file from your desktop</p>
+        </button>
         <a href="app.html" class="library-grid-item">
             <h2>Book Title</h2>
             <p>This is a description of the book</p>

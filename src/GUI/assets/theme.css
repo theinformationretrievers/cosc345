@@ -62,9 +62,14 @@ body {
     border: var(--divider-width) solid var(--divider-color);
     color: var(--text-normal);
     padding: 1em;
+    width: 200px;
+    height: 125px;
 }
 .library-grid-item:hover {
     background-color: var(--color-base-30);
+}
+#btn-add-book {
+    color: var(--color-accent);
 }
 
 /* Reader */
