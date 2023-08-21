@@ -25,6 +25,7 @@ header {
     position: relative;
     gap: 8px;
     height: var(--header-height);
+    padding: 4px 8px;
 }
 footer {
     display: flex;
