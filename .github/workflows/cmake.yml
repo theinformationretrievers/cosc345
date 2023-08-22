@@ -26,7 +26,7 @@ jobs:
     - name: Install and Run OpenCppCoverage
       run: |
         choco install opencppcoverage
-        & "C:\Program Files\OpenCppCoverage\OpenCppCoverage" --sources="${{github.workspace}}/src" --export_type=cobertura ...
+        & "C:\Program Files\OpenCppCoverage\OpenCppCoverage" --sources="${{github.workspace}}\src" --export_type=cobertura ...
 
 
     - name: Upload coverage to Codecov
