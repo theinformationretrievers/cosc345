@@ -5,3 +5,4 @@ MakeFile
 build/
 # vscode buildscript.
 clean_build.sh
+codecoverage

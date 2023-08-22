@@ -9,16 +9,13 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 # Check if the coverage option is enabled
-option(CODE_COVERAGE "Enable coverage reporting" OFF)
 
-if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    # Add required flags (GCC & LLVM/Clang)
-    add_compile_options(--coverage -O0)
-    add_link_options(--coverage)
-endif()
+
 
 
 project ("Diglot")
+
+
 
 # Add source to this project's executable.
 # add_executable (Diglot "Diglot.cpp" "Diglot.h")
@@ -66,4 +63,11 @@ ADD_APP("${GUI_SOURCES}")
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
 endif()
+option(CODE_COVERAGE "Enable coverage reporting" OFF)
+if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+    #Add required flags (GCC & LLVM/Clang)
+endif()
+
 

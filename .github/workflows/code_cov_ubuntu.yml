@@ -42,4 +42,4 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           file: ./build/coverage.info
-          # token: ${{ secrets.CODECOV_TOKEN }} # Only required for private repos
+          # token: ${{ secrets.CODECOV_TOKEN }} # Only required for private reposCompilation: Compile your code with -fprofile-instr-generate and -fcoverage-mapping.
