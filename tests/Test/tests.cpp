@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <cstdint>
-#include <./include/substituter.h>
+#include <substituter.h>
 
 
 TEST_CASE("Factorials are computed", "[factorial2]") 

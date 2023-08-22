@@ -21,16 +21,10 @@ jobs:
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      
 
     - name: Install and Run OpenCppCoverage
       run: |
         choco install opencppcoverage
-<<<<<<< HEAD
-        echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
-=======
-        & "C:\Program Files\OpenCppCoverage\OpenCppCoverage" --sources="${{github.workspace}}\src" --export_type=cobertura ...
->>>>>>> 5f6dd11af73f5d0355b9404d946334cd4e109d7a
 
     - name: Generate Report
         id: generate_test_report
