@@ -16,30 +16,22 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install OpenCppCoverage
-      run: choco install opencppcoverage
-
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      
 
-    - name: Check OpenCppCoverage Installation
+    - name: Install and Run OpenCppCoverage
       run: |
-        Get-Command OpenCppCoverage
-        echo $env:PATH
+        choco install opencppcoverage
+        refreshenv
+        OpenCppCoverage --sources=D:\a\diglot\diglot/src --export_type=cobertura ...
 
-    - name: Run OpenCppCoverage
-      run: |
-        $command = "OpenCppCoverage --sources=D:\a\diglot\diglot/src --export_type=cobertura ..."
-        Start-Process -NoNewWindow -FilePath "powershell" -ArgumentList "-command $command"
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
         file: ${{github.workspace}}/coverage.xml
     - uses: actions/checkout@v3
-
-    - name: Install OpenCppCoverage
-      run: choco install opencppcoverage
