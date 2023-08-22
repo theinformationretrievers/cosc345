@@ -10,9 +10,6 @@ if (POLICY CMP0141)
 endif()
 # Check if the coverage option is enabled
 
-
-
-
 project ("Diglot")
 
 
