@@ -2,6 +2,6 @@ personal/
 out/build/
 .vs/
 MakeFile
-build/*
+build/
 # vscode buildscript.
 clean_build.sh
