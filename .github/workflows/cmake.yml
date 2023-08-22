@@ -25,18 +25,20 @@ jobs:
     - name: Install and Run OpenCppCoverage
       run: |
         choco install opencppcoverage
+        echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
 
     - name: Generate Report
-        id: generate_test_report
-        shell: cmd
-        run: |
+      id: generate_test_report
+      shell: cmd
+      run: |
         dir
         OpenCppCoverage.exe --sources ${{github.workspace}}/src --export_type cobertura:diglot.xml -- "${{github.workspace}}/build" 
 
-      - name: Upload Report to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./Diglot.xml
-          fail_ci_if_error: true
-          functionalities: fix
+    - name: Upload Report to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./Diglot.xml
+        fail_ci_if_error: true
+        functionalities: fix
+
 
