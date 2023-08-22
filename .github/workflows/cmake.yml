@@ -25,9 +25,15 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: Run tests with coverage and export to Codecov format
+    - name: Check OpenCppCoverage Installation
       run: |
-        OpenCppCoverage --sources=${{github.workspace}}/src --export_type=cobertura:${{github.workspace}}/coverage.xml -- ${{github.workspace}}/build/tests.exe
+        Get-Command OpenCppCoverage
+        echo $env:PATH
+
+    - name: Run OpenCppCoverage
+      run: |
+        $command = "OpenCppCoverage --sources=D:\a\diglot\diglot/src --export_type=cobertura ..."
+        Start-Process -NoNewWindow -FilePath "powershell" -ArgumentList "-command $command"
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
