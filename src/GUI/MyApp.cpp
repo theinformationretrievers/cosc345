@@ -1,9 +1,14 @@
 #include "MyApp.h"
 #include <windows.h>
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <stdio.h>
+#include <tchar.h>
 
 #define WINDOW_WIDTH  600
 #define WINDOW_HEIGHT 400
+#define BUFSIZE MAX_PATH
 
 MyApp::MyApp() {
   ///
@@ -33,7 +38,7 @@ MyApp::MyApp() {
   ///
   /// Load a page into our overlay's View
   ///
-  overlay_->view()->LoadURL("file:///app.html");
+  overlay_->view()->LoadURL("file:///reader.html");
 
   ///
   /// Register our MyApp instance as an AppListener so we can handle the
@@ -116,14 +121,37 @@ JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
     CloseHandle(hf);
     return 1;
   }
+  
+  // Get The File Path
+  TCHAR Path[BUFSIZE];
+  DWORD dwRet = GetFinalPathNameByHandle(hf, Path, BUFSIZE, FILE_NAME_NORMALIZED);
+
+  // Create an fstream with the file path and read the text
+  //std::fstream fs(Path, std::fstream::in | std::fstream::out);  
+  std::ifstream file (Path);
+  std::string line;
+  std::string fileStr;
+  if (file.is_open())
+  {
+    while (std::getline(file,line))
+    {
+      fileStr.append("<p>");  
+      fileStr.append(line);
+      fileStr.append("</p>\n");
+    }
+  }
+  else {
+    fileStr = "unable to open file: ";
+    fileStr.append(Path);
+  }
 
   // Close the file handle
   CloseHandle(hf);
 
-  // Output the read data
-  std::string ret(buffer, bytesRead);
+  // Close the file stream
+  file.close();
 
-  //return JSValue(ret.c_str());
+  return JSValue(fileStr.c_str());
 
   // TODO Call Subsituter here
 
