@@ -58,3 +58,10 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
 endif()
 
+option(CODE_COVERAGE "Enable coverage reporting" OFF)
+if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+    #Add required flags (GCC & LLVM/Clang)
+endif()
+
