@@ -38,7 +38,7 @@ def main():
             output_string += tag + ' '
             index += 1
     # Write the tagged content to a JSON file
-    output_filename = args.filename.split('.')[0] + ".pos"
+    output_filename = args.filename + ".pos"
     with open(output_filename, 'w') as out:
         out.write((output_string))
 

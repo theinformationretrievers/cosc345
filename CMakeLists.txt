@@ -13,6 +13,7 @@ endif()
 project ("Diglot")
 
 
+# Copy myfile.txt to the build directory
 
 # Add source to this project's executable.
 # add_executable (Diglot "Diglot.cpp" "Diglot.h")
@@ -23,6 +24,14 @@ add_library(SubstituterLib STATIC
 
 target_include_directories(SubstituterLib PUBLIC
     ${CMAKE_SOURCE_DIR}/src/Substituter/include
+)
+
+add_library(TranslatorLib STATIC
+    src/Translator/pos_tagging/pos.cpp
+)
+
+target_include_directories(TranslatorLib PUBLIC
+    ${CMAKE_SOURCE_DIR}/src/Translator/include
 )
 
 add_executable(Substituter
@@ -40,7 +49,7 @@ add_subdirectory(lib/Catch2)
 file(GLOB TEST_SOURCES "tests/*/*.cpp")
 add_executable(tests ${TEST_SOURCES})
 # add_executable(tests tests/tests.cpp )
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain SubstituterLib)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain SubstituterLib TranslatorLib)
 
 include(CTest)
 include(Catch)
@@ -67,5 +76,11 @@ if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
     #Add required flags (GCC & LLVM/Clang)
 endif()
+
+
+add_custom_target(copy_directory ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/pos_data/
+            ${CMAKE_BINARY_DIR}/pos_data/)
 
 
