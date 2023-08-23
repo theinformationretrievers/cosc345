@@ -30,10 +30,7 @@ jobs:
     - name: Generate Report
       id: generate_test_report
       shell: cmd
-      run: |
-        dir
-        dir build
-        OpenCppCoverage.exe --sources ${{github.workspace}}\src --export_type cobertura:diglot.xml -- "${{github.workspace}}\build\Diglot.exe" 
+      run: OpenCppCoverage.exe --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\Debug\tests"
 
     - name: Upload Report to Codecov
       uses: codecov/codecov-action@v3
@@ -41,5 +38,3 @@ jobs:
         files: .\Diglot.xml
         fail_ci_if_error: true
         functionalities: fix
-
-
