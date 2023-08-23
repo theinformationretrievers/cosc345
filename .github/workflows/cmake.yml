@@ -34,7 +34,7 @@ jobs:
         dir
         dir build\Debug
         dir build\x64
-        OpenCppCoverage.exe --sources ${{github.workspace}}\src --export_type cobertura:diglot.xml -- "${{github.workspace}}\build\Debug\Diglot.exe" --modules "D:\a\cosc345\cosc345\build\Debug\*"
+        OpenCppCoverage.exe --sources ${{github.workspace}}\src --export_type cobertura:diglot.xml -- "${{github.workspace}}\build\Debug\tests"
 
     - name: Upload Report to Codecov
       uses: codecov/codecov-action@v3
