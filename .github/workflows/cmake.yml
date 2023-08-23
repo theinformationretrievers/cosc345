@@ -32,7 +32,8 @@ jobs:
       shell: cmd
       run: |
         dir
-        OpenCppCoverage.exe --sources ${{github.workspace}}\src --export_type cobertura:diglot.xml -- "${{github.workspace}}\build" 
+        dir build
+        OpenCppCoverage.exe --sources ${{github.workspace}}\src --export_type cobertura:diglot.xml -- "${{github.workspace}}\build\Diglot.exe" 
 
     - name: Upload Report to Codecov
       uses: codecov/codecov-action@v3
