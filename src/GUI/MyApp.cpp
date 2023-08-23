@@ -123,7 +123,12 @@ JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
   // Output the read data
   std::string ret(buffer, bytesRead);
 
-  return JSValue(ret.c_str());
+  //return JSValue(ret.c_str());
+
+  // TODO Call Subsituter here
+
+  //translatedText = substuter.substitute(buffer, bytesread);
+  //return JSValue(translatedText);
 }
 
 void MyApp::OnUpdate() {
