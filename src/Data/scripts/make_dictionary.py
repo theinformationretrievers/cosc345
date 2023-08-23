@@ -7,8 +7,9 @@ import json
 
 MAX_PAGE_NUMBER = 14
 pos_tags = ['a', 'ad', 'arch', 'art', 'conj', 'def', 'fig', 'freq', 'ib', 'indef', 'int', 'inter', 'ln', 'mod', 'n', 'num', 'pass', 'pers', 'pl', 'pos', 'prep', 'pron', 'pt', 'qv', 'sing', 'sp spp', 'var', 'vi', 'vt', 'v.i', 'v.t', 'N', 'v']
-
 pos_tags_punc = ['a.', 'ad.', 'arch.', 'art.', 'conj.', 'def.', 'fig.', 'freq.', 'ib.', 'indef.', 'int.', 'inter.', 'l.n.', 'mod.', 'n.', 'num.', 'pass.', 'pers.', 'pl.', 'pos.', 'prep.', 'pron.', 'pt.', 'q.v.', 'sing.', 'sp.,', 'spp.', 'var.', 'v.i.', 'v.t.']
+
+
 def main():
     maori_to_eng = {}
     
@@ -35,32 +36,17 @@ def main():
                     
                     # retrieve maori words from page, class="hang" contains one maori word, with multiple spelling(s)/variation(s)
                     translation_section = word.find(class_="hang")
+                    
                     maori_words = retrieve_maori_words(translation_section)
-                    if maori_words == None:
-                        continue
-                    
-                    # retrieve english definitions of maori word
                     e_definitions = retrieve_english_definitions(word)
-                    if e_definitions == None:
-                        continue
-                    
                     pos_and_defs = retrieve_pos_definitions(word)
-                    
-                    if pos_and_defs == None:
-                        continue
 
                     # create dictionary
-                    for word in maori_words:
-                        # for d in e_definitions:
-                        #     if word in maori_to_eng:
-                        #         maori_to_eng[word].append(d.lower())
-                        #     else:
-                        #         maori_to_eng[word] = [d.lower()]
-                        for d in pos_and_defs:
-                            if word in maori_to_eng:
-                                maori_to_eng[word].append(d.lower())
-                            else:
-                                maori_to_eng[word] = [d.lower()]
+                    if maori_words is not None:
+                        for word in maori_words:
+                            
+                            # definitions: e_definitions, or pos_and_defs for no POS tags and POS tags respectively.
+                            gather_definitions(maori_to_eng, word, pos_and_defs)
             else:
                 print('Failed to retrieve the webpage')
         
@@ -76,6 +62,19 @@ def main():
         json.dump(english_to_maori, file)
         
     print(len(english_to_maori.keys()))
+
+
+def gather_definitions(maori_to_eng, word, definitions):
+    if definitions is not None:
+        for d in definitions:
+            if word in maori_to_eng:
+                maori_to_eng[word].append(d.lower())
+            else:
+                maori_to_eng[word] = [d.lower()]
+        return True
+    else:
+        return False
+
 
 def create_inverted_dictionary(dictionary):
     inverted_dict = {}
