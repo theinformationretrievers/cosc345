@@ -1,16 +1,19 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <cstdint>
+#include <fstream>
 #include <iostream>
 #include <translator.h>
-#include <fstream>
 
 TEST_CASE("Pos-tagging", "[get_pos_tags]")
 {
-    std::vector<std::string> output = get_pos_tags("./pos_data/hound");
-    std::vector<std::string> test_case;
+    std::vector<std::string> hound_test_output = get_pos_tags("./pos_data/hound");
+    std::vector<std::string> succeed_case;
+    std::vector<std::string> fail_case = {};
+    std::vector<std::string> fail_case_output = get_pos_tags("bogus_file_path");
+
     std::string pos_path = "./pos_data/hound.test";
-    std::ifstream file(pos_path);  // Replace with your file path
+    std::ifstream file(pos_path); // Replace with your file path
     std::string tag;
     std::cout << "test";
     if (!file) {
@@ -18,12 +21,9 @@ TEST_CASE("Pos-tagging", "[get_pos_tags]")
     }
 
     while (file >> tag) {
-        test_case.push_back(tag);
+        succeed_case.push_back(tag);
     }
 
-
-    REQUIRE(output == test_case);
-    // REQUIRE(factorial(2) == 2);
-    // REQUIRE(factorial(3) == 6);
-    // REQUIRE(factorial(10) == 3'628'800);
+    REQUIRE(hound_test_output == succeed_case);
+    REQUIRE(fail_case_output == fail_case);
 }

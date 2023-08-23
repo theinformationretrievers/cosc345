@@ -27,7 +27,7 @@ target_include_directories(SubstituterLib PUBLIC
 )
 
 add_library(TranslatorLib STATIC
-    src/Translator/pos_tagging/pos.cpp
+    src/Translator/pos.cpp
 )
 
 target_include_directories(TranslatorLib PUBLIC
