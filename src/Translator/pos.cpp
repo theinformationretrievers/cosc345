@@ -16,7 +16,7 @@
  * @note This function assumes that the tagger outputs a file with the ".pos" extension
  *       and that each tag in this file is separated by whitespace.
  */
-std::vector<std::string> get_pos_tags(const std::string filename)
+std::vector<std::string> get_pos_tags(const std::string& filename)
 {
     std::string command;
 
