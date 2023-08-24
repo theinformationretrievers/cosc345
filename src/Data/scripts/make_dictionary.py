@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import sys
 import re
 import json
+import argparse
 
 
 MAX_PAGE_NUMBER = 14
@@ -10,55 +11,72 @@ pos_tags = ['a', 'ad', 'arch', 'art', 'conj', 'def', 'fig', 'freq', 'ib', 'indef
 pos_tags_punc = ['a.', 'ad.', 'arch.', 'art.', 'conj.', 'def.', 'fig.', 'freq.', 'ib.', 'indef.', 'int.', 'inter.', 'l.n.', 'mod.', 'n.', 'num.', 'pass.', 'pers.', 'pl.', 'pos.', 'prep.', 'pron.', 'pt.', 'q.v.', 'sing.', 'sp.,', 'spp.', 'var.', 'v.i.', 'v.t.']
 
 
-def main():
+def main(args):
+    output_file = ""
+
+    parser = argparse.ArgumentParser(description="Input filepath to describe custom output, otherwise placed in clean_data.\nCan choose between pos or no_pos\nUses:\n--filepath\n--option [pos, no_pos]")
+
+    parser.add_argument('--filepath', help='Path to the file')
+    parser.add_argument('--option', choices=['pos', 'no_pos'], default='pos', help='Choose option: pos or no_pos (default: pos)')
+
+    args = parser.parse_args()
+
+    if args.filepath is None:
+        if args.option == 'pos':
+            args.filepath = '../clean_data/english_to_maori_dictionary_pos.json'
+        elif args.option == 'no_pos':
+            args.filepath = '../clean_data/english_to_maori_dictionary_no_pos.json'
+
+    
     maori_to_eng = {}
     
-    with open('check_output.txt', 'w', encoding='utf-8') as output_file:
-
-        for page_number in range(1, MAX_PAGE_NUMBER+1):
-            url = f'https://nzetc.victoria.ac.nz/tm/scholarly/tei-WillDict-t1-body-d1-d{page_number}.html'
+    for page_number in range(1, MAX_PAGE_NUMBER+1):
+        url = f'https://nzetc.victoria.ac.nz/tm/scholarly/tei-WillDict-t1-body-d1-d{page_number}.html'
+        
+        # Send an HTTP GET request to the URL
+        response = requests.get(url)
+        print(response.status_code)
+        
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
             
-            # Send an HTTP GET request to the URL
-            response = requests.get(url)
-            print(response.status_code)
+            # Find elements with a specific class, denotes each new word
+            section_elements = soup.find_all(class_='section')
             
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.content, 'html.parser')
+            for word in section_elements:
                 
-                # Find elements with a specific class, denotes each new word
-                section_elements = soup.find_all(class_='section')
+                #Skip outlier class="section" at start of every page.
+                if "tei-WillDict" in word['id']:
+                    continue
                 
-                for word in section_elements:
-                    
-                    #Skip outlier class="section" at start of every page.
-                    if "tei-WillDict" in word['id']:
-                        continue
-                    
-                    # retrieve maori words from page, class="hang" contains one maori word, with multiple spelling(s)/variation(s)
-                    translation_section = word.find(class_="hang")
-                    
-                    maori_words = retrieve_maori_words(translation_section)
-                    e_definitions = retrieve_english_definitions(word)
+                # retrieve maori words from page, class="hang" contains one maori word, with multiple spelling(s)/variation(s)
+                translation_section = word.find(class_="hang")
+                
+                
+                maori_words = retrieve_maori_words(translation_section)
+                
+                if args.option == 'pos':
                     pos_and_defs = retrieve_pos_definitions(word)
+                else:
+                    e_definitions = retrieve_english_definitions(word)
+                
 
-                    # create dictionary
-                    if maori_words is not None:
-                        for word in maori_words:
-                            
-                            # definitions: e_definitions, or pos_and_defs for no POS tags and POS tags respectively.
+                # create dictionary
+                if maori_words is not None:
+                    for word in maori_words:
+                        
+                        # definitions: e_definitions, or pos_and_defs for no POS tags and POS tags respectively.
+                        if args.option == 'pos':
                             gather_definitions(maori_to_eng, word, pos_and_defs)
-            else:
-                print('Failed to retrieve the webpage')
+                        else:
+                            gather_definitions(maori_to_eng, word, e_definitions)
+        else:
+            print('Failed to retrieve the webpage')
         
 
         english_to_maori = create_inverted_dictionary(maori_to_eng)
-        
-        # write to file for checking.
-        for k,v in english_to_maori.items():
-            output_file.write(k + " " + str(v) + "\n")
-            
-    filename = "../clean_data/english_to_maori_dictionary_pos.json"
-    with open(filename, "w") as file:
+    
+    with open(args.filepath, "w") as file:
         json.dump(english_to_maori, file)
         
     print(len(english_to_maori.keys()))
@@ -162,4 +180,4 @@ def retrieve_maori_words(translation_section):
     
     
 if __name__ == "__main__":
-    main()
+    main(sys.argv[:])
