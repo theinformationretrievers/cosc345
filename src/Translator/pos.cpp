@@ -1,9 +1,21 @@
-#include <cstdlib> // for system
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <translator.h>
 #include <vector>
+
+/**
+ * @brief Fetch POS (Part-Of-Speech) tags for a given text file.
+ *
+ * This function runs an external command (a compiled python POS tagger binary) on the input file and
+ * returns the POS tags as a vector of strings. The external command is OS-dependent.
+ *
+ * @param filename The path to the input text file.
+ * @return A vector containing the POS tags.
+ * @note This function assumes that the tagger outputs a file with the ".pos" extension
+ *       and that each tag in this file is separated by whitespace.
+ */
 std::vector<std::string> get_pos_tags(std::string filename)
 {
     std::string command;
