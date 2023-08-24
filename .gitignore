@@ -5,3 +5,5 @@ MakeFile
 build/*
 # vscode buildscript.
 clean_build.sh
+
+tests/Data/test_io_data
