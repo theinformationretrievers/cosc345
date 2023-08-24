@@ -55,21 +55,22 @@ include(CTest)
 include(Catch)
 catch_discover_tests(tests)  # Automatically discover and register tests
 # CATCH_DISCOVER_TESTS(tests)
-
+#Only compile front end on windows for now
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 # include Ultralight 
-include(cmake/App.cmake)
+    include(cmake/App.cmake)
 
-# set source files for GUI. 
-set(GUI_SOURCES "src/GUI/MyApp.h"
-            "src/GUI/MyApp.cpp"
-            "src/GUI/main.cpp")
-# Will register an exe with the name Diglot. 
-ADD_APP("${GUI_SOURCES}")
-
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
+    # set source files for GUI. 
+    set(GUI_SOURCES "src/GUI/MyApp.h"
+                "src/GUI/MyApp.cpp"
+                "src/GUI/main.cpp")
+    # Will register an exe with the name Diglot. 
+    ADD_APP("${GUI_SOURCES}")
+    if (CMAKE_VERSION VERSION_GREATER 3.12)
+    set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
+    endif()
 endif()
+
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
