@@ -2,6 +2,7 @@ import csv
 import json
 import argparse
 
+
 def normalize_counts(counts):
     """
     Normalizes word counts in a dictionary.
@@ -13,7 +14,8 @@ def normalize_counts(counts):
         dict: A dictionary containing normalized probabilities based on word counts.
     """
     total_count = sum(counts.values())
-    normalized_counts = {word: count / total_count for word, count in counts.items()}
+    normalized_counts = {word: count /
+                         total_count for word, count in counts.items()}
     return normalized_counts
 
 
@@ -28,7 +30,8 @@ def handle_args():
     Returns:
         tuple: A tuple containing the output file path and the input CSV file path.
     """
-    parser = argparse.ArgumentParser(description="Input --filepath to describe custom output path, otherwise placed in clean_data.")
+    parser = argparse.ArgumentParser(
+        description="Input --filepath to describe custom output path, otherwise placed in clean_data.")
     parser.add_argument('--filepath', help='Path to the file')
     parser.add_argument('--input', help='Path to the input file')
     args = parser.parse_args()
@@ -37,8 +40,9 @@ def handle_args():
         csv_file = "../raw_data/unigram_freq.csv"
     else:
         csv_file = args.input
-        
+
     return args.filepath, csv_file
+
 
 if __name__ == "__main__":
     """
@@ -51,7 +55,7 @@ if __name__ == "__main__":
 
     word_counts = {}
 
-    #Gather word counts
+    # Gather word counts
     with open(csv_file, "r") as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:

@@ -6,6 +6,7 @@ import concurrent.futures
 base_url = "https://www.gutenberg.org/browse/scores/top#books-last1"
 output_folder = "../books/top_ebooks/"  # Folder to save downloaded text files
 
+
 def get_book_links(url):
     """
     Retrieves a set of unique book links from the provided URL.
@@ -19,8 +20,10 @@ def get_book_links(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
     links = soup.find_all("a", href=True)
-    book_links = {link["href"] for link in links if link["href"].startswith("/ebooks/")}
+    book_links = {link["href"]
+                  for link in links if link["href"].startswith("/ebooks/")}
     return book_links
+
 
 def get_redirected_url(url):
     """
@@ -34,6 +37,7 @@ def get_redirected_url(url):
     """
     response = requests.head(url, allow_redirects=True)
     return response.url
+
 
 def scrape_book_link(book_link):
     """
@@ -65,6 +69,7 @@ def scrape_book_link(book_link):
             print(f"Downloaded and saved {book_id}.txt")
     else:
         print(f"Unable to download {book_id}.txt")
+
 
 if __name__ == "__main__":
     all_book_links = get_book_links(base_url)
