@@ -8,8 +8,39 @@ import argparse
 
 MAX_PAGE_NUMBER = 14
 pos_tags = ['a', 'ad', 'arch', 'art', 'conj', 'def', 'fig', 'freq', 'ib', 'indef', 'int', 'inter', 'ln', 'mod', 'n', 'num', 'pass', 'pers', 'pl', 'pos', 'prep', 'pron', 'pt', 'qv', 'sing', 'sp spp', 'var', 'vi', 'vt', 'v.i', 'v.t', 'N', 'v']
-pos_tags_punc = ['a.', 'ad.', 'arch.', 'art.', 'conj.', 'def.', 'fig.', 'freq.', 'ib.', 'indef.', 'int.', 'inter.', 'l.n.', 'mod.', 'n.', 'num.', 'pass.', 'pers.', 'pl.', 'pos.', 'prep.', 'pron.', 'pt.', 'q.v.', 'sing.', 'sp.,', 'spp.', 'var.', 'v.i.', 'v.t.']
-
+pos_tags_punc = ['a.', 'ad.', 'arch.', 'art.', 'conj.', 'def.', 'fig.', 'freq.', 'ib.', 'indef.', 'int.', 'inter.', 'l.n.', 'mod.', 'n.', 'num.', 'pass.', 'pers.', 'pl.', 'pos.', 'prep.', 'pron.', 'pt.', 'q.v.', 'sing.', 'sp.', 'spp.', 'var.', 'v.i.', 'v.t.']
+pos_mappings = {
+    "a.": "JJ",
+    "ad.": "RB",
+    "arch.": None,
+    "art.": "DT",
+    "conj.": "CC",
+    "def.": "DT",
+    "fig.": None,
+    "freq.": None,
+    "ib.": None,
+    "indef.": "DT",
+    "int.": "UH",
+    "inter.": "WP",
+    "l.n.": "NN",
+    "mod.": "MD",
+    "n.": "NN",
+    "num.": "CD",
+    "pass.": None,
+    "pers.": "PRP",
+    "pl.": "NNS",
+    "pos.": "POS",
+    "prep.": "IN",
+    "pron.": "PRP",
+    "pt.": "VBN",
+    "q.v.": None,
+    "sing.": "NN",
+    "sp.": "NN",
+    "spp.": "NNS",
+    "var.": None,
+    "v.i.": "VB",
+    "v.t.": "VB"
+}
 
 def main(args):
     output_file = ""
@@ -55,6 +86,7 @@ def main(args):
                 
                 maori_words = retrieve_maori_words(translation_section)
                 
+                
                 if args.option == 'pos':
                     pos_and_defs = retrieve_pos_definitions(word)
                 else:
@@ -86,9 +118,9 @@ def gather_definitions(maori_to_eng, word, definitions):
     if definitions is not None:
         for d in definitions:
             if word in maori_to_eng:
-                maori_to_eng[word].append(d.lower())
+                maori_to_eng[word].append(d)
             else:
-                maori_to_eng[word] = [d.lower()]
+                maori_to_eng[word] = [d]
         return True
     else:
         return False
@@ -112,15 +144,22 @@ def retrieve_pos_definitions(word):
     found_pos_tag = None
     pos_and_defs = []
     
+    
     for p_tag in p_tags:
         
         for pos_tag in pos_tags_punc:
             if pos_tag in p_tag.get_text():
                 found_pos_tag = pos_tag
-                
+        #convert POS tag from maori dictionary to Penn Treebank format.
+        mapped_pos_tag = None
+        
+        if found_pos_tag:
+                mapped_pos_tag = pos_mappings[found_pos_tag]
+
         definition = p_tag.find("i")
-        if definition and found_pos_tag:
-            pos_and_defs.append(found_pos_tag + " | " + definition.get_text())
+        
+        if definition and mapped_pos_tag:
+            pos_and_defs.append(mapped_pos_tag.upper() + " | " + definition.get_text().lower())
             # pos_and_defs.append([found_pos_tag, definition.get_text()])
 
     if len(pos_and_defs) > 0:
