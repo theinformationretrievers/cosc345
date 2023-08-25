@@ -1,0 +1,35 @@
+\doxysection{src/\+Translator/include/translator.h File Reference}
+\hypertarget{translator_8h}{}\label{translator_8h}\index{src/Translator/include/translator.h@{src/Translator/include/translator.h}}
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{translator_8h_a3a3a40326bbf0c1c96872b9f69bc6bbb}{get\+\_\+pos\+\_\+tags}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Fetch POS (Part-\/\+Of-\/\+Speech) tags for a given text file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{translator_8h_a3a3a40326bbf0c1c96872b9f69bc6bbb}\label{translator_8h_a3a3a40326bbf0c1c96872b9f69bc6bbb} 
+\index{translator.h@{translator.h}!get\_pos\_tags@{get\_pos\_tags}}
+\index{get\_pos\_tags@{get\_pos\_tags}!translator.h@{translator.h}}
+\doxysubsubsection{\texorpdfstring{get\_pos\_tags()}{get\_pos\_tags()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ get\+\_\+pos\+\_\+tags (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+
+
+Fetch POS (Part-\/\+Of-\/\+Speech) tags for a given text file. 
+
+This function runs an external command (a compiled python POS tagger binary) on the input file and returns the POS tags as a vector of strings. The external command is OS-\/dependent.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The path to the input text file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector containing the POS tags. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function assumes that the tagger outputs a file with the \"{}.\+pos\"{} extension and that each tag in this file is separated by whitespace. 
+\end{DoxyNote}
