@@ -76,9 +76,9 @@ void MyApp::Run() {
 * @brief Open get the contents of a file
 * @details Using windows GetOpenFileName file dialog to open a file
 *					 then converts it to a std::fstream and reads the contents
-* @returns The contents of the opened file as a JSValue string or the 
+* @returns The contents of the opened file as a JSValue string or the
 					 error as a JSValue string
-* 
+*
 */
 JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
 	HWND hwnd = (HWND)window_->native_handle();
