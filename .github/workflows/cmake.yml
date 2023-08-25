@@ -2,9 +2,9 @@ name: CMake Windows with Coverage
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   BUILD_TYPE: Debug
@@ -14,27 +14,27 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}\build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Configure CMake
+        run: cmake -B ${{github.workspace}}\build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Build
-      run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}}
+      - name: Build
+        run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}}
 
-    - name: Install and Run OpenCppCoverage
-      run: |
-        choco install opencppcoverage
-        echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
+      - name: Install and Run OpenCppCoverage
+        run: |
+          choco install opencppcoverage
+          echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
 
-    - name: Generate Report
-      id: generate_test_report
-      shell: cmd
-      run: OpenCppCoverage.exe --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\Debug\tests"
+      - name: Generate Report
+        id: generate_test_report
+        shell: cmd
+        run: OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\Debug\tests"
 
-    - name: Upload Report to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        files: .\Diglot.xml
-        fail_ci_if_error: true
-        functionalities: fix
+      - name: Upload Report to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: .\Diglot.xml
+          fail_ci_if_error: true
+          functionalities: fix

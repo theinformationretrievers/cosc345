@@ -1,10 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <cstdint>
+#include <substituter.h>
 
-uint32_t factorial2(uint32_t number) {
-    return number <= 1 ? number : factorial2(number - 1) * number;
-}
 
 TEST_CASE("Factorials are computed", "[factorial2]") 
 {
