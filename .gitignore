@@ -1,8 +1,10 @@
 personal/
 out/build/
 .vs/
-.vscode/
-MakeFile
-build/*
+build/
 # vscode buildscript.
 clean_build.sh
+codecoverage
+pos_tagging
+doc
+html

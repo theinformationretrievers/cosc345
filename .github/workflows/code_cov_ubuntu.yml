@@ -1,0 +1,43 @@
+name: codecov
+
+on:
+  push:
+    branches: ["main"]
+    
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: sudo apt-get install lcov
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Configure CMake with Code Coverage
+        working-directory: build
+        run: cmake -DCODE_COVERAGE=ON ..
+
+      - name: Build project
+        working-directory: build
+        run: cmake --build .
+
+      - name: Run tests
+        working-directory: build
+        run: ctest
+
+      - name: Generate coverage report
+        working-directory: build
+        run: |
+          lcov --capture --directory . --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' '*/lib/Catch2/src/*' --output-file coverage.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./build/coverage.info
+          # token: ${{ secrets.CODECOV_TOKEN }} # Only required for private reposCompilation: Compile your code with -fprofile-instr-generate and -fcoverage-mapping.
