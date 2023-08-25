@@ -15,6 +15,9 @@ public:
   // Start the run loop.
   virtual void Run();
 
+  // Open a File
+  virtual JSValue GetFile(const JSObject& thisObject, const JSArgs& args);
+
   // This is called continuously from the app's main loop.
   virtual void OnUpdate() override;
 

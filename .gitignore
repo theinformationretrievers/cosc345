@@ -1,7 +1,17 @@
 personal/
 out/build/
 .vs/
-MakeFile
-build/*
+build/
 # vscode buildscript.
 clean_build.sh
+
+#Python testcov stuff
+tests/Data/test_io_data
+htmlcov
+.coverage
+
+#CPP testcov stuff
+codecoverage
+pos_tagging
+doc
+html

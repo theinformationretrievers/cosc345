@@ -1,7 +1,14 @@
 #include "MyApp.h"
+#include <windows.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdio.h>
+#include <tchar.h>
 
 #define WINDOW_WIDTH  600
 #define WINDOW_HEIGHT 400
+#define BUFSIZE MAX_PATH
 
 MyApp::MyApp() {
   ///
@@ -31,7 +38,7 @@ MyApp::MyApp() {
   ///
   /// Load a page into our overlay's View
   ///
-  overlay_->view()->LoadURL("file:///app.html");
+  overlay_->view()->LoadURL("file:///reader.html");
 
   ///
   /// Register our MyApp instance as an AppListener so we can handle the
@@ -63,6 +70,93 @@ MyApp::~MyApp() {
 
 void MyApp::Run() {
   app_->Run();
+}
+
+  JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
+    HWND hwnd = (HWND)window_->native_handle();
+    TCHAR szFilter[] = TEXT("Text Files (*.TXT)\0*.txt\0");
+
+    OPENFILENAME ofn;       // common dialog box structure
+    char szFile[260];       // buffer for file name
+    HANDLE hf;              // file handle
+
+    // Initialize OPENFILENAME
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = hwnd;
+    ofn.lpstrFile = szFile;
+    // Set lpstrFile[0] to '\0' so that GetOpenFileName does not 
+    // use the contents of szFile to initialize itself.
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = NULL;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+    // Display the Open dialog box. 
+
+    if (GetOpenFileName(&ofn) == TRUE)
+      hf = CreateFile(ofn.lpstrFile,
+        GENERIC_READ,
+        0,
+        (LPSECURITY_ATTRIBUTES)NULL,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,
+        (HANDLE)NULL);
+    else {
+      std::cerr << "Error opening file" << std::endl;
+      return 1;
+    }
+
+    // Read data from the file
+    const DWORD buffer_size = 4096;  GetFileSize(hf, NULL); // Adjust as needed
+    char buffer[buffer_size];
+    DWORD bytesRead = 0;
+    BOOL result = ReadFile(hf, buffer, buffer_size, &bytesRead, NULL);
+    if (result == FALSE) {
+      std::cerr << "Error reading file" << std::endl;
+      CloseHandle(hf);
+      return 1;
+    }
+    
+    // Get The File Path
+    TCHAR Path[BUFSIZE];
+    DWORD dwRet = GetFinalPathNameByHandle(hf, Path, BUFSIZE, FILE_NAME_NORMALIZED);
+
+    // Create an fstream with the file path and read the text
+    //std::fstream fs(Path, std::fstream::in | std::fstream::out);  
+    std::ifstream file (Path);
+    std::string line;
+    std::string fileStr;
+    if (file.is_open())
+    {
+      while (std::getline(file,line))
+      {
+        fileStr.append("<p>");  
+        fileStr.append(line);
+        fileStr.append("</p>\n");
+      }
+    }
+    else {
+      fileStr = "unable to open file: ";
+      fileStr.append(Path);
+    }
+
+    // Close the file handle
+    CloseHandle(hf);
+
+    // Close the file stream
+    file.close();
+
+    return JSValue(fileStr.c_str());
+
+  // TODO Call Subsituter here
+
+  //translatedText = substuter.substitute(buffer, bytesread);
+  //return JSValue(translatedText);
 }
 
 void MyApp::OnUpdate() {
@@ -104,6 +198,12 @@ void MyApp::OnDOMReady(ultralight::View* caller,
   ///
   /// This is the best time to setup any JavaScript bindings.
   ///
+  RefPtr<JSContext> context = caller->LockJSContext();
+  SetJSContext(context->ctx());
+
+  JSObject global = JSGlobalObject();
+
+  global["GetFile"] = BindJSCallbackWithRetval(&MyApp::GetFile);
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller,

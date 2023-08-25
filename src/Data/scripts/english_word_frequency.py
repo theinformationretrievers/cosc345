@@ -1,12 +1,24 @@
 import csv
 import json
+import argparse
 
 def normalize_counts(counts):
     total_count = sum(counts.values())
     normalized_counts = {word: count / total_count for word, count in counts.items()}
     return normalized_counts
 
-csv_file = "../raw_data/unigram_freq.csv"
+
+parser = argparse.ArgumentParser(description="Input --filepath to describe custom output path, otherwise placed in clean_data.")
+parser.add_argument('--filepath', help='Path to the file')
+parser.add_argument('--input', help='Path to the input file')
+args = parser.parse_args()
+
+if args.input is None:
+    csv_file = "../raw_data/unigram_freq.csv"
+else:
+    csv_file = args.input
+
+
 word_counts = {}
 
 with open(csv_file, "r") as file:
@@ -18,7 +30,11 @@ with open(csv_file, "r") as file:
 
 normalized_probabilities = normalize_counts(word_counts)
 
-filename = "../clean_data/english_frequencies.json"
+if args.filepath is None:
+    filename = "../clean_data/english_frequencies.json"
+else:
+    filename = args.filepath
+
 with open(filename, "w") as file:
     json.dump(normalized_probabilities, file)
 
