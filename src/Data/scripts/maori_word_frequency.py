@@ -114,6 +114,16 @@ def apply_zipfs_law(word_list):
 
 
 def handle_args():
+    """
+    Handles command-line arguments for custom output file paths.
+
+    This function uses the argparse library to handle the --filepath argument, allowing users
+    to specify a custom output file path for saving the generated JSON data. If no file path
+    is provided, a default output path is used.
+
+    Returns:
+        str: The selected or default output file path.
+    """
     parser = argparse.ArgumentParser(description="Input filepath to describe custom output, otherwise placed in clean_data.")
     parser.add_argument('--filepath', help='Path to the file')
     args = parser.parse_args()
