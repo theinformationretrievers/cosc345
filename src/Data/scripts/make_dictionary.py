@@ -124,7 +124,8 @@ def handle_args():
         tuple: A tuple containing the file path and the chosen option.
     """
     parser = argparse.ArgumentParser(
-        description="Input filepath to describe custom output, otherwise placed in clean_data.\nCan choose between pos or no_pos\nUses:\n--filepath\n--option [pos, no_pos]")
+        description="""Input filepath to describe custom output, otherwise placed in clean_data.\n
+                    Can choose between pos or no_pos\nUses:\n--filepath\n--option [pos, no_pos]""")
 
     parser.add_argument('--filepath', help='Path to the file')
     parser.add_argument('--option', choices=['pos', 'no_pos'],
