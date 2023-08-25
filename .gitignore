@@ -7,3 +7,4 @@ clean_build.sh
 codecoverage
 pos_tagging
 doc
+html
