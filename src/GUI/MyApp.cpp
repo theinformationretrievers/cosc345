@@ -152,6 +152,7 @@ JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
     fileContent.append(it, end);
 
     fileContent.append("</pre>");
+
     // Close the file stream
     file.close();
   }
