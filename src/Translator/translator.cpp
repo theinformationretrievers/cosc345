@@ -56,7 +56,7 @@ std::vector<translation> translate(std::istream& stream) {
 
             int encountered = encounter_map[word]++;
 
-            if (dis(gen) <= should_translate(encountered, 1, 1)) {
+            if (dis(gen) <= should_translate(encountered, 1, 5)) {
 
                 std::streampos start_pos = stream.tellg() - static_cast<std::streampos>(word_length);
 
@@ -102,7 +102,7 @@ std::string translate_and_replace(std::istream& stream) {
                 if (dict.can_translate(word_buffer)) {
                     int encountered = encounter_map[word_buffer]++;
 
-                    if (dis(gen) <= should_translate(encountered, 1, 1)) {
+                    if (dis(gen) <= should_translate(encountered, 1, 5)) {
                         std::string maori_translation = dict.translate(word_buffer).front();
                         output << "<span class=\"maori-word tooltip\">" + maori_translation +
                             "<span class=\"tooltiptext\">Tooltip maori translations</span></span>";
