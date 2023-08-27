@@ -5,6 +5,9 @@
 #include <string>
 #include <stdio.h>
 #include <tchar.h>
+#include "translator.h"
+#include <functional> 
+
 
 #define WINDOW_WIDTH  600
 #define WINDOW_HEIGHT 400
@@ -132,16 +135,23 @@ JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
   // Create an fstream with the file path and read the text
   //std::fstream fs(Path, std::fstream::in | std::fstream::out);  
   std::ifstream file(Path);
+
+  std::streampos initialPos = file.tellg();
+  std::vector<translation> translated_words  = translate(file);
+  file.seekg(initialPos);
+
   std::string fileContent;
+
+  fileContent.append("<pre>");
+
   if (file.is_open())
   {
-    std::string line;
-    while (std::getline(file, line))
-    {
-      fileContent.append("<p>");
-      fileContent.append(line);
-      fileContent.append("</p>\n");
-    }
+    std::istreambuf_iterator<char> it(file);
+    std::istreambuf_iterator<char> end;
+
+    fileContent.append(it, end);
+
+    fileContent.append("</pre>");
     // Close the file stream
     file.close();
   }

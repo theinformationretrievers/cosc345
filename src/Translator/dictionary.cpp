@@ -1,7 +1,8 @@
 // dictionary.cpp
 #include "dictionary.h"
 #include <stdexcept>
-
+#include <iostream>
+#include <Windows.h>
 
 Dictionary::Dictionary(const std::string& db_path) {
     int rc = sqlite3_open(db_path.c_str(), &db);
@@ -24,19 +25,40 @@ bool Dictionary::query_word(const std::string& word, const std::string& pos) {
     query += "LIMIT 1";
 
     sqlite3_stmt* stmt;
-    if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
-        throw std::runtime_error("Failed to prepare statement");
+    try {
+        if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+            throw std::runtime_error("Failed to prepare statement");
+        }
+
+        sqlite3_bind_text(stmt, 1, word.c_str(), -1, SQLITE_STATIC);
+        if (!pos.empty()) {
+            sqlite3_bind_text(stmt, 2, pos.c_str(), -1, SQLITE_STATIC);
+        }
+
+        bool exists = sqlite3_step(stmt) == SQLITE_ROW;
+
+        sqlite3_finalize(stmt);
+        return exists;
+    }
+    catch (const std::exception& e) {
+        std::string errorMessage = "Exception: " + std::string(e.what()) + "\n";
+        OutputDebugStringA(errorMessage.c_str());
+
+        if (stmt) {
+            const char* sqliteErrorMessage = sqlite3_errmsg(db);
+            if (sqliteErrorMessage) {
+                OutputDebugStringA(("SQLite Error: " + std::string(sqliteErrorMessage) + "\n").c_str());
+            }
+        }
+
+        // Check if the database connection is still valid
+        if (sqlite3_db_handle(stmt) == nullptr) {
+            OutputDebugStringA("Database connection is invalid.\n");
+        }
+
+        return false;
     }
 
-    sqlite3_bind_text(stmt, 1, word.c_str(), -1, SQLITE_STATIC);
-    if (!pos.empty()) {
-        sqlite3_bind_text(stmt, 2, pos.c_str(), -1, SQLITE_STATIC);
-    }
-
-    bool exists = sqlite3_step(stmt) == SQLITE_ROW;
-
-    sqlite3_finalize(stmt);
-    return exists;
 }
 
 std::vector<std::string> Dictionary::fetch_translations(const std::string& word, const std::string& pos) {
