@@ -10,3 +10,5 @@ struct translation {
 };
 
 std::vector<translation> translate(std::istream& stream);
+
+std::string translate_and_replace(std::istream& stream);
