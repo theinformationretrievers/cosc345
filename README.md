@@ -28,6 +28,8 @@ cd cosc345
 
 ```
 
+In order to make the app work, you need to go into src/Translator/translate.cpp and change the paths on line 81 and 31 from `"C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite"` to the correct path.
+
 ### License
 
 
