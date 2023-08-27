@@ -105,7 +105,7 @@ std::string translate_and_replace(std::istream& stream) {
                     if (dis(gen) <= should_translate(encountered, 1, 5)) {
                         std::string maori_translation = dict.translate(word_buffer).front();
                         output << "<span class=\"maori-word tooltip\">" + maori_translation +
-                            "<span class=\"tooltiptext\">Tooltip maori translations</span></span>";
+                            "<span class=\"tooltiptext\">Placeholder Text</span></span>";
                     }
                     else {
                         output << original;
@@ -133,7 +133,7 @@ std::string translate_and_replace(std::istream& stream) {
             if (dis(gen) <= should_translate(encountered, 1, 1)) {
                 std::string maori_translation = dict.translate(word_buffer).front();
                 output << "<span class=\"maori-word tooltip\">" + maori_translation +
-                    "<span class=\"tooltiptext\">Tooltip maori translations</span></span>";
+                    "<span class=\"tooltiptext\">Placeholder Text</span></span>";
             }
             else {
                 output << original;
