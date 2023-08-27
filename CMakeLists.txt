@@ -18,6 +18,18 @@ project ("Diglot")
 # Add source to this project's executable.
 # add_executable (Diglot "Diglot.cpp" "Diglot.h")
 
+add_library(SQLite STATIC 
+    ${CMAKE_SOURCE_DIR}/lib/SQLite/sqlite3.c
+)
+
+target_include_directories(SQLite PUBLIC 
+    ${CMAKE_SOURCE_DIR}/lib/SQLite
+)
+if(UNIX)
+    target_link_libraries(SQLite PUBLIC dl pthread)
+endif()
+target_compile_definitions(SQLite PRIVATE SQLITE_STATICLIB)
+
 add_library(SubstituterLib STATIC
     src/Substituter/substituter.cpp
 )
@@ -28,6 +40,8 @@ target_include_directories(SubstituterLib PUBLIC
 
 add_library(TranslatorLib STATIC
     src/Translator/pos.cpp
+    src/Translator/dictionary.cpp
+     src/Translator/translator.cpp  
 )
 
 target_include_directories(TranslatorLib PUBLIC
@@ -39,9 +53,13 @@ add_executable(Substituter
 )
 
 add_executable(Translator
-    src/Translator/main_translator.cpp
+    src/Translator/dictionary.cpp
 )
-target_link_libraries(Translator SubstituterLib)
+target_link_libraries(TranslatorLib SQLite)
+
+target_link_libraries(Translator SQLite TranslatorLib)
+
+configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY)
 
 
 # Add Catch2 testing suite
@@ -66,6 +84,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
                 "src/GUI/main.cpp")
     # Will register an exe with the name Diglot. 
     ADD_APP("${GUI_SOURCES}")
+    target_link_libraries(Diglot TranslatorLib)
     if (CMAKE_VERSION VERSION_GREATER 3.12)
     set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
     endif()
