@@ -52,12 +52,7 @@ add_executable(Substituter
     src/Substituter/main_substituter.cpp
 )
 
-add_executable(Translator
-    src/Translator/dictionary.cpp
-)
 target_link_libraries(TranslatorLib SQLite)
-
-target_link_libraries(Translator SQLite TranslatorLib)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY)
 
