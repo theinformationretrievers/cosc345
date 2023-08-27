@@ -72,91 +72,91 @@ void MyApp::Run() {
   app_->Run();
 }
 
-  JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
-    HWND hwnd = (HWND)window_->native_handle();
-    TCHAR szFilter[] = TEXT("Text Files (*.TXT)\0*.txt\0");
+/*!
+* @brief Open get the contents of a file
+* @details Using windows GetOpenFileName file dialog to open a file
+*					 then converts it to a std::fstream and reads the contents
+* @returns The contents of the opened file as a JSValue string or the
+           error as a JSValue string
+*
+*/
+JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
+  HWND hwnd = (HWND)window_->native_handle();
+  TCHAR szFilter[] = TEXT("Text Files (*.TXT)\0*.txt\0");
 
-    OPENFILENAME ofn;       // common dialog box structure
-    char szFile[260];       // buffer for file name
-    HANDLE hf;              // file handle
+  OPENFILENAME ofn;       // common dialog box structure
+  char szFile[260];       // buffer for file name
+  HANDLE hf;              // file handle
 
-    // Initialize OPENFILENAME
-    ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = hwnd;
-    ofn.lpstrFile = szFile;
-    // Set lpstrFile[0] to '\0' so that GetOpenFileName does not 
-    // use the contents of szFile to initialize itself.
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+  // Initialize OPENFILENAME
+  ZeroMemory(&ofn, sizeof(ofn));
+  ofn.lStructSize = sizeof(ofn);
+  ofn.hwndOwner = hwnd;
+  ofn.lpstrFile = szFile;
+  // Set lpstrFile[0] to '\0' so that GetOpenFileName does not 
+  // use the contents of szFile to initialize itself.
+  ofn.lpstrFile[0] = '\0';
+  ofn.nMaxFile = sizeof(szFile);
+  ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+  ofn.nFilterIndex = 1;
+  ofn.lpstrFileTitle = NULL;
+  ofn.nMaxFileTitle = 0;
+  ofn.lpstrInitialDir = NULL;
+  ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-    // Display the Open dialog box. 
+  // Display the Open dialog box. 
+  if (GetOpenFileName(&ofn) == TRUE)
+  {
+    hf = CreateFile(ofn.lpstrFile,
+      GENERIC_READ,
+      0,
+      (LPSECURITY_ATTRIBUTES)NULL,
+      OPEN_EXISTING,
+      FILE_ATTRIBUTE_NORMAL,
+      (HANDLE)NULL);
+  }
+  else
+  {
+    std::cerr << "Error opening file" << std::endl;
+    std::string err("unable to open file");
+    return JSValue(err.c_str());
+  }
 
-    if (GetOpenFileName(&ofn) == TRUE)
-      hf = CreateFile(ofn.lpstrFile,
-        GENERIC_READ,
-        0,
-        (LPSECURITY_ATTRIBUTES)NULL,
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        (HANDLE)NULL);
-    else {
-      std::cerr << "Error opening file" << std::endl;
-      return 1;
-    }
+  // Get The File Path
+  TCHAR Path[BUFSIZE];
+  DWORD dwRet = GetFinalPathNameByHandle(hf, Path, BUFSIZE, FILE_NAME_NORMALIZED);
 
-    // Read data from the file
-    const DWORD buffer_size = 4096;  GetFileSize(hf, NULL); // Adjust as needed
-    char buffer[buffer_size];
-    DWORD bytesRead = 0;
-    BOOL result = ReadFile(hf, buffer, buffer_size, &bytesRead, NULL);
-    if (result == FALSE) {
-      std::cerr << "Error reading file" << std::endl;
-      CloseHandle(hf);
-      return 1;
-    }
-    
-    // Get The File Path
-    TCHAR Path[BUFSIZE];
-    DWORD dwRet = GetFinalPathNameByHandle(hf, Path, BUFSIZE, FILE_NAME_NORMALIZED);
+  // Close the file handle
+  CloseHandle(hf);
 
-    // Create an fstream with the file path and read the text
-    //std::fstream fs(Path, std::fstream::in | std::fstream::out);  
-    std::ifstream file (Path);
+  // Create an fstream with the file path and read the text
+  //std::fstream fs(Path, std::fstream::in | std::fstream::out);  
+  std::ifstream file(Path);
+  std::string fileContent;
+  if (file.is_open())
+  {
     std::string line;
-    std::string fileStr;
-    if (file.is_open())
+    while (std::getline(file, line))
     {
-      while (std::getline(file,line))
-      {
-        fileStr.append("<p>");  
-        fileStr.append(line);
-        fileStr.append("</p>\n");
-      }
+      fileContent.append("<p>");
+      fileContent.append(line);
+      fileContent.append("</p>\n");
     }
-    else {
-      fileStr = "unable to open file: ";
-      fileStr.append(Path);
-    }
-
-    // Close the file handle
-    CloseHandle(hf);
-
     // Close the file stream
     file.close();
+  }
+  else {
+    std::cerr << "Error opening file" << std::endl;
+    std::string err("unable to open file:'");
+    err.append(Path).append("'");
+    return JSValue(err.c_str());
+  }
 
-    return JSValue(fileStr.c_str());
+  // Close the file stream
+  file.close();
+  return JSValue(fileContent.c_str());
 
   // TODO Call Subsituter here
-
-  //translatedText = substuter.substitute(buffer, bytesread);
-  //return JSValue(translatedText);
 }
 
 void MyApp::OnUpdate() {
@@ -181,18 +181,18 @@ void MyApp::OnResize(ultralight::Window* window, uint32_t width, uint32_t height
 }
 
 void MyApp::OnFinishLoading(ultralight::View* caller,
-                            uint64_t frame_id,
-                            bool is_main_frame,
-                            const String& url) {
+  uint64_t frame_id,
+  bool is_main_frame,
+  const String& url) {
   ///
   /// This is called when a frame finishes loading on the page.
   ///
 }
 
 void MyApp::OnDOMReady(ultralight::View* caller,
-                       uint64_t frame_id,
-                       bool is_main_frame,
-                       const String& url) {
+  uint64_t frame_id,
+  bool is_main_frame,
+  const String& url) {
   ///
   /// This is called when a frame's DOM has finished loading on the page.
   ///
@@ -207,7 +207,7 @@ void MyApp::OnDOMReady(ultralight::View* caller,
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller,
-                           Cursor cursor) {
+  Cursor cursor) {
   ///
   /// This is called whenever the page requests to change the cursor.
   ///
@@ -217,7 +217,7 @@ void MyApp::OnChangeCursor(ultralight::View* caller,
 }
 
 void MyApp::OnChangeTitle(ultralight::View* caller,
-                          const String& title) {
+  const String& title) {
   ///
   /// This is called whenever the page requests to change the title.
   ///
