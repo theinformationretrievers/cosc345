@@ -15,8 +15,8 @@
 #include <windows.h>
 #endif
 
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 400
+#define WINDOW_WIDTH 1440
+#define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
 
 MyApp::MyApp() {
