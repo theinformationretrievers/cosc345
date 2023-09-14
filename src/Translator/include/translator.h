@@ -1,6 +1,6 @@
 #include <vector>
 #include <string>
-
+#include "../dictionary.h"
 std::vector<std::string> get_pos_tags(const std::string& filename);
 
 struct translation {

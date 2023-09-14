@@ -45,12 +45,11 @@ target_include_directories(SubstituterLib PUBLIC
 add_library(TranslatorLib STATIC
     src/Translator/pos.cpp
     src/Translator/dictionary.cpp
-     src/Translator/translator.cpp  
+    src/Translator/translator.cpp  
 )
 
 target_include_directories(TranslatorLib PUBLIC
     ${CMAKE_SOURCE_DIR}/src/Translator/include
-    ${CMAKE_SOURCE_DIR}/src/Translator/
 )
 
 add_executable(Translator

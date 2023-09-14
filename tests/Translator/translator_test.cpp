@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <iostream>
 #include <translator.h>
-#include "dictionary.h"
+// #include "dictionary.h"
 
 /**
  * @brief Test the POS tagging function on a valid file.
@@ -84,15 +84,19 @@ TEST_CASE("Test Dictionary Database Connection", "[Dictionary]") {
     SECTION("Connect to valid database") {
         REQUIRE_NOTHROW(Dictionary(test_db_path)); // Should not throw any exceptions
     }
+    #if defined(__linux__)
+    // We are on Linux
+    command += "./pos_data/pos_tagger_linux ";
 
-    // SECTION("Connect to invalid database path") {
-    // // Create a directory with the same name to simulate an error
-    // const std::string invalid_db_path = "invalid_db_directory";
-    // std::filesystem::create_directory(invalid_db_path);
+    SECTION("Connect to invalid database path") {
+    // Create a directory with the same name to simulate an error
+    const std::string invalid_db_path = "invalid_db_directory";
+    std::filesystem::create_directory(invalid_db_path);
 
-    // REQUIRE_THROWS(Dictionary(invalid_db_path)); // Should throw an exception
+    REQUIRE_THROWS(Dictionary(invalid_db_path)); // Should throw an exception
 
-    // // Cleanup: Remove the directory
-    // std::filesystem::remove(invalid_db_path);
-    // }
+    // Cleanup: Remove the directory
+    std::filesystem::remove(invalid_db_path);
+    }
+    #endif
 }
