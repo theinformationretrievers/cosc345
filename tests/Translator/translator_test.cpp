@@ -91,7 +91,7 @@ TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
     inputStream << inputFile.rdbuf();
 
     // Get output from translate_and_replace
-    std::string actualOutput = translate_and_replace_standard_seed(inputStream);
+    std::string actualOutput = translate_and_replace(inputStream, 42);
 
     // Compare
     REQUIRE(expectedOutput == actualOutput);
