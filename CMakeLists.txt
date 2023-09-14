@@ -99,16 +99,14 @@ if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 add_custom_target(copy_test_data ALL
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/test_data/
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/test_data/
-            ${CMAKE_BINARY_DIR}/test_data/)
+            ${CMAKE_BINARY_DIR}/)
 
 add_custom_target(copy_pos_data ALL
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/pos_data/
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/pos_data/
-            ${CMAKE_BINARY_DIR}/pos_data/)
+            ${CMAKE_BINARY_DIR}/)
 
 
 
