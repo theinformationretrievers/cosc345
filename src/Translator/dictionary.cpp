@@ -2,7 +2,10 @@
 #include "dictionary.h"
 #include <stdexcept>
 #include <iostream>
+#ifdef _WIN32
 #include <Windows.h>
+#endif
+
 
 Dictionary::Dictionary(const std::string& db_path) {
     int rc = sqlite3_open(db_path.c_str(), &db);
@@ -42,19 +45,19 @@ bool Dictionary::query_word(const std::string& word, const std::string& pos) {
     }
     catch (const std::exception& e) {
         std::string errorMessage = "Exception: " + std::string(e.what()) + "\n";
-        OutputDebugStringA(errorMessage.c_str());
+        // OutputDebugStringA(errorMessage.c_str());
 
         if (stmt) {
             const char* sqliteErrorMessage = sqlite3_errmsg(db);
-            if (sqliteErrorMessage) {
-                OutputDebugStringA(("SQLite Error: " + std::string(sqliteErrorMessage) + "\n").c_str());
-            }
+            // if (sqliteErrorMessage) {
+            //     OutputDebugStringA(("SQLite Error: " + std::string(sqliteErrorMessage) + "\n").c_str());
+            // }
         }
 
         // Check if the database connection is still valid
-        if (sqlite3_db_handle(stmt) == nullptr) {
-            OutputDebugStringA("Database connection is invalid.\n");
-        }
+        // if (sqlite3_db_handle(stmt) == nullptr) {
+        //     OutputDebugStringA("Database connection is invalid.\n");
+        // }
 
         return false;
     }

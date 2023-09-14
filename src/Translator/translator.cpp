@@ -5,7 +5,9 @@
 #include <algorithm>
 #include <cctype>
 #include <random>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include "dictionary.h"
 
 #pragma execution_character_set( "utf-8" )
