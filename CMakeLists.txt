@@ -49,6 +49,7 @@ add_library(TranslatorLib STATIC
 
 target_include_directories(TranslatorLib PUBLIC
     ${CMAKE_SOURCE_DIR}/src/Translator/include
+    ${CMAKE_SOURCE_DIR}/src/Translator/
 )
 
 add_executable(Translator
