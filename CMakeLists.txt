@@ -53,12 +53,28 @@ add_executable(Substituter
     src/Substituter/main_substituter.cpp
 )
 
+
+
 if(UNIX)
     # download and include GTK so that files can be opened on linux
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
     include_directories(${GTK3_INCLUDE_DIRS})
-    target_link_libraries(TranslatorLib ${GTK3_LIBRARIES})   
+    target_link_libraries(TranslatorLib ${GTK3_LIBRARIES})
+    
+    # Define the compilation command with pkg-config
+    set(COMPILE_COMMAND g++ file_chooser.cpp -o file_chooser ${GTK3_CFLAGS_OTHER} ${GTK3_LDFLAGS})
+
+    add_executable(file_chooser src/Utils/file_chooser.cpp)
+
+    # Create a custom target to run the compilation
+    add_custom_target(  compile_file_chooser
+                        COMMAND ${COMPILE_COMMAND}
+                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                        COMMENT "Compiling file_chooser.cpp"
+    )
+
+    target_link_libraries(file_chooser ${GTK3_LIBRARIES})
 endif()
 
 target_link_libraries(TranslatorLib SQLite)
