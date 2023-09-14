@@ -36,7 +36,7 @@ double should_translate(int user_encounter_count, double word_preference, double
 
 std::vector<translation> translate(std::istream& stream) {
     
-    Dictionary dict("C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite");
+    Dictionary dict("C:\\Users\\Jet Hughes\\Documents\\Personal\\courses\\.cosc-345\\cosc345\\out\\build\\x64-Debug\\dict.sqlite");
     std::unordered_map<std::string, int> encounter_map;
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -78,7 +78,7 @@ std::vector<translation> translate(std::istream& stream) {
 
 
 std::string translate_and_replace(std::istream& stream) {
-    Dictionary dict("C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite");
+    Dictionary dict("C:\\Users\\Jet Hughes\\Documents\\Personal\\courses\\.cosc-345\\cosc345\\out\\build\\x64-Debug\\dict.sqlite");
     std::unordered_map<std::string, int> encounter_map;
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -88,7 +88,7 @@ std::string translate_and_replace(std::istream& stream) {
     std::string word_buffer;
     char ch;
 
-    output << "<pre>";
+    //output << "<pre>";
 
     while (stream.get(ch)) {
         if (std::isalpha(ch)) {
@@ -144,7 +144,7 @@ std::string translate_and_replace(std::istream& stream) {
         }
     }
 
-    output << "</pre>";
+    //output << "</pre>";
 
     return output.str();
 }
