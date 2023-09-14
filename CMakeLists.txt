@@ -106,7 +106,7 @@ add_custom_target(copy_test_data ALL
 add_custom_target(copy_pos_data ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/pos_data/
-            ${CMAKE_BINARY_DIR}/)
+            ${CMAKE_BINARY_DIR}/pos_data/)
 
 
 

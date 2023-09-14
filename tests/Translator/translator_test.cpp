@@ -14,13 +14,13 @@
 TEST_CASE("TestPosTaggingOnValidFile", "[get_pos_tags]")
 {
     // Get the POS tags for a known valid test file
-    std::vector<std::string> hound_test_output = get_pos_tags("hound");
+    std::vector<std::string> hound_test_output = get_pos_tags("./pos_data/hound");
 
     // Vector to hold the expected results for the valid file
     std::vector<std::string> succeed_case;
 
     // Open the expected results file for the valid test case
-    std::string pos_path = "hound.test";
+    std::string pos_path = "./pos_data/hound.test";
     std::ifstream file(pos_path);
     std::string tag;
 
@@ -62,7 +62,7 @@ TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
     std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
 
     // Prepare input for translate_and_replace
-    std::ifstream inputFile("test.txt");
+    std::ifstream inputFile("small_test.txt");
     std::stringstream inputStream;
     inputStream << inputFile.rdbuf();
 
