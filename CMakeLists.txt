@@ -26,8 +26,9 @@ target_include_directories(SQLite PUBLIC
     ${CMAKE_SOURCE_DIR}/lib/SQLite
 )
 if(UNIX)
-    target_link_libraries(SQLite PUBLIC dl pthread)
+    target_link_libraries(SQLite PUBLIC dl pthread) 
 endif()
+
 target_compile_definitions(SQLite PRIVATE SQLITE_STATICLIB)
 
 add_library(SubstituterLib STATIC
@@ -52,6 +53,14 @@ add_executable(Substituter
     src/Substituter/main_substituter.cpp
 )
 
+if(UNIX)
+    # download and include GTK so that files can be opened on linux
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+    include_directories(${GTK3_INCLUDE_DIRS})
+    target_link_libraries(TranslatorLib ${GTK3_LIBRARIES})   
+endif()
+
 target_link_libraries(TranslatorLib SQLite)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY)
@@ -69,21 +78,22 @@ include(Catch)
 catch_discover_tests(tests)  # Automatically discover and register tests
 # CATCH_DISCOVER_TESTS(tests)
 #Only compile front end on windows for now
-if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+# if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 # include Ultralight 
-    include(cmake/App.cmake)
+include(cmake/App.cmake)
 
-    # set source files for GUI. 
-    set(GUI_SOURCES "src/GUI/MyApp.h"
-                "src/GUI/MyApp.cpp"
-                "src/GUI/main.cpp")
-    # Will register an exe with the name Diglot. 
-    ADD_APP("${GUI_SOURCES}")
-    target_link_libraries(Diglot TranslatorLib)
-    if (CMAKE_VERSION VERSION_GREATER 3.12)
-    set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
+# set source files for GUI. 
+set(GUI_SOURCES "src/GUI/MyApp.h"
+            "src/GUI/MyApp.cpp"
+            "src/GUI/main.cpp")
+# Will register an exe with the name Diglot. 
+ADD_APP("${GUI_SOURCES}")
+target_link_libraries(Diglot TranslatorLib)
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
     endif()
-endif()
+# endif()
+
 
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")

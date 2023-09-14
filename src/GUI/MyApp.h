@@ -16,8 +16,14 @@ public:
   virtual void Run();
 
   // Open a File
-  virtual JSValue GetFile(const JSObject& thisObject, const JSArgs& args);
 
+  #ifdef _WIN32
+  virtual JSValue GetFileWindows(const JSObject& thisObject, const JSArgs& args);
+  #else
+  // Open a File
+  virtual JSValue GetFileLinux(const ultralight::JSObject& thisObject, const ultralight::JSArgs& args);
+  #endif
+  
   // This is called continuously from the app's main loop.
   virtual void OnUpdate() override;
 

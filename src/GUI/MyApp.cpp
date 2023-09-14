@@ -1,13 +1,19 @@
 #include "MyApp.h"
-#include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <stdio.h>
-#include <tchar.h>
 #include "translator.h"
 #include <functional> 
 #include <sstream>
+
+#ifdef _WIN32
+#include <windows.h>
+#include <tchar.h>
+
+#elif defined(__linux__)
+#include <gtk/gtk.h>
+#endif
 
 
 #define WINDOW_WIDTH  600
@@ -67,6 +73,10 @@ MyApp::MyApp() {
   /// View's OnChangeCursor and OnChangeTitle events below.
   ///
   overlay_->view()->set_view_listener(this);
+
+  #ifdef linux
+  gtk_init(NULL, NULL);
+  #endif
 }
 
 MyApp::~MyApp() {
@@ -76,6 +86,8 @@ void MyApp::Run() {
   app_->Run();
 }
 
+
+#ifdef _WIN32
 /*!
 * @brief Open get the contents of a file
 * @details Using windows GetOpenFileName file dialog to open a file
@@ -84,7 +96,7 @@ void MyApp::Run() {
            error as a JSValue string
 *
 */
-JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
+JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
   HWND hwnd = (HWND)window_->native_handle();
   TCHAR szFilter[] = TEXT("Text Files (*.TXT)\0*.txt\0");
 
@@ -170,6 +182,23 @@ JSValue MyApp::GetFile(const JSObject& thisObject, const JSArgs& args) {
   // TODO Call Subsituter here
 }
 
+#else
+/*!
+* @brief Open get the contents of a file
+* @details Using windows GetOpenFileName file dialog to open a file
+*					 then converts it to a std::fstream and reads the contents
+* @returns The contents of the opened file as a JSValue string or the
+           error as a JSValue string
+*
+*/
+JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
+  std::cout << "Hello, world!" << std::endl;
+
+  // You may need to return an ultralight::JSValue here, depending on your code logic
+  return JSValue("!"); 
+}
+#endif
+
 void MyApp::OnUpdate() {
   ///
   /// This is called repeatedly from the application's update loop.
@@ -214,7 +243,11 @@ void MyApp::OnDOMReady(ultralight::View* caller,
 
   JSObject global = JSGlobalObject();
 
-  global["GetFile"] = BindJSCallbackWithRetval(&MyApp::GetFile);
+  #ifdef _WIN32
+  global["GetFile"] = BindJSCallbackWithRetval(&MyApp::GetFileWindows);
+  #else
+  global["GetFile"] = BindJSCallbackWithRetval(&MyApp::GetFileLinux);
+  #endif
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller,
