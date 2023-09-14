@@ -174,8 +174,6 @@ reads the contents
 *
 */
 JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
-  std::cout << "Hello, world!" << std::endl;
-
   std::array<char, 128> buffer;
   std::string result = "";
 
@@ -189,25 +187,6 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
     result += buffer.data();
   }
 
-  // std::cout << result << std::endl;
-  
-  // std::cout << (result == "/home/cody/testfile.txt") << std::endl;
-
-  // auto returnCode = pclose(pipe);
-
-  // if (returnCode == EXIT_SUCCESS) {
-  //   std::cout << "Selected file: " << result << std::endl;
-  // } else {
-  //   std::cerr << "Error during file selection." << std::endl;
-  // }
-  // result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
-  // std::ifstream file(result);
-
-  // if (!file.is_open()) {
-  //   perror("Error opening file");
-  //   // std::cerr << "Failed to open file: " << result << std::endl;
-  //   return "";
-  // }
   while (fgets(buffer.data(), 128, pipe) != nullptr) {
     result += buffer.data();
   }
@@ -233,8 +212,6 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
   }
 
   file.close();
-  // You may need to return an ultralight::JSValue here, depending on your code
-  // logic
   return JSValue(fileContents.c_str());
 }
 #endif
