@@ -5,7 +5,9 @@
 #include <algorithm>
 #include <cctype>
 #include <random>
-// #include <windows.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "dictionary.h"
 
 #pragma execution_character_set( "utf-8" )
@@ -36,7 +38,6 @@ double should_translate(int user_encounter_count, double word_preference, double
 
 std::vector<translation> translate(std::istream& stream) {
     
-    // Dictionary dict("C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite");
     Dictionary dict("./dict.sqlite");
 
     std::unordered_map<std::string, int> encounter_map;
@@ -80,7 +81,6 @@ std::vector<translation> translate(std::istream& stream) {
 
 
 std::string translate_and_replace(std::istream& stream, int seed) {
-    // Dictionary dict("C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite");
     Dictionary dict("./dict.sqlite");
 
     std::unordered_map<std::string, int> encounter_map;
@@ -92,7 +92,7 @@ std::string translate_and_replace(std::istream& stream, int seed) {
     std::string word_buffer;
     char ch;
 
-    output << "<pre>";
+    //output << "<pre>";
 
     while (stream.get(ch)) {
         if (std::isalpha(ch)) {
@@ -148,7 +148,7 @@ std::string translate_and_replace(std::istream& stream, int seed) {
         }
     }
 
-    output << "</pre>";
+    //output << "</pre>";
 
     return output.str();
 }

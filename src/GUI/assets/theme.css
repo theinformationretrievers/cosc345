@@ -109,11 +109,11 @@ h1 {
 
     /* Position the tooltip text */
     position: absolute;
-    left: 50%;
-    margin-left: -120px;
-    z-index: 1;
-    bottom: 25px;
     max-width: 300px;
+    left: 50%; /* move relative to parent */
+    transform: translate(-50%, 0%); /* move relative to itself */
+    bottom: 25px; /* move up bit */
+    z-index: 1; /* bring to front */
 
     /* Fade in tooltip */
     opacity: 0;

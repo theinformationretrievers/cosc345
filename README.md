@@ -28,6 +28,11 @@ cd cosc345
 
 ```
 
+In order for the app to work on Linux, install `libgtk-3-dev`, e.g. for ubunutu: 
+```
+sudo apt-get install libgtk-3-dev
+```
+
 In order to make the app work, you need to go into src/Translator/translate.cpp and change the paths on line 81 and 31 from `"C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite"` to the correct path.
 
 ### License
