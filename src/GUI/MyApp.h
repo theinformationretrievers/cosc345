@@ -23,6 +23,7 @@ public:
   // Open a File
   virtual JSValue GetFileLinux(const ultralight::JSObject& thisObject, const ultralight::JSArgs& args);
   #endif
+
   
   // This is called continuously from the app's main loop.
   virtual void OnUpdate() override;
