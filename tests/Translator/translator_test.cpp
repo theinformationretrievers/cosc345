@@ -58,11 +58,11 @@ TEST_CASE("TestPosTaggingOnInvalidFile", "[get_pos_tags]")
 
 TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
     // Read expected output from file
-    std::ifstream expectedFile("translated.test");
+    std::ifstream expectedFile("./test_data/translated.test");
     std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
 
     // Prepare input for translate_and_replace
-    std::ifstream inputFile("small_test.txt");
+    std::ifstream inputFile("./test_data/small_test.txt");
     std::stringstream inputStream;
     inputStream << inputFile.rdbuf();
 
