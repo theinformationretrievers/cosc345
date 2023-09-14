@@ -137,7 +137,7 @@ JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
   // std::vector<translation> translated_words  = translate(file);
   // file.seekg(initialPos);
 
-  std::string fileContent = translate_and_replace(file);
+  std::string fileContent = translate_and_replace(file, 42);
 
   if (file.is_open()) {
     // std::istreambuf_iterator<char> it(file);

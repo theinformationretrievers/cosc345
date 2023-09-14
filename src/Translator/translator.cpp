@@ -38,7 +38,8 @@ double should_translate(int user_encounter_count, double word_preference, double
 
 std::vector<translation> translate(std::istream& stream) {
     
-    Dictionary dict("C:\\Users\\Jet Hughes\\Documents\\Personal\\courses\\.cosc-345\\cosc345\\out\\build\\x64-Debug\\dict.sqlite");
+    Dictionary dict("./dict.sqlite");
+
     std::unordered_map<std::string, int> encounter_map;
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -79,11 +80,12 @@ std::vector<translation> translate(std::istream& stream) {
 }
 
 
-std::string translate_and_replace(std::istream& stream) {
-    Dictionary dict("C:\\Users\\Jet Hughes\\Documents\\Personal\\courses\\.cosc-345\\cosc345\\out\\build\\x64-Debug\\dict.sqlite");
+std::string translate_and_replace(std::istream& stream, int seed) {
+    Dictionary dict("./dict.sqlite");
+
     std::unordered_map<std::string, int> encounter_map;
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // std::random_device rd;
+    std::mt19937 gen(seed);
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
     std::stringstream output;
