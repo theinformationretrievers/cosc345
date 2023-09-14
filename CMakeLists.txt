@@ -48,11 +48,17 @@ target_include_directories(TranslatorLib PUBLIC
     ${CMAKE_SOURCE_DIR}/src/Translator/include
 )
 
+add_executable(Translator
+    src/Translator/main_translator.cpp
+)
+
 add_executable(Substituter
     src/Substituter/main_substituter.cpp
 )
 
 target_link_libraries(TranslatorLib SQLite)
+target_link_libraries(Translator TranslatorLib)
+
 
 configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY)
 
@@ -92,10 +98,15 @@ if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     #Add required flags (GCC & LLVM/Clang)
 endif()
 
+add_custom_target(copy_test_data ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/test_data/
+            ${CMAKE_BINARY_DIR}/test_data/)
 
-add_custom_target(copy_directory ALL
+add_custom_target(copy_pos_data ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/pos_data/
             ${CMAKE_BINARY_DIR}/pos_data/)
+
 
 
