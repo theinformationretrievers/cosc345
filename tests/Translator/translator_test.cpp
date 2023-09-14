@@ -5,7 +5,7 @@
 #include <iostream>
 #include <translator.h>
 // #include "dictionary.h"
-
+#include <filesystem>
 /**
  * @brief Test the POS tagging function on a valid file.
  *
@@ -86,7 +86,6 @@ TEST_CASE("Test Dictionary Database Connection", "[Dictionary]") {
     }
     #if defined(__linux__)
     // We are on Linux
-    command += "./pos_data/pos_tagger_linux ";
 
     SECTION("Connect to invalid database path") {
     // Create a directory with the same name to simulate an error
