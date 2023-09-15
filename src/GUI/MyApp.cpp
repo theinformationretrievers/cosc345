@@ -158,7 +158,7 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
 
   pclose(pipe);
   result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
-  return JSValue(result.c_str())
+  return JSValue(result.c_str());
 }
 #endif
 
