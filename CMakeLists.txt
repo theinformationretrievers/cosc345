@@ -80,6 +80,7 @@ target_link_libraries(TranslatorLib SQLite)
 target_link_libraries(Translator TranslatorLib)
 
 
+message(STATUS "Copying dict.sqlite from ${CMAKE_SOURCE_DIR}/src/Translator/ to ${CMAKE_BINARY_DIR}/")
 configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY) 
 
 
