@@ -24,7 +24,7 @@ jobs:
 
       - name: Install and Run OpenCppCoverage
         run: |
-          dir \build\debug
+          dir
           choco install opencppcoverage
           echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
 
