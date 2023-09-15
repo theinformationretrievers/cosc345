@@ -1,0 +1,582 @@
+{
+    "The King James Version of the Bible": {
+        "Title": "The King James Version of the Bible",
+        "Author": "N/A",
+        "Path": "../../Data/books/top_ebooks/10.txt"
+    },
+    "The Complete Works of William Shakespeare": {
+        "Title": "The Complete Works of William Shakespeare",
+        "Author": "William Shakespeare",
+        "Path": "../../Data/books/top_ebooks/100.txt"
+    },
+    "Carmilla": {
+        "Title": "Carmilla",
+        "Author": "J. Sheridan LeFanu",
+        "Path": "../../Data/books/top_ebooks/10007.txt"
+    },
+    "A Modest Proposal": {
+        "Title": "A Modest Proposal",
+        "Author": "Jonathan Swift",
+        "Path": "../../Data/books/top_ebooks/1080.txt"
+    },
+    "Alice_s Adventures in Wonderland": {
+        "Title": "Alice's Adventures in Wonderland",
+        "Author": "Lewis Carroll",
+        "Path": "../../Data/books/top_ebooks/11.txt"
+    },
+    "The Count of Monte Cristo_ Illustrated": {
+        "Title": "The Count of Monte Cristo, Illustrated",
+        "Author": "Alexandre Dumas",
+        "Path": "../../Data/books/top_ebooks/1184.txt"
+    },
+    "Treasure Island": {
+        "Title": "Treasure Island",
+        "Author": "Robert Louis Stevenson",
+        "Path": "../../Data/books/top_ebooks/120.txt"
+    },
+    "The Prince": {
+        "Title": "The Prince",
+        "Author": "Niccol\u00f2 Machiavelli",
+        "Path": "../../Data/books/top_ebooks/1232.txt"
+    },
+    "Twenty Years After": {
+        "Title": "Twenty Years After",
+        "Author": "Alexandre Dumas",
+        "Path": "../../Data/books/top_ebooks/1259.txt"
+    },
+    "Jane Eyre_ An Autobiography": {
+        "Title": "Jane Eyre: An Autobiography",
+        "Author": "Charlotte Bront\u00eb",
+        "Path": "../../Data/books/top_ebooks/1260.txt"
+    },
+    "Spoon River Anthology": {
+        "Title": "Spoon River Anthology",
+        "Author": "Edgar Lee Masters",
+        "Path": "../../Data/books/top_ebooks/1280.txt"
+    },
+    "The Art of War": {
+        "Title": "The Art of War",
+        "Author": "active 6th century B.C. Sunzi",
+        "Path": "../../Data/books/top_ebooks/132.txt"
+    },
+    "Pride and Prejudice": {
+        "Title": "Pride and Prejudice",
+        "Author": "Jane Austen",
+        "Path": "../../Data/books/top_ebooks/1342.txt"
+    },
+    "Les Miserables": {
+        "Title": "Les Miserables",
+        "Author": "Victor Hugo",
+        "Path": "../../Data/books/top_ebooks/135.txt"
+    },
+    "The Underground City": {
+        "Title": "The Underground City",
+        "Author": "Jules Verne",
+        "Path": "../../Data/books/top_ebooks/1355.txt"
+    },
+    "Anna Karenina": {
+        "Title": "Anna Karenina",
+        "Author": "graf Leo Tolstoy",
+        "Path": "../../Data/books/top_ebooks/1399.txt"
+    },
+    "Great Expectations": {
+        "Title": "Great Expectations",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/1400.txt"
+    },
+    "Middlemarch": {
+        "Title": "Middlemarch",
+        "Author": "George Eliot",
+        "Path": "../../Data/books/top_ebooks/145.txt"
+    },
+    "McGuffey_s First Eclectic Reader_ Revised Edition": {
+        "Title": "McGuffey's First Eclectic Reader, Revised Edition",
+        "Author": "William Holmes McGuffey",
+        "Path": "../../Data/books/top_ebooks/14640.txt"
+    },
+    "The Republic": {
+        "Title": "The Republic",
+        "Author": "Plato",
+        "Path": "../../Data/books/top_ebooks/1497.txt"
+    },
+    "Romeo and Juliet": {
+        "Title": "Romeo and Juliet",
+        "Author": "William Shakespeare",
+        "Path": "../../Data/books/top_ebooks/1513.txt"
+    },
+    "Emma": {
+        "Title": "Emma",
+        "Author": "Jane Austen",
+        "Path": "../../Data/books/top_ebooks/158.txt"
+    },
+    "Peter Pan": {
+        "Title": "Peter Pan",
+        "Author": "James M. Barrie",
+        "Path": "../../Data/books/top_ebooks/16.txt"
+    },
+    "Sense and Sensibility": {
+        "Title": "Sense and Sensibility",
+        "Author": "Jane Austen",
+        "Path": "../../Data/books/top_ebooks/161.txt"
+    },
+    "Beowulf": {
+        "Title": "Beowulf",
+        "Author": "N/A",
+        "Path": "../../Data/books/top_ebooks/16328.txt"
+    },
+    "The Enchanted April": {
+        "Title": "The Enchanted April",
+        "Author": "Elizabeth Von Arnim",
+        "Path": "../../Data/books/top_ebooks/16389.txt"
+    },
+    "The Ancient Irish Epic Tale T\u00e1in B\u00f3 C\u00faalnge": {
+        "Title": "The Ancient Irish Epic Tale T\u00e1in B\u00f3 C\u00faalnge",
+        "Author": "N/A",
+        "Path": "../../Data/books/top_ebooks/16464.txt"
+    },
+    "The Adventures of Sherlock Holmes": {
+        "Title": "The Adventures of Sherlock Holmes",
+        "Author": "Arthur Conan Doyle",
+        "Path": "../../Data/books/top_ebooks/1661.txt"
+    },
+    "The Odyssey": {
+        "Title": "The Odyssey",
+        "Author": "Homer",
+        "Path": "../../Data/books/top_ebooks/1727.txt"
+    },
+    "The Picture of Dorian Gray": {
+        "Title": "The Picture of Dorian Gray",
+        "Author": "Oscar Wilde",
+        "Path": "../../Data/books/top_ebooks/174.txt"
+    },
+    "The Yellow Wallpaper": {
+        "Title": "The Yellow Wallpaper",
+        "Author": "Charlotte Perkins Gilman",
+        "Path": "../../Data/books/top_ebooks/1952.txt"
+    },
+    "Thus Spake Zarathustra_ A Book for All and None": {
+        "Title": "Thus Spake Zarathustra: A Book for All and None",
+        "Author": "Friedrich Wilhelm Nietzsche",
+        "Path": "../../Data/books/top_ebooks/1998.txt"
+    },
+    "Walden_ and On The Duty Of Civil Disobedience": {
+        "Title": "Walden, and On The Duty Of Civil Disobedience",
+        "Author": "Henry David Thoreau",
+        "Path": "../../Data/books/top_ebooks/205.txt"
+    },
+    "The Expedition of Humphry Clinker": {
+        "Title": "The Expedition of Humphry Clinker",
+        "Author": "Tobias Smollett",
+        "Path": "../../Data/books/top_ebooks/2160.txt"
+    },
+    "Heart of Darkness": {
+        "Title": "Heart of Darkness",
+        "Author": "Joseph Conrad",
+        "Path": "../../Data/books/top_ebooks/219.txt"
+    },
+    "The Modern Scottish Minstrel_ Volumes 1-6": {
+        "Title": "The Modern Scottish Minstrel, Volumes 1-6",
+        "Author": "N/A",
+        "Path": "../../Data/books/top_ebooks/22515.txt"
+    },
+    "The Jungle Book": {
+        "Title": "The Jungle Book",
+        "Author": "Rudyard Kipling",
+        "Path": "../../Data/books/top_ebooks/236.txt"
+    },
+    "A Study in Scarlet": {
+        "Title": "A Study in Scarlet",
+        "Author": "Arthur Conan Doyle",
+        "Path": "../../Data/books/top_ebooks/244.txt"
+    },
+    "Siddhartha": {
+        "Title": "Siddhartha",
+        "Author": "Hermann Hesse",
+        "Path": "../../Data/books/top_ebooks/2500.txt"
+    },
+    "The Scarlet Letter": {
+        "Title": "The Scarlet Letter",
+        "Author": "Nathaniel Hawthorne",
+        "Path": "../../Data/books/top_ebooks/25344.txt"
+    },
+    "A Doll_s House _ a play": {
+        "Title": "A Doll's House : a play",
+        "Author": "Henrik Ibsen",
+        "Path": "../../Data/books/top_ebooks/2542.txt"
+    },
+    "Crime and Punishment": {
+        "Title": "Crime and Punishment",
+        "Author": "Fyodor Dostoevsky",
+        "Path": "../../Data/books/top_ebooks/2554.txt"
+    },
+    "Grimms_ Fairy Tales": {
+        "Title": "Grimms' Fairy Tales",
+        "Author": "The Brothers Grimm",
+        "Path": "../../Data/books/top_ebooks/2591.txt"
+    },
+    "War and Peace": {
+        "Title": "War and Peace",
+        "Author": "graf Leo Tolstoy",
+        "Path": "../../Data/books/top_ebooks/2600.txt"
+    },
+    "A Room with a View": {
+        "Title": "A Room with a View",
+        "Author": "E. M. Forster",
+        "Path": "../../Data/books/top_ebooks/2641.txt"
+    },
+    "Meditations": {
+        "Title": "Meditations",
+        "Author": "Marcus Aurelius",
+        "Path": "../../Data/books/top_ebooks/2680.txt"
+    },
+    "Moby Dick_ or The Whale": {
+        "Title": "Moby Dick; or The Whale",
+        "Author": "Herman Melville",
+        "Path": "../../Data/books/top_ebooks/2701.txt"
+    },
+    "The Kama Sutra of Vatsyayana": {
+        "Title": "The Kama Sutra of Vatsyayana",
+        "Author": "Vatsyayana",
+        "Path": "../../Data/books/top_ebooks/27827.txt"
+    },
+    "The Brothers Karamazov": {
+        "Title": "The Brothers Karamazov",
+        "Author": "Fyodor Dostoyevsky",
+        "Path": "../../Data/books/top_ebooks/28054.txt"
+    },
+    "Dubliners": {
+        "Title": "Dubliners",
+        "Author": "James Joyce",
+        "Path": "../../Data/books/top_ebooks/2814.txt"
+    },
+    "Antiquities of the Jews": {
+        "Title": "Antiquities of the Jews",
+        "Author": "Flavius Josephus",
+        "Path": "../../Data/books/top_ebooks/2848.txt"
+    },
+    "Josefine Mutzenbacher": {
+        "Title": "Josefine Mutzenbacher",
+        "Author": "Felix Salten",
+        "Path": "../../Data/books/top_ebooks/31284.txt"
+    },
+    "Mark Twain_s Speeches": {
+        "Title": "Mark Twain's Speeches",
+        "Author": "Mark Twain (Samuel Clemens)",
+        "Path": "../../Data/books/top_ebooks/3188.txt"
+    },
+    "Moby Multiple Language Lists of Common Words": {
+        "Title": "Moby Multiple Language Lists of Common Words",
+        "Author": "Grady Ward",
+        "Path": "../../Data/books/top_ebooks/3206.txt"
+    },
+    "The Confessions of St_ Augustine": {
+        "Title": "The Confessions of St. Augustine",
+        "Author": "Bishop of Hippo Saint Augustine",
+        "Path": "../../Data/books/top_ebooks/3296.txt"
+    },
+    "Dracula": {
+        "Title": "Dracula",
+        "Author": "Bram Stoker",
+        "Path": "../../Data/books/top_ebooks/345.txt"
+    },
+    "The Time Machine": {
+        "Title": "The Time Machine",
+        "Author": "H. G. (Herbert George) Wells",
+        "Path": "../../Data/books/top_ebooks/35.txt"
+    },
+    "The War of the Worlds": {
+        "Title": "The War of the Worlds",
+        "Author": "H. G. Wells",
+        "Path": "../../Data/books/top_ebooks/36.txt"
+    },
+    "Essays of Michel de Montaigne _ Complete": {
+        "Title": "Essays of Michel de Montaigne \u2014 Complete",
+        "Author": "Michel de Montaigne",
+        "Path": "../../Data/books/top_ebooks/3600.txt"
+    },
+    "Little Women_ Or_ Meg_ Jo_ Beth_ and Amy": {
+        "Title": "Little Women; Or, Meg, Jo, Beth, and Amy",
+        "Author": "Louisa May Alcott",
+        "Path": "../../Data/books/top_ebooks/37106.txt"
+    },
+    "Cranford": {
+        "Title": "Cranford",
+        "Author": "Elizabeth Cleghorn Gaskell",
+        "Path": "../../Data/books/top_ebooks/394.txt"
+    },
+    "The Life of John Marshall_ Volume 1_ Frontiersman_ soldier_ lawmaker_ 1755-1788": {
+        "Title": "The Life of John Marshall, Volume 1: Frontiersman, soldier, lawmaker, 1755-1788",
+        "Author": "Albert J. Beveridge",
+        "Path": "../../Data/books/top_ebooks/40388.txt"
+    },
+    "Demonology and Devil-lore": {
+        "Title": "Demonology and Devil-lore",
+        "Author": "Moncure Daniel Conway",
+        "Path": "../../Data/books/top_ebooks/40686.txt"
+    },
+    "The Souls of Black Folk": {
+        "Title": "The Souls of Black Folk",
+        "Author": "W. E. B. Du Bois",
+        "Path": "../../Data/books/top_ebooks/408.txt"
+    },
+    "The Adventures of Roderick Random": {
+        "Title": "The Adventures of Roderick Random",
+        "Author": "Tobias Smollett",
+        "Path": "../../Data/books/top_ebooks/4085.txt"
+    },
+    "A Greek-English Lexicon to the New Testament": {
+        "Title": "A Greek-English Lexicon to the New Testament",
+        "Author": "William Greenfield",
+        "Path": "../../Data/books/top_ebooks/40935.txt"
+    },
+    "The Elementary Forms of the Religious Life": {
+        "Title": "The Elementary Forms of the Religious Life",
+        "Author": "\u00c9mile Durkheim",
+        "Path": "../../Data/books/top_ebooks/41360.txt"
+    },
+    "The Strange Case of Dr_ Jekyll and Mr_ Hyde": {
+        "Title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+        "Author": "Robert Louis Stevenson",
+        "Path": "../../Data/books/top_ebooks/43.txt"
+    },
+    "Ulysses": {
+        "Title": "Ulysses",
+        "Author": "James Joyce",
+        "Path": "../../Data/books/top_ebooks/4300.txt"
+    },
+    "A Pickle for the Knowing Ones": {
+        "Title": "A Pickle for the Knowing Ones",
+        "Author": "Timothy Dexter",
+        "Path": "../../Data/books/top_ebooks/43453.txt"
+    },
+    "Beyond Good and Evil": {
+        "Title": "Beyond Good and Evil",
+        "Author": "Friedrich Wilhelm Nietzsche",
+        "Path": "../../Data/books/top_ebooks/4363.txt"
+    },
+    "A Treatise Upon the Law of Copyright in the United Kingdom and the Dominions of the Crown_": {
+        "Title": "A Treatise Upon the Law of Copyright in the United Kingdom and the Dominions of the Crown,",
+        "Author": "Evan James MacGillivray",
+        "Path": "../../Data/books/top_ebooks/43945.txt"
+    },
+    "Report on the Radiolaria Collected by H_M_S_ Challenger During the Years 1873-1876_ First Part_ Porulosa _Spumellaria and Acantharia_": {
+        "Title": "Report on the Radiolaria Collected by H.M.S. Challenger During the Years 1873-1876, First Part: Porulosa (Spumellaria and Acantharia)",
+        "Author": "Ernst Haeckel",
+        "Path": "../../Data/books/top_ebooks/44525.txt"
+    },
+    "Anna Karenina_ 1_ Band": {
+        "Title": "Anna Karenina, 1. Band",
+        "Author": "N/A",
+        "Path": "../../Data/books/top_ebooks/44956.txt"
+    },
+    "Anne of Green Gables": {
+        "Title": "Anne of Green Gables",
+        "Author": "L. M. Montgomery",
+        "Path": "../../Data/books/top_ebooks/45.txt"
+    },
+    "A Christmas Carol in Prose_ Being a Ghost Story of Christmas": {
+        "Title": "A Christmas Carol in Prose; Being a Ghost Story of Christmas",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/46.txt"
+    },
+    "History of Ancient Pottery_  Volume 1 _of 2_": {
+        "Title": "History of Ancient Pottery.  Volume 1 (of 2)",
+        "Author": "H. B. Walters",
+        "Path": "../../Data/books/top_ebooks/48154.txt"
+    },
+    "History of Ancient Pottery_  Volume 2 _of 2_": {
+        "Title": "History of Ancient Pottery.  Volume 2 (of 2)",
+        "Author": "H. B. Walters",
+        "Path": "../../Data/books/top_ebooks/48155.txt"
+    },
+    "Little Women": {
+        "Title": "Little Women",
+        "Author": "Louisa May Alcott",
+        "Path": "../../Data/books/top_ebooks/514.txt"
+    },
+    "My Life _ Volume 1": {
+        "Title": "My Life \u2014 Volume 1",
+        "Author": "Richard Wagner",
+        "Path": "../../Data/books/top_ebooks/5197.txt"
+    },
+    "Metamorphosis": {
+        "Title": "Metamorphosis",
+        "Author": "Franz Kafka",
+        "Path": "../../Data/books/top_ebooks/5200.txt"
+    },
+    "The Wonderful Wizard of Oz": {
+        "Title": "The Wonderful Wizard of Oz",
+        "Author": "L. Frank Baum",
+        "Path": "../../Data/books/top_ebooks/55.txt"
+    },
+    "The Pickwick Papers": {
+        "Title": "The Pickwick Papers",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/580.txt"
+    },
+    "The Problems of Philosophy": {
+        "Title": "The Problems of Philosophy",
+        "Author": "Bertrand Russell",
+        "Path": "../../Data/books/top_ebooks/5827.txt"
+    },
+    "The Prophet": {
+        "Title": "The Prophet",
+        "Author": "Kahlil Gibran",
+        "Path": "../../Data/books/top_ebooks/58585.txt"
+    },
+    "Notes from the Underground": {
+        "Title": "Notes from the Underground",
+        "Author": "Fyodor Dostoyevsky",
+        "Path": "../../Data/books/top_ebooks/600.txt"
+    },
+    "The Iliad": {
+        "Title": "The Iliad",
+        "Author": "Homer",
+        "Path": "../../Data/books/top_ebooks/6130.txt"
+    },
+    "The Great Gatsby": {
+        "Title": "The Great Gatsby",
+        "Author": "F. Scott Fitzgerald",
+        "Path": "../../Data/books/top_ebooks/64317.txt"
+    },
+    "The History of Tom Jones_ a Foundling": {
+        "Title": "The History of Tom Jones, a Foundling",
+        "Author": "Henry Fielding",
+        "Path": "../../Data/books/top_ebooks/6593.txt"
+    },
+    "Winnie-the-Pooh": {
+        "Title": "Winnie-the-Pooh",
+        "Author": "A. A. Milne",
+        "Path": "../../Data/books/top_ebooks/67098.txt"
+    },
+    "A Child_s History of the World": {
+        "Title": "A Child's History of the World",
+        "Author": "V. M. Hillyer",
+        "Path": "../../Data/books/top_ebooks/67149.txt"
+    },
+    "The Adventures of Ferdinand Count Fathom _ Complete": {
+        "Title": "The Adventures of Ferdinand Count Fathom \u2014 Complete",
+        "Author": "T. Smollett",
+        "Path": "../../Data/books/top_ebooks/6761.txt"
+    },
+    "The Blue Castle_ a novel": {
+        "Title": "The Blue Castle: a novel",
+        "Author": "L. M. Montgomery",
+        "Path": "../../Data/books/top_ebooks/67979.txt"
+    },
+    "Fossil plants_ Vol_ 2_ A text-book for students of botany and geology": {
+        "Title": "Fossil plants, Vol. 2: A text-book for students of botany and geology",
+        "Author": "A. C. Seward",
+        "Path": "../../Data/books/top_ebooks/68470.txt"
+    },
+    "The murder of Roger Ackroyd": {
+        "Title": "The murder of Roger Ackroyd",
+        "Author": "Agatha Christie",
+        "Path": "../../Data/books/top_ebooks/69087.txt"
+    },
+    "Elizabeth Montagu_ the queen of the bluestockings_ Volumes 1 and 2Her correspondence from 1720 to 1761": {
+        "Title": "Elizabeth Montagu, the queen of the bluestockings, Volumes 1 and 2Her correspondence from 1720 to 1761",
+        "Author": "Mrs. Montagu",
+        "Path": "../../Data/books/top_ebooks/70593.txt"
+    },
+    "On the Duty of Civil Disobedience": {
+        "Title": "On the Duty of Civil Disobedience",
+        "Author": "Henry David Thoreau",
+        "Path": "../../Data/books/top_ebooks/71.txt"
+    },
+    "A guide to modern cookery": {
+        "Title": "A guide to modern cookery",
+        "Author": "A. Escoffier",
+        "Path": "../../Data/books/top_ebooks/71395.txt"
+    },
+    "The journal of Frederick Horneman_s travels_ from Cairo to Mourzouk_ the capital of the kingdom of Fezzan_ in Africa_ in the years 1797-8": {
+        "Title": "The journal of Frederick Horneman's travels, from Cairo to Mourzouk, the capital of the kingdom of Fezzan, in Africa, in the years 1797-8",
+        "Author": "Friedrich Hornemann",
+        "Path": "../../Data/books/top_ebooks/71426.txt"
+    },
+    "Two young lumbermen": {
+        "Title": "Two young lumbermen",
+        "Author": "Edward Stratemeyer",
+        "Path": "../../Data/books/top_ebooks/71427.txt"
+    },
+    "Rings for the finger": {
+        "Title": "Rings for the finger",
+        "Author": "George Frederick Kunz",
+        "Path": "../../Data/books/top_ebooks/71428.txt"
+    },
+    "The life of St_ Patrick and his place in history": {
+        "Title": "The life of St. Patrick and his place in history",
+        "Author": "J. B. Bury",
+        "Path": "../../Data/books/top_ebooks/71431.txt"
+    },
+    "The Black Border": {
+        "Title": "The Black Border",
+        "Author": "Ambrose Elliott Gonzalez",
+        "Path": "../../Data/books/top_ebooks/71432.txt"
+    },
+    "Oliver Twist": {
+        "Title": "Oliver Twist",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/730.txt"
+    },
+    "The Adventures of Tom Sawyer_ Complete": {
+        "Title": "The Adventures of Tom Sawyer, Complete",
+        "Author": "Mark Twain",
+        "Path": "../../Data/books/top_ebooks/74.txt"
+    },
+    "Adventures of Huckleberry Finn": {
+        "Title": "Adventures of Huckleberry Finn",
+        "Author": "Mark Twain",
+        "Path": "../../Data/books/top_ebooks/76.txt"
+    },
+    "David Copperfield": {
+        "Title": "David Copperfield",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/766.txt"
+    },
+    "Wuthering Heights": {
+        "Title": "Wuthering Heights",
+        "Author": "Emily Bront\u00eb",
+        "Path": "../../Data/books/top_ebooks/768.txt"
+    },
+    "Down and Out in the Magic Kingdom": {
+        "Title": "Down and Out in the Magic Kingdom",
+        "Author": "Cory Doctorow",
+        "Path": "../../Data/books/top_ebooks/8086.txt"
+    },
+    "Dombey and Son": {
+        "Title": "Dombey and Son",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/821.txt"
+    },
+    "Frankenstein_ Or_ The Modern Prometheus": {
+        "Title": "Frankenstein; Or, The Modern Prometheus",
+        "Author": "Mary Wollstonecraft Shelley",
+        "Path": "../../Data/books/top_ebooks/84.txt"
+    },
+    "The Importance of Being Earnest": {
+        "Title": "The Importance of Being Earnest",
+        "Author": "Oscar Wilde",
+        "Path": "../../Data/books/top_ebooks/844.txt"
+    },
+    "The King in Yellow": {
+        "Title": "The King in Yellow",
+        "Author": "Robert W. Chambers",
+        "Path": "../../Data/books/top_ebooks/8492.txt"
+    },
+    "The divine comedy": {
+        "Title": "The divine comedy",
+        "Author": "Dante Alighieri",
+        "Path": "../../Data/books/top_ebooks/8800.txt"
+    },
+    "A Tale of Two Cities": {
+        "Title": "A Tale of Two Cities",
+        "Author": "Charles Dickens",
+        "Path": "../../Data/books/top_ebooks/98.txt"
+    },
+    "Don Quixote": {
+        "Title": "Don Quixote",
+        "Author": "Miguel de Cervantes Saavedra",
+        "Path": "../../Data/books/top_ebooks/996.txt"
+    }
+}
