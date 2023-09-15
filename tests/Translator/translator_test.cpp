@@ -1,8 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
-#include <fstream>
-#include <sstream>
 #include <cstdint>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <translator.h>
 // #include "dictionary.h"
 #include <filesystem>
@@ -74,28 +74,36 @@ TEST_CASE("TestPosTaggingOnInvalidFile", "[get_pos_tags]")
 //     REQUIRE(expectedOutput == actualOutput);
 // }
 
-
-TEST_CASE("Test Dictionary Database Connection", "[Dictionary]") {
+TEST_CASE("Test Dictionary Database Connection", "[Dictionary]")
+{
     // Setup: Create a test SQLite database
-    const std::string test_db_path = "./dict.sqlite";
-    std::ofstream test_db(test_db_path);
-    test_db.close();
+    const std::string valid_db_path = "./dict.sqlite";
 
-    SECTION("Connect to valid database") {
-        REQUIRE_NOTHROW(Dictionary(test_db_path)); // Should not throw any exceptions
+    SECTION("Connect to valid database")
+    {
+        REQUIRE_NOTHROW(Dictionary(valid_db_path)); // Should not throw any exceptions
     }
-    #if defined(__linux__)
-    // We are on Linux
-
+}
+TEST_CASE("Test Dictionary Database Connection Failure", "[Dictionary]") {
     SECTION("Connect to invalid database path") {
-    // Create a directory with the same name to simulate an error
-    const std::string invalid_db_path = "invalid_db_directory";
-    std::filesystem::create_directory(invalid_db_path);
+        // Create a directory with the same name to simulate an error
+        const std::string invalid_db_path = "invalid_db_directory";
+        
+        // Ensure the directory doesn't exist before the test
+        if (std::filesystem::exists(invalid_db_path)) {
+            std::filesystem::remove_all(invalid_db_path);
+        }
 
-    REQUIRE_THROWS(Dictionary(invalid_db_path)); // Should throw an exception
+        std::filesystem::create_directory(invalid_db_path);
 
-    // Cleanup: Remove the directory
-    std::filesystem::remove(invalid_db_path);
+        // Use a scope guard for cleanup to ensure the directory is removed even if the test fails
+        struct CleanupGuard {
+            std::string path;
+            ~CleanupGuard() {
+                std::filesystem::remove_all(path);
+            }
+        } cleanup{invalid_db_path};
+
+        REQUIRE_THROWS(Dictionary(invalid_db_path)); // Should throw an exception
     }
-    #endif
 }

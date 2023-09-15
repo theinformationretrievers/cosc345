@@ -78,14 +78,86 @@ std::vector<translation> translate(std::istream& stream) {
     stream.seekg(0);
     return translations;
 }
+std::string translate_and_replace_standard_seed(std::istream& stream) {
+    // Dictionary dict("C:\\Path-to-Repo\\out\\build\\x64-Debug\\dict.sqlite");
+    Dictionary dict("./dict.sqlite");
 
+    std::unordered_map<std::string, int> encounter_map;
+    std::random_device rd;
+    std::mt19937 gen(42);
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+
+    std::stringstream output;
+    std::string word_buffer;
+    char ch;
+
+    output << "<pre>";
+
+    while (stream.get(ch)) {
+        if (std::isalpha(ch)) {
+            word_buffer.push_back(ch);
+        }
+        else {
+            if (!word_buffer.empty()) {
+                std::string original = word_buffer;
+                strip_and_lower(word_buffer);
+
+                if (dict.can_translate(word_buffer)) {
+                    int encountered = encounter_map[word_buffer]++;
+
+                    if (dis(gen) <= should_translate(encountered, 1, 5)) {
+                        std::string maori_translation = dict.translate(word_buffer).front();
+                        output << "<span class=\"maori-word tooltip\">" + maori_translation +
+                            "<span class=\"tooltiptext\">Placeholder Text</span></span>";
+                    }
+                    else {
+                        output << original;
+                    }
+                }
+                else {
+                    output << original;
+                }
+
+                word_buffer.clear();
+            }
+
+            output << ch;  // Append non-alpha character to output
+        }
+    }
+
+    // Handle the case where the stream ends with a word
+    if (!word_buffer.empty()) {
+        std::string original = word_buffer;
+        strip_and_lower(word_buffer);
+
+        if (dict.can_translate(word_buffer)) {
+            int encountered = encounter_map[word_buffer]++;
+
+            if (dis(gen) <= should_translate(encountered, 1, 1)) {
+                std::string maori_translation = dict.translate(word_buffer).front();
+                output << "<span class=\"maori-word tooltip\">" + maori_translation +
+                    "<span class=\"tooltiptext\">Placeholder Text</span></span>";
+            }
+            else {
+                output << original;
+            }
+        }
+        else {
+            output << original;
+        }
+    }
+
+    output << "</pre>";
+
+    return output.str();
+}
 
 std::string translate_and_replace(std::istream& stream, int seed) {
     Dictionary dict("./dict.sqlite");
 
     std::unordered_map<std::string, int> encounter_map;
-    // std::random_device rd;
-    std::mt19937 gen(seed);
+    std::random_device rd;
+    std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
     std::stringstream output;
@@ -109,7 +181,7 @@ std::string translate_and_replace(std::istream& stream, int seed) {
                     if (dis(gen) <= should_translate(encountered, 1, 5)) {
                         std::string maori_translation = dict.translate(word_buffer).front();
                         output << "<span class=\"maori-word tooltip\">" + maori_translation +
-                            "<span class=\"tooltiptext\">Placeholder Text</span></span>";
+                            "<span class=\"tooltiptext\"> Placeholder text </span></span>";
                     }
                     else {
                         output << original;

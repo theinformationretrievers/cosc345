@@ -36,13 +36,6 @@ endif()
 
 target_compile_definitions(SQLite PRIVATE SQLITE_STATICLIB)
 
-add_library(SubstituterLib STATIC
-    src/Substituter/substituter.cpp
-)
-
-target_include_directories(SubstituterLib PUBLIC
-    ${CMAKE_SOURCE_DIR}/src/Substituter/include
-)
 
 add_library(TranslatorLib STATIC
     src/Translator/pos.cpp
@@ -58,9 +51,6 @@ add_executable(Translator
     src/Translator/main_translator.cpp
 )
 
-add_executable(Substituter
-    src/Substituter/main_substituter.cpp
-)
 
 
 
@@ -98,7 +88,7 @@ add_subdirectory(lib/Catch2)
 file(GLOB TEST_SOURCES "tests/*/*.cpp")
 add_executable(tests ${TEST_SOURCES})
 # add_executable(tests tests/tests.cpp )
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain SubstituterLib TranslatorLib)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain TranslatorLib)
 
 include(CTest)
 include(Catch)
