@@ -80,7 +80,7 @@ target_link_libraries(TranslatorLib SQLite)
 target_link_libraries(Translator TranslatorLib)
 
 
-configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY) 
 
 
 # Add Catch2 testing suite
