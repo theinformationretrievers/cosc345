@@ -184,7 +184,7 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     return JSValue("Failed to open the file");
   }
   delete[] filePath;
-  std::string fileContent = translate_and_replace(file);
+  std::string fileContent = translate_and_replace(file, 42);
   return JSValue(fileContent.c_str());
 }
 
