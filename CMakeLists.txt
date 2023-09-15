@@ -27,6 +27,7 @@ target_include_directories(SQLite PUBLIC
 )
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/pos_data)
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/test_data)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Data/books)
 
 if(UNIX)
     target_link_libraries(SQLite PUBLIC dl pthread) 
@@ -136,6 +137,11 @@ add_custom_target(copy_pos_data ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/pos_data/
             ${CMAKE_BINARY_DIR}/pos_data/)
+
+add_custom_target(copy_book_data ALL 
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/Data/books
+            ${CMAKE_BINARY_DIR}/Data/books)
 
 
 
