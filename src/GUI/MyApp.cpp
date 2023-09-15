@@ -79,13 +79,10 @@ void MyApp::Run() { app_->Run(); }
 
 #ifdef _WIN32
 /*!
-* @brief Open get the contents of a file
+* @brief Use a dialog to get a file path
 * @details Using windows GetOpenFileName file dialog to open a file
-*					 then converts it to a std::fstream and
-reads the contents
-* @returns The contents of the opened file as a JSValue string or the
-           error as a JSValue string
-*
+*					 and returns the file path
+* @returns The file path as a JSValue
 */
 JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
   HWND hwnd = (HWND)window_->native_handle();
@@ -128,39 +125,7 @@ JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
 
   // Close the file handle
   CloseHandle(hf);
-
-  // Create an fstream with the file path and read the text
-  // std::fstream fs(Path, std::fstream::in | std::fstream::out);
-  std::ifstream file(Path);
-
-  // std::streampos initialPos = file.tellg();
-  // std::vector<translation> translated_words  = translate(file);
-  // file.seekg(initialPos);
-
-  std::string fileContent = translate_and_replace(file, 42);
-
-  if (file.is_open()) {
-    // std::istreambuf_iterator<char> it(file);
-    // std::istreambuf_iterator<char> end;
-
-    // fileContent.append(it, end);
-
-    // fileContent.append("</pre>");
-
-    // Close the file stream
-    file.close();
-  } else {
-    std::cerr << "Error opening file" << std::endl;
-    std::string err("unable to open file:'");
-    err.append(Path).append("'");
-    return JSValue(err.c_str());
-  }
-
-  // Close the file stream
-  file.close();
-  return JSValue(fileContent.c_str());
-
-  // TODO Call Subsituter here
+  return JSValue(Path);
 }
 
 #else
@@ -191,30 +156,37 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
     result += buffer.data();
   }
 
+  pclose(pipe);
   result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
-
-  auto returnCode = pclose(pipe);
-
-  if (returnCode == EXIT_SUCCESS) {
-      std::cout << "Selected file: " << result << std::endl;
-  } else {
-      std::cerr << "Error during file selection." << std::endl;
-  }
-
-  std::ifstream file(result);
-  if (!file) {
-      std::cerr << "Failed to open the file: " << result << std::endl;
-  }
-  std::string fileContents;
-  std::string line;
-  while (std::getline(file, line)) {
-    fileContents += line + "\n";  // Add newline character if needed
-  }
-
-  file.close();
-  return JSValue(fileContents.c_str());
+  return JSValue(result.c_str());
 }
 #endif
+
+/*!
+* @brief Open get the contents of a file
+* @details Using windows GetOpenFileName file dialog to open a file
+*					 then converts it to a std::fstream and reads the contents
+* @returns The contents of the opened file as a JSValue string or the
+           error as a JSValue string
+*/
+JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args) {
+  if (!args[0].IsString()) {
+    return JSValue("Invalid string");
+  }
+  JSValueRef exception = NULL;
+  JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
+  size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
+  char* filePath = new char[pathLength];
+  JSStringGetUTF8CString(jsPathString, filePath, pathLength);
+  std::ifstream file(filePath);
+  if (!file.is_open()) {
+    std::cerr << "Failed to open the file: " << filePath << std::endl;
+    return JSValue("Failed to open the file");
+  }
+  delete[] filePath;
+  std::string fileContent = translate_and_replace(file, 42);
+  return JSValue(fileContent.c_str());
+}
 
 void MyApp::OnUpdate() {
   ///
@@ -256,10 +228,11 @@ void MyApp::OnDOMReady(ultralight::View* caller, uint64_t frame_id,
   JSObject global = JSGlobalObject();
 
 #ifdef _WIN32
-  global["GetFile"] = BindJSCallbackWithRetval(&MyApp::GetFileWindows);
+  global["GetFilePath"] = BindJSCallbackWithRetval(&MyApp::GetFileWindows);
 #else
-  global["GetFile"] = BindJSCallbackWithRetval(&MyApp::GetFileLinux);
+  global["GetFilePath"] = BindJSCallbackWithRetval(&MyApp::GetFileLinux);
 #endif
+  global["GetTranslatedText"] = BindJSCallbackWithRetval(&MyApp::GetTranslatedText);
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller, Cursor cursor) {

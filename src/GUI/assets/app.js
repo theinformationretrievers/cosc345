@@ -5,6 +5,7 @@
 *          interacts with JS
 */
 function onClickOpenFile() {
-  var content = GetFile();
-  document.getElementById("fileContent").innerHTML = content;
+  const filePath = GetFilePath();
+  const translatedText = GetTranslatedText(filePath);
+  document.getElementById("fileContent").innerHTML = translatedText;
 }

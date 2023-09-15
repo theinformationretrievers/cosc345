@@ -1,5 +1,6 @@
 #pragma once
 #include <AppCore/AppCore.h>
+#include <string>
 
 using namespace ultralight;
 
@@ -23,6 +24,8 @@ public:
   // Open a File
   virtual JSValue GetFileLinux(const ultralight::JSObject& thisObject, const ultralight::JSArgs& args);
   #endif
+
+  virtual JSValue GetTranslatedText(const JSObject& thisObject, const JSArgs& args);
 
   
   // This is called continuously from the app's main loop.
