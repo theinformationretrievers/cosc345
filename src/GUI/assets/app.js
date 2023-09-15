@@ -6,6 +6,6 @@
 */
 function onClickOpenFile() {
   const filePath = GetFilePath();
-  const translatedText = GetTranslatedText(filePath)
+  const translatedText = GetTranslatedText(filePath);
   document.getElementById("fileContent").innerHTML = translatedText;
 }
