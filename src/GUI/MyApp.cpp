@@ -175,7 +175,7 @@ reads the contents
 */
 JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
   std::array<char, 128> buffer;
-  std::string result = "";
+  std::string Path = "";
 
   FILE* pipe = popen("./file_chooser", "r");
   if (!pipe) {
@@ -184,35 +184,32 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
   }
 
   while (fgets(buffer.data(), 128, pipe) != nullptr) {
-    result += buffer.data();
+    Path += buffer.data();
   }
 
-  while (fgets(buffer.data(), 128, pipe) != nullptr) {
-    result += buffer.data();
-  }
-
-  result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
+  Path.erase(std::remove(Path.begin(), Path.end(), '\n'), Path.end());
 
   auto returnCode = pclose(pipe);
 
   if (returnCode == EXIT_SUCCESS) {
-      std::cout << "Selected file: " << result << std::endl;
+      std::cout << "Selected file: " << Path << std::endl;
   } else {
       std::cerr << "Error during file selection." << std::endl;
   }
 
-  std::ifstream file(result);
-  if (!file) {
-      std::cerr << "Failed to open the file: " << result << std::endl;
-  }
-  std::string fileContents;
-  std::string line;
-  while (std::getline(file, line)) {
-    fileContents += line + "\n";  // Add newline character if needed
-  }
+  std::ifstream file(Path);
+  std::string fileContent = translate_and_replace(file, 42);
 
+  if (!file.is_open()) {
+    std::cerr << "Error opening file" << std::endl;
+    std::string err("unable to open file:'");
+    err.append(Path).append("'");
+    return JSValue(err.c_str());
+  }
+  // std::cout << fileContent << std::endl;
+  // Close the file stream
   file.close();
-  return JSValue(fileContents.c_str());
+  return JSValue(fileContent.c_str());
 }
 #endif
 
