@@ -33,7 +33,7 @@ footer {
     align-items: center;
     height: var(--footer-height);
 }
-.library-grid {
+.book-grid {
     flex-basis: calc(100vw - var(--ribbon-width));
     display: flex;
     flex-wrap: wrap;
@@ -42,7 +42,7 @@ footer {
     align-content: flex-start;
     padding: 8px;
 }
-.library-grid-item {
+.book-grid-item {
     align-self: start;
     margin: 8px 8px;
 }
@@ -67,7 +67,7 @@ footer {
     margin: 0 auto;
     display: flex;
 }
-.reader {
+#reader {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
     min-height: 100vh;
