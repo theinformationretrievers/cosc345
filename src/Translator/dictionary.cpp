@@ -2,12 +2,16 @@
 #include "dictionary.h"
 #include <stdexcept>
 #include <iostream>
+#include <filesystem>
 #ifdef _WIN32
 #include <Windows.h>
 #endif
 
 
 Dictionary::Dictionary(const std::string& db_path) {
+    if (!std::filesystem::exists(db_path)) {
+        throw std::runtime_error("Database does not exist at this path: " + std::string(sqlite3_errmsg(db)));
+    }
     int rc = sqlite3_open(db_path.c_str(), &db);
     if (rc) {
         throw std::runtime_error("Can't open database: " + std::string(sqlite3_errmsg(db)));
