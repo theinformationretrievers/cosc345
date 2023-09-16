@@ -29,9 +29,12 @@ const libraryGridHTML = `
 function addBook() {
   const filePath = GetFilePath();
 
-  createBook(filePath);
+  result = writeLocalBookJS(filePath);
+  
+    if (result == "Success") {
+        createBook(filePath);
+    }
 
-  writeLocalBookJS(filePath);
 }
 
 function createBook(filePath) {
@@ -62,13 +65,13 @@ function openBook(filePath) {
 }
 
 function openRecent() {
-  document.getElementById("view").innerHTML = recentGridHTML;
+    document.getElementById("view").innerHTML = recentGridHTML;
 
-  const localFilepathList = getPreviousLocalFilesJS();
-  localFilepathList.forEach((filepath) => {
-    createBook(filepath)
-  });
-
+    // Load and display recent files when the app initially loads
+    const localFilepathList = getPreviousLocalFilesJS();
+    localFilepathList.forEach((filepath) => {
+        createBook(filepath);
+    });
 }
 
 function openLibrary() {
@@ -107,4 +110,6 @@ function readAndCreateBooks() {
         });
 }
 
-document.addEventListener('DOMContentLoaded', openRecent);
+document.addEventListener('DOMContentLoaded', () => {
+    openRecent();
+});

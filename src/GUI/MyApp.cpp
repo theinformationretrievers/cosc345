@@ -223,8 +223,11 @@ JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args) {
       std::cerr << "Error: Unable to open file '" << writeFile << "' for writing." << std::endl;
     }
   }
+  else {
+      return JSValue("Duplicate");
+  }
 
-  return JSValue();
+  return JSValue("Success");
 }
 
 JSValue MyApp::getPreviousLocalFiles(const JSObject& thisObject, const JSArgs& args) {
@@ -299,6 +302,10 @@ void MyApp::OnDOMReady(ultralight::View* caller, uint64_t frame_id,
   global["writeLocalBookJS"] = BindJSCallbackWithRetval(&MyApp::writeLocalBook);
   global["getPreviousLocalFilesJS"] = BindJSCallbackWithRetval(&MyApp::getPreviousLocalFiles);
 
+  // Call the openRecent() JavaScript function when the DOM is ready
+  // this is for when the app first loads, as it doesn't seem to work when placed inside app.js
+  ultralight::String* x = NULL;
+  caller->EvaluateScript("openRecent();", x);
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller, Cursor cursor) {
