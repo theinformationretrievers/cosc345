@@ -31,6 +31,8 @@
     border-radius: 4px;
     padding: 4px 6px;
     color: var(--color-base-80);
+    border: none;
+    background-color: var(--color-base-00);
 }
 .clickable-icon:hover {
     background-color: var(--color-base-30);
