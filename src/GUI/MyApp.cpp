@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-
+#include <set>
 #include "translator.h"
 #include <cerrno>
 #ifdef _WIN32
@@ -185,6 +185,72 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
   return JSValue(fileContent.c_str());
 }
 
+
+JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args) {
+  if (!args[0].IsString()) {
+    return JSValue("Invalid string");
+  }
+
+  JSValueRef exception = NULL;
+  JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
+  size_t pathLength2 = JSStringGetMaximumUTF8CStringSize(jsPathString);
+  char* filePath2 = new char[pathLength2];
+  JSStringGetUTF8CString(jsPathString, filePath2, pathLength2);
+
+  std::string writeFile = "./local_files.txt";
+
+
+  // Add each line to the set to ensure uniqueness
+  std::ifstream inputFile(writeFile);
+  std::set<std::string> uniqueLines;
+  std::string line;
+
+  while (std::getline(inputFile, line)) {
+    uniqueLines.insert(line);
+  }
+
+  // If the new filepath is not already listed
+  if (uniqueLines.find(filePath2) == uniqueLines.end()) {
+    // Open the file in append mode
+    std::ofstream file(writeFile, std::ios_base::app);
+    if (file.is_open() && filePath2 != "unable to open file") {
+      // Write the content followed by a newline character
+      file << filePath2 << "\n";
+      file.close();
+      std::cout << "Content '" << filePath2 << "' written to file '" << writeFile << "'." << std::endl;
+    }
+    else {
+      std::cerr << "Error: Unable to open file '" << writeFile << "' for writing." << std::endl;
+    }
+  }
+
+  return JSValue();
+}
+
+JSValue MyApp::getPreviousLocalFiles(const JSObject& thisObject, const JSArgs& args) {
+  std::string writeFile = "./local_files.txt";
+
+
+  // Add each line to the set to ensure uniqueness
+  std::ifstream inputFile(writeFile);
+  std::set<std::string> uniqueLines;
+  std::string line;
+
+  while (std::getline(inputFile, line)) {
+    uniqueLines.insert(line);
+  }
+
+  ultralight::JSArray jsArray;
+
+  for (const std::string& str : uniqueLines) {
+    // Convert each string to a JSValue and add it to the JSArray
+    ultralight::JSValue jsString = ultralight::JSValue(str.c_str());
+    jsArray.push(jsString);
+  }
+
+  return JSValue(jsArray);
+}
+
 void MyApp::OnUpdate() {
   ///
   /// This is called repeatedly from the application's update loop.
@@ -230,6 +296,9 @@ void MyApp::OnDOMReady(ultralight::View* caller, uint64_t frame_id,
   global["GetFilePath"] = BindJSCallbackWithRetval(&MyApp::GetFileLinux);
 #endif
   global["GetTranslatedText"] = BindJSCallbackWithRetval(&MyApp::GetTranslatedText);
+  global["writeLocalBookJS"] = BindJSCallbackWithRetval(&MyApp::writeLocalBook);
+  global["getPreviousLocalFilesJS"] = BindJSCallbackWithRetval(&MyApp::getPreviousLocalFiles);
+
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller, Cursor cursor) {

@@ -16,7 +16,7 @@ const readerHTML = `
 
 const recentGridHTML = `
 <div id="recent-grid" class="book-grid">
-    <button onclick="addBook()" class="book-grid-item" id="btn-add-book">
+    <button onclick="addBook();" class="book-grid-item" id="btn-add-book">
         <h2>+ Add Book</h2>
         <p id="addbtntxt">Import a new file from your desktop</p>
     </button>
@@ -27,25 +27,30 @@ const libraryGridHTML = `
 </div>` 
 
 function addBook() {
-    const filePath = GetFilePath();
-    const recentGrid = document.getElementById("recent-grid");
+  const filePath = GetFilePath();
 
-    const button = document.createElement('button');
-    button.className = 'book-grid-item';
-    button.onclick = () => openBook(filePath);
+  createBook(filePath);
 
-    const h3 = document.createElement('h3');
-    h3.textContent = "local book title";
+  writeLocalBookJS(filePath);
+}
 
-    const p = document.createElement('p');
-    p.textContent = "local book author";
+function createBook(filePath) {
+  const recentGrid = document.getElementById("recent-grid");
 
-    button.appendChild(h3);
-    button.appendChild(p);
+  const button = document.createElement('button');
+  button.className = 'book-grid-item';
+  button.onclick = () => openBook(filePath);
 
-    recentGrid.appendChild(button);
+  const h3 = document.createElement('h3');
+  h3.textContent = "local book title";
 
-    // TODO save opened book to a database
+  const p = document.createElement('p');
+  p.textContent = "local book author";
+
+  button.appendChild(h3);
+  button.appendChild(p);
+
+  recentGrid.appendChild(button);
 }
 
 function openBook(filePath) {
@@ -57,8 +62,13 @@ function openBook(filePath) {
 }
 
 function openRecent() {
-    // TODO load books from recent books in database
-    document.getElementById("view").innerHTML = recentGridHTML;
+  document.getElementById("view").innerHTML = recentGridHTML;
+
+  const localFilepathList = getPreviousLocalFilesJS();
+  localFilepathList.forEach((filepath) => {
+    createBook(filepath)
+  });
+
 }
 
 function openLibrary() {
