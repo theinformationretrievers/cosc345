@@ -181,6 +181,7 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
   }
   delete[] filePath;
   std::string fileContent = translate_and_replace(file, 42);
+  file.close();
   return JSValue(fileContent.c_str());
 }
 
