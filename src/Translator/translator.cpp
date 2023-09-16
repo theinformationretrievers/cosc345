@@ -101,6 +101,10 @@ std::string translate_and_replace(std::istream& stream, int seed)
         {
             output << "</p>\n<br><p>";
         }
+        else if (ch == '\n')
+        {
+            output << "</p>\n<br><p>";
+        }
         else {
             if (!word_buffer.empty()) {
                 std::string original = word_buffer;
