@@ -27,6 +27,11 @@ public:
 
   virtual JSValue GetTranslatedText(const JSObject& thisObject, const JSArgs& args);
 
+  virtual JSValue writeLocalBook(const JSObject& thisObject, const JSArgs& args);
+
+  virtual JSValue getPreviousLocalFiles(const JSObject& thisObject, const JSArgs& args);
+
+
   
   // This is called continuously from the app's main loop.
   virtual void OnUpdate() override;
