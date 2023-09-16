@@ -36,7 +36,7 @@ jobs:
       - name: Generate Report
         id: generate_test_report
         shell: cmd
-        run: OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\tests" 
+        run: OpenCppCoverage.exe --verbose --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\tests -s" 
 
       - name: Upload Report to Codecov
         uses: codecov/codecov-action@v3
