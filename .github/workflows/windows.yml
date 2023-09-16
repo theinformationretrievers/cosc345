@@ -42,7 +42,7 @@ jobs:
       - name: Upload Report to Codecov
         uses: codecov/codecov-action@v3
         with:
-          disable_default_path_fixes: true
-          files: ${{github.workspace}}\build\Diglot.xml
+          working-directory: ${{github.workspace}}\build\
+          files: .\build\Diglot.xml
           fail_ci_if_error: true
           functionalities: fix
