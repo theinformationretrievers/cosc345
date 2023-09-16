@@ -35,9 +35,10 @@ jobs:
           echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
 
       - name: Generate Report
+        working-directory: ${{github.workspace}}\build\
         id: generate_test_report
         shell: cmd
-        run: OpenCppCoverage.exe --verbose --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\tests -s" 
+        run: OpenCppCoverage.exe --verbose --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\tests" 
 
       - name: Upload Report to Codecov
         uses: codecov/codecov-action@v3
