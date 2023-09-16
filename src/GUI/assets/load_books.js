@@ -15,14 +15,14 @@ function readAndCreateBooks() {
                     console.log("Button clicked for:", book.Title);
                 };
 
-                const h2 = document.createElement('h2');
-                h2.textContent = book.Title;
-
                 const h3 = document.createElement('h3');
-                h3.textContent = book.Author;
+                h3.textContent = book.Title;
 
-                button.appendChild(h2);
+                const p = document.createElement('p');
+                p.textContent = book.Author;
+
                 button.appendChild(h3);
+                button.appendChild(p);
 
                 libraryContainer.appendChild(button);
             });
