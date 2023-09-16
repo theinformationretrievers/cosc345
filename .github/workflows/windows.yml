@@ -25,6 +25,8 @@ jobs:
       - name: Move executables
         run: |
          Move-Item "${{github.workspace}}\build\x64\Debug\*" "${{github.workspace}}\build"
+         Move-Item "${{github.workspace}}\build\Debug\*" "${{github.workspace}}\build"
+
         shell: powershell
 
       - name: Install and Run OpenCppCoverage

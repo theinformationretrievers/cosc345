@@ -1,10 +1,6 @@
-﻿# CMakeList.txt : CMake project for Diglot, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -14,20 +10,6 @@ endif()
 # Check if the coverage option is enabled
 
 project ("Diglot")
-# Set the binary output directory for all configurations
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
-
-foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/)
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/)
-endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
-
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
-
 
 # Copy myfile.txt to the build directory
 
@@ -67,8 +49,6 @@ add_executable(Translator
 )
 
 
-
-
 if(UNIX)
     # download and include GTK so that files can be opened on linux
     find_package(PkgConfig REQUIRED)
@@ -95,8 +75,7 @@ target_link_libraries(TranslatorLib SQLite)
 target_link_libraries(Translator TranslatorLib)
 
 
-message(STATUS "Copying dict.sqlite from ${CMAKE_SOURCE_DIR}/src/Translator/ to ${CMAKE_BINARY_DIR}/")
-configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY) 
+configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR}/dict.sqlite COPYONLY)
 
 
 # Add Catch2 testing suite
@@ -149,6 +128,3 @@ add_custom_target(copy_book_data ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/src/Data/books/
             ${CMAKE_BINARY_DIR}/Data/books/)
-
-
-
