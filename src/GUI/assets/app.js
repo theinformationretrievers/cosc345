@@ -12,7 +12,7 @@ const readerHTML = `
             <div class="clickable-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
         </div>
     </footer>
-</div>`
+</div>`;
 
 const recentGridHTML = `
 <div id="recent-grid" class="book-grid">
@@ -20,23 +20,29 @@ const recentGridHTML = `
         <h2>+ Add Book</h2>
         <p id="addbtntxt">Import a new file from your desktop</p>
     </button>
-</div>`
+</div>`;
 
 const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
-</div>` 
+</div>` ;
 
+/*! 
+ * @brief Add a book to the users local library
+ * @details Opens a file dialog to select a file. Then saves the filepath
+ * locally and adds the book to the users recently opened books
+ */
 function addBook() {
   const filePath = GetFilePath();
-
-  result = writeLocalBookJS(filePath);
-  
-    if (result == "Success") {
-        createBook(filePath);
-    }
-
+  const result = writeLocalBookJS(filePath);
+  if (result == "Success") {
+      createBook(filePath);
+  }
 }
 
+/*! 
+ * @brief Creates a book grid item from a filepath in the users recent books
+ * @param filePath the filePath to the local file
+ */
 function createBook(filePath) {
   const recentGrid = document.getElementById("recent-grid");
 
@@ -58,6 +64,11 @@ function createBook(filePath) {
   recentGrid.appendChild(button);
 }
 
+/*!
+* @brief Add a book to the users local library
+* @details Opens a file dialog to select a file. Then saves the filepath
+* locally and adds the book to the users recently opened books
+*/
 function openBook(filePath) {
     console.log(filePath);
     // ISSSUE library book file paths are wrong
@@ -66,6 +77,10 @@ function openBook(filePath) {
     document.getElementById("reader-content").innerHTML = translatedText;
 }
 
+/*! 
+ * @brief Opens the recent books view
+ * @details loads the users recently opened local files
+ */
 function openRecent() {
     document.getElementById("view").innerHTML = recentGridHTML;
 
@@ -76,12 +91,20 @@ function openRecent() {
     });
 }
 
+/*! 
+ * @brief Opens the library view
+ */
 function openLibrary() {
     document.getElementById("view").innerHTML = libraryGridHTML;
     console.log("open library");
     readAndCreateBooks();
 }
 
+/*! 
+ * @brief Loads built in books to library
+ * @details Book metadata stored in a json file which is read,
+ * and for each book a grid item is created in the library
+ */
 function readAndCreateBooks() {
     fetch('books.json')
         .then(response => response.json())
@@ -112,6 +135,9 @@ function readAndCreateBooks() {
         });
 }
 
+/*! 
+ * @brief Separate the filename from the path and the extension
+ */
 function getFileNameFromPath(filePath) {
     // Use the last '/' or '\' (whichever is found last) to split the path
     const pathSeparator = filePath.lastIndexOf('/') > -1 ? '/' : '\\';
