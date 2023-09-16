@@ -57,28 +57,28 @@ TEST_CASE("TestPosTaggingOnInvalidFile", "[get_pos_tags]")
     REQUIRE(fail_case_output == fail_case);
 }
 
-// TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
-//     // Read expected output from file
-//     std::ifstream expectedFile("./test_data/translated.test");
-//     std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
+ TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
+     // Read expected output from file
+     std::ifstream expectedFile("./test_data/translated.test");
+     std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
 
-//     // Prepare input for translate_and_replace
-//     std::ifstream inputFile("./test_data/small_test.txt");
-//     std::stringstream inputStream;
-//     inputStream << inputFile.rdbuf();
+     // Prepare input for translate_and_replace
+     std::ifstream inputFile("./test_data/small_test.txt");
+     std::stringstream inputStream;
+     inputStream << inputFile.rdbuf();
 
-//     // Get output from translate_and_replace
-//     std::string actualOutput = translate_and_replace(inputStream, 42);
+     // Get output from translate_and_replace
+     std::string actualOutput = translate_and_replace(inputStream, 42);
 
-//     // Compare
-//     REQUIRE(expectedOutput == actualOutput);
-// }
+     // Compare
+     REQUIRE(expectedOutput == actualOutput);
+ }
 
 TEST_CASE("Test Dictionary Database Connection", "[Dictionary]")
 {
     // Setup: Create a test SQLite database
     const std::string valid_db_path = "./dict.sqlite";
-
+    REQUIRE(std::filesystem::exists(valid_db_path));
     SECTION("Connect to valid database")
     {
         REQUIRE_NOTHROW(Dictionary(valid_db_path)); // Should not throw any exceptions

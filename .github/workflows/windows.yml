@@ -22,9 +22,13 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}}
 
+      - name: Move executables
+        run: |
+         Move-Item "${{github.workspace}}\build\Debug\*" "${{github.workspace}}\build"
+        shell: powershell
+
       - name: Install and Run OpenCppCoverage
         run: |
-          dir build\
           dir ${{github.workspace}}\build\Debug
 
           choco install opencppcoverage
@@ -33,7 +37,7 @@ jobs:
       - name: Generate Report
         id: generate_test_report
         shell: cmd
-        run: OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\Debug\tests" 
+        run: OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\tests" 
 
       - name: Upload Report to Codecov
         uses: codecov/codecov-action@v3
