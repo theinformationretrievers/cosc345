@@ -106,7 +106,7 @@ JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
   ofn.lpstrFileTitle = NULL;
   ofn.nMaxFileTitle = 0;
   ofn.lpstrInitialDir = NULL;
-  ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+  ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
   // Display the Open dialog box.
   if (GetOpenFileName(&ofn) == TRUE) {
@@ -185,6 +185,7 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
   }
   delete[] filePath;
   std::string fileContent = translate_and_replace(file, 42);
+  file.close();
   return JSValue(fileContent.c_str());
 }
 
