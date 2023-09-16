@@ -44,11 +44,13 @@ function createBook(filePath) {
   button.className = 'book-grid-item';
   button.onclick = () => openBook(filePath);
 
+  filename = getFileNameFromPath(filePath);
+
   const h3 = document.createElement('h3');
-  h3.textContent = "local book title";
+  h3.textContent = filename;
 
   const p = document.createElement('p');
-  p.textContent = "local book author";
+  p.textContent = "local book";
 
   button.appendChild(h3);
   button.appendChild(p);
@@ -108,6 +110,28 @@ function readAndCreateBooks() {
         .catch(error => {
             console.error('Error reading JSON file:', error);
         });
+}
+
+function getFileNameFromPath(filePath) {
+    // Use the last '/' or '\' (whichever is found last) to split the path
+    const pathSeparator = filePath.lastIndexOf('/') > -1 ? '/' : '\\';
+    const parts = filePath.split(pathSeparator);
+
+    // Get the last part (the file name)
+    const fileNameWithExtension = parts[parts.length - 1];
+
+    // Split the file name to separate the name and extension
+    const fileNameParts = fileNameWithExtension.split('.');
+
+    // If there's more than one part, remove the last part (the extension)
+    if (fileNameParts.length > 1) {
+        fileNameParts.pop();
+    }
+
+    // Join the remaining parts to get the file name without the extension
+    const fileNameWithoutExtension = fileNameParts.join('.');
+
+    return fileNameWithoutExtension;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
