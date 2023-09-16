@@ -37,11 +37,11 @@ jobs:
         id: generate_test_report
         shell: cmd
         run: |
-           OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\lib --export_type cobertura:Diglot.xml -- "${{github.workspace}}\build\tests" 
+           OpenCppCoverage.exe --excluded_sources ${{github.workspace}}\lib --export_type cobertura:${{github.workspace}}\build\Diglot.xml -- "${{github.workspace}}\build\tests" 
 
       - name: Upload Report to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ..\Diglot.xml
+          files: ${{github.workspace}}\build\Diglot.xml
           fail_ci_if_error: true
           functionalities: fix
