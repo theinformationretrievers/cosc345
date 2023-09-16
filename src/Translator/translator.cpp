@@ -92,11 +92,15 @@ std::string translate_and_replace(std::istream& stream, int seed) {
     std::string word_buffer;
     char ch;
 
-    //output << "<pre>";
+    output << "<p>";
 
     while (stream.get(ch)) {
         if (std::isalpha(ch)) {
             word_buffer.push_back(ch);
+        }
+        else if (ch == '\n')
+        {
+            output << "</p>\n<br><p>";
         }
         else {
             if (!word_buffer.empty()) {
@@ -148,7 +152,7 @@ std::string translate_and_replace(std::istream& stream, int seed) {
         }
     }
 
-    //output << "</pre>";
+    output << "</p>";
 
     return output.str();
 }
