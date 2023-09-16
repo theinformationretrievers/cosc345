@@ -64,6 +64,18 @@ body {
     padding: 1em;
     width: 200px;
     height: 125px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.library-grid-item h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;  
+    margin-bottom: 4px;
 }
 .library-grid-item:hover {
     background-color: var(--color-base-30);
