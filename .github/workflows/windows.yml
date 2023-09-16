@@ -24,9 +24,7 @@ jobs:
 
       - name: Move executables
         run: |
-         dir ${{github.workspace}}\build\
-         dir ${{github.workspace}}\build\x64
-         dir ${{github.workspace}}\build\x64\Debug
+         Move-Item "${{github.workspace}}\build\x64\Debug\*" "${{github.workspace}}\build"
          
         shell: powershell
 
