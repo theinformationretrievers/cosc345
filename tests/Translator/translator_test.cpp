@@ -78,6 +78,12 @@ TEST_CASE("Test Dictionary Database Connection", "[Dictionary]")
 {
     // Setup: Create a test SQLite database
     const std::string valid_db_path = "./dict.sqlite";
+    std::filesystem::path cwd = std::filesystem::current_path();
+    std::cout << "Current working directory: " << cwd << std::endl;
+    std::cout << "Files in the current directory:" << std::endl;
+    for (const auto& entry : std::filesystem::directory_iterator(cwd)) {
+        std::cout << entry.path() << std::endl;
+    }
     REQUIRE(std::filesystem::exists(valid_db_path));
     SECTION("Connect to valid database")
     {
