@@ -106,7 +106,7 @@ JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
   ofn.lpstrFileTitle = NULL;
   ofn.nMaxFileTitle = 0;
   ofn.lpstrInitialDir = NULL;
-  ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+  ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
   // Display the Open dialog box.
   if (GetOpenFileName(&ofn) == TRUE) {
@@ -146,10 +146,6 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
   if (!pipe) {
     std::cerr << "Couldn't start command." << std::endl;
     return 0;
-  }
-
-  while (fgets(buffer.data(), 128, pipe) != nullptr) {
-    result += buffer.data();
   }
 
   while (fgets(buffer.data(), 128, pipe) != nullptr) {

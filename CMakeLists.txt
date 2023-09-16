@@ -1,7 +1,4 @@
-﻿# CMakeList.txt : CMake project for Diglot, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -13,7 +10,6 @@ endif()
 # Check if the coverage option is enabled
 
 project ("Diglot")
-
 
 # Copy myfile.txt to the build directory
 
@@ -37,13 +33,6 @@ endif()
 
 target_compile_definitions(SQLite PRIVATE SQLITE_STATICLIB)
 
-add_library(SubstituterLib STATIC
-    src/Substituter/substituter.cpp
-)
-
-target_include_directories(SubstituterLib PUBLIC
-    ${CMAKE_SOURCE_DIR}/src/Substituter/include
-)
 
 add_library(TranslatorLib STATIC
     src/Translator/pos.cpp
@@ -58,11 +47,6 @@ target_include_directories(TranslatorLib PUBLIC
 add_executable(Translator
     src/Translator/main_translator.cpp
 )
-
-add_executable(Substituter
-    src/Substituter/main_substituter.cpp
-)
-
 
 
 if(UNIX)
@@ -99,7 +83,7 @@ add_subdirectory(lib/Catch2)
 file(GLOB TEST_SOURCES "tests/*/*.cpp")
 add_executable(tests ${TEST_SOURCES})
 # add_executable(tests tests/tests.cpp )
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain SubstituterLib TranslatorLib)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain TranslatorLib)
 
 include(CTest)
 include(Catch)
@@ -144,6 +128,3 @@ add_custom_target(copy_book_data ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/src/Data/books/
             ${CMAKE_BINARY_DIR}/Data/books/)
-
-
-

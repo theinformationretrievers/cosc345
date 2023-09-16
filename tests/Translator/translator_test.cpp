@@ -1,8 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
-#include <fstream>
-#include <sstream>
 #include <cstdint>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <translator.h>
 // #include "dictionary.h"
 #include <filesystem>
@@ -57,45 +57,59 @@ TEST_CASE("TestPosTaggingOnInvalidFile", "[get_pos_tags]")
     REQUIRE(fail_case_output == fail_case);
 }
 
-// TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
-//     // Read expected output from file
-//     std::ifstream expectedFile("./test_data/translated.test");
-//     std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
+ TEST_CASE("Test translate_and_replace", "[translate_and_replace]") {
+     // Read expected output from file
+     std::ifstream expectedFile("./test_data/translated.test");
+     std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
 
-//     // Prepare input for translate_and_replace
-//     std::ifstream inputFile("./test_data/small_test.txt");
-//     std::stringstream inputStream;
-//     inputStream << inputFile.rdbuf();
+     // Prepare input for translate_and_replace
+     std::ifstream inputFile("./test_data/small_test.txt");
+     std::stringstream inputStream;
+     inputStream << inputFile.rdbuf();
 
-//     // Get output from translate_and_replace
-//     std::string actualOutput = translate_and_replace(inputStream, 42);
+     // Get output from translate_and_replace
+     std::string actualOutput = translate_and_replace(inputStream, 42);
 
-//     // Compare
-//     REQUIRE(expectedOutput == actualOutput);
-// }
+     // Compare
+     REQUIRE(expectedOutput == actualOutput);
+ }
 
-
-TEST_CASE("Test Dictionary Database Connection", "[Dictionary]") {
+TEST_CASE("Test Dictionary Database Connection", "[Dictionary]")
+{
     // Setup: Create a test SQLite database
-    const std::string test_db_path = "./dict.sqlite";
-    std::ofstream test_db(test_db_path);
-    test_db.close();
-
-    SECTION("Connect to valid database") {
-        REQUIRE_NOTHROW(Dictionary(test_db_path)); // Should not throw any exceptions
+    const std::string valid_db_path = "./dict.sqlite";
+    std::filesystem::path cwd = std::filesystem::current_path();
+    std::cout << "Current working directory: " << cwd << std::endl;
+    std::cout << "Files in the current directory:" << std::endl;
+    for (const auto& entry : std::filesystem::directory_iterator(cwd)) {
+        std::cout << entry.path() << std::endl;
     }
-    #if defined(__linux__)
-    // We are on Linux
-
+    REQUIRE(std::filesystem::exists(valid_db_path));
+    SECTION("Connect to valid database")
+    {
+        REQUIRE_NOTHROW(Dictionary(valid_db_path)); // Should not throw any exceptions
+    }
+}
+TEST_CASE("Test Dictionary Database Connection Failure", "[Dictionary]") {
     SECTION("Connect to invalid database path") {
-    // Create a directory with the same name to simulate an error
-    const std::string invalid_db_path = "invalid_db_directory";
-    std::filesystem::create_directory(invalid_db_path);
+        // Create a directory with the same name to simulate an error
+        const std::string invalid_db_path = "invalid_db_directory";
+        
+        // Ensure the directory doesn't exist before the test
+        if (std::filesystem::exists(invalid_db_path)) {
+            std::filesystem::remove_all(invalid_db_path);
+        }
 
-    REQUIRE_THROWS(Dictionary(invalid_db_path)); // Should throw an exception
+        std::filesystem::create_directory(invalid_db_path);
 
-    // Cleanup: Remove the directory
-    std::filesystem::remove(invalid_db_path);
+        // Use a scope guard for cleanup to ensure the directory is removed even if the test fails
+        struct CleanupGuard {
+            std::string path;
+            ~CleanupGuard() {
+                std::filesystem::remove_all(path);
+            }
+        } cleanup{invalid_db_path};
+
+        REQUIRE_THROWS(Dictionary(invalid_db_path)); // Should throw an exception
     }
-    #endif
 }
