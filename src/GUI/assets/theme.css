@@ -34,9 +34,11 @@
     border: none;
     background-color: var(--color-base-00);
 }
+
 .clickable-icon:hover {
     background-color: var(--color-base-30);
 }
+
 svg.svg-icon {
     width: var(--icon-small);
     height: var(--icon-small);
@@ -49,10 +51,12 @@ body {
     background-color: var(--color-base-00);
     color: var(--text-normal);
 }
+
 .ribbon-menu {
     border-right: var(--divider-width) solid var(--divider-color);
     color: var(--color-base-70);
 }
+
 .ribbon-top-icons svg.svg-icon {
     width: var(--icon-large);
     height: var(--icon-large);
@@ -71,6 +75,7 @@ body {
     flex-direction: column;
     justify-content: start;
 }
+
 .book-grid-item h3 {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -79,9 +84,11 @@ body {
     -webkit-box-orient: vertical;  
     margin-bottom: 4px;
 }
+
 .book-grid-item:hover {
     background-color: var(--color-base-30);
 }
+
 #btn-add-book {
     color: var(--color-accent);
 }
@@ -91,16 +98,20 @@ body {
     color: var(--text-normal);
     text-align: center;
 }
+
 #reader-content {
     padding: 32px;
     overflow-y: scroll;
 }
+
 #reader-content p {
   text-overflow: ellipsis;
 }
+
 h1 {
     margin-bottom: 10px;
 }
+
 .maori-word {
     font-weight: bold;
 }

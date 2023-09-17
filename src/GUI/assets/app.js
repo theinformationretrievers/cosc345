@@ -32,11 +32,11 @@ const libraryGridHTML = `
  * locally and adds the book to the users recently opened books
  */
 function addBook() {
-  const filePath = GetFilePath();
-  const result = writeLocalBookJS(filePath);
-  if (result == "Success") {
-      createBook(filePath);
-  }
+    const filePath = GetFilePath();
+    const result = writeLocalBookJS(filePath);
+    if (result == "Success") {
+        createBook(filePath);
+    }
 }
 
 /*! 
@@ -44,24 +44,24 @@ function addBook() {
  * @param filePath the filePath to the local file
  */
 function createBook(filePath) {
-  const recentGrid = document.getElementById("recent-grid");
+    const recentGrid = document.getElementById("recent-grid");
 
-  const button = document.createElement('button');
-  button.className = 'book-grid-item';
-  button.onclick = () => openBook(filePath);
+    const button = document.createElement('button');
+    button.className = 'book-grid-item';
+    button.onclick = () => openBook(filePath);
 
-  filename = getFileNameFromPath(filePath);
+    const filename = getFileNameFromPath(filePath);
 
-  const h3 = document.createElement('h3');
-  h3.textContent = filename;
+    const h3 = document.createElement('h3');
+    h3.textContent = filename;
 
-  const p = document.createElement('p');
-  p.textContent = "local book";
+    const p = document.createElement('p');
+    p.textContent = "local book";
 
-  button.appendChild(h3);
-  button.appendChild(p);
+    button.appendChild(h3);
+    button.appendChild(p);
 
-  recentGrid.appendChild(button);
+    recentGrid.appendChild(button);
 }
 
 /*!

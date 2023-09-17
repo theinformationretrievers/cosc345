@@ -82,6 +82,8 @@ std::string translate_and_replace(std::istream& stream, int seed)
     Dictionary dict("./dict.sqlite");
 
     std::unordered_map<std::string, int> encounter_map;
+    std::unordered_map<std::string, std::string> translation_cache;
+
     // std::random_device rd;
     std::mt19937 gen(42);
     std::uniform_real_distribution<> dis(0.0, 1.0);
@@ -93,61 +95,66 @@ std::string translate_and_replace(std::istream& stream, int seed)
     // output << "<pre>";
     output << "<p>";
 
+
+    auto process_word = [&](std::string& word) {
+        std::string original = word;
+        strip_and_lower(word);
+
+        std::string maori_translation;
+        auto cached_translation = translation_cache.find(word);
+
+        if (cached_translation != translation_cache.end()) {
+            maori_translation = cached_translation->second;
+        }
+        else {
+            if (dict.can_translate(word)) {
+                maori_translation = dict.translate(word).front();
+                translation_cache[word] = maori_translation;
+            }
+            else {
+                maori_translation = "<notranslation>";
+                translation_cache[word] = maori_translation;
+            }
+        }
+
+        if (maori_translation != "<notranslation>") {
+            int encountered = encounter_map[word]++;
+            if (dis(gen) <= should_translate(encountered, 1, 5)) {
+                output << "<span class=\"maori-word tooltip\">" << maori_translation << "<span class=\"tooltiptext\">" << original << "</span></span>";
+            }
+            else {
+                output << original;
+            }
+        }
+        else {
+            output << original;
+        }
+        };
+
     while (stream.get(ch)) {
-        if (std::isalpha(ch)) {
+        if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
             word_buffer.push_back(ch);
-        }
-        else if (ch == '\n')
-        {
-            output << "</p>\n<br><p>";
-        }
-        else if (ch == '\n')
-        {
-            output << "</p>\n<br><p>";
         }
         else {
             if (!word_buffer.empty()) {
-                std::string original = word_buffer;
-                strip_and_lower(word_buffer);
-
-                if (dict.can_translate(word_buffer)) {
-                    int encountered = encounter_map[word_buffer]++;
-
-                    if (dis(gen) <= should_translate(encountered, 1, 5)) {
-                        std::string maori_translation = dict.translate(word_buffer).front();
-                        output << "<span class=\"maori-word tooltip\">" + maori_translation + "<span class=\"tooltiptext\">" << original << "</span></span>";
-                    } else {
-                        output << original;
-                    }
-                } else {
-                    output << original;
-                }
-
+                process_word(word_buffer);
                 word_buffer.clear();
             }
 
-            output << ch; // Append non-alpha character to output
+            if (ch == '\n') {
+                output << "</p>\n<br><p>";
+            }
+            else {
+                output << ch; // Append non-alpha character to output
+            }
         }
     }
 
     // Handle the case where the stream ends with a word
     if (!word_buffer.empty()) {
-        std::string original = word_buffer;
-        strip_and_lower(word_buffer);
-
-        if (dict.can_translate(word_buffer)) {
-            int encountered = encounter_map[word_buffer]++;
-
-            if (dis(gen) <= should_translate(encountered, 1, 1)) {
-                std::string maori_translation = dict.translate(word_buffer).front();
-                output << "<span class=\"maori-word tooltip\">" << maori_translation << "<span class=\"tooltiptext\">" << original << "</span></span>";
-            } else {
-                output << original;
-            }
-        } else {
-            output << original;
-        }
+        process_word(word_buffer);
     }
+
 
     // output << "</pre>";
     output << "</p>";

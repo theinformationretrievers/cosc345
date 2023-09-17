@@ -27,12 +27,14 @@ header {
     height: var(--header-height);
     padding: 4px 8px;
 }
+
 footer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: var(--footer-height);
 }
+
 .book-grid {
     flex-basis: calc(100vw - var(--ribbon-width));
     display: flex;
@@ -42,6 +44,7 @@ footer {
     align-content: flex-start;
     padding: 8px;
 }
+
 .book-grid-item {
     align-self: start;
     margin: 8px 8px;
@@ -54,30 +57,36 @@ footer {
     padding: 8px 4px 12px;
     width: var(--ribbon-width);
 }
+
 .ribbon-top-icons,
 .ribbon-bottom-icons {
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
+
 .ribbon-bottom-icons {
     margin-top: auto;
 }
+
 .clickable-icon {
     margin: 0 auto;
     display: flex;
 }
+
 #reader {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
     min-height: 100vh;
 }
+
 .header-menu {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0;
 }
+
 .footer-menu {
     display: flex;
     justify-content: center;

@@ -6,6 +6,8 @@
 #include <translator.h>
 // #include "dictionary.h"
 #include <filesystem>
+#pragma execution_character_set("utf-8")
+
 /**
  * @brief Test the POS tagging function on a valid file.
  *
