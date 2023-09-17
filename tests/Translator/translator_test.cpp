@@ -61,7 +61,7 @@ TEST_CASE("TestPosTaggingOnInvalidFile", "[get_pos_tags]")
      // Read expected output from file
      std::ifstream expectedFile("./test_data/translated.test");
      std::string expectedOutput((std::istreambuf_iterator<char>(expectedFile)), std::istreambuf_iterator<char>());
-
+        
      // Prepare input for translate_and_replace
      std::ifstream inputFile("./test_data/small_test.txt");
      std::stringstream inputStream;
@@ -78,12 +78,12 @@ TEST_CASE("Test Dictionary Database Connection", "[Dictionary]")
 {
     // Setup: Create a test SQLite database
     const std::string valid_db_path = "./dict.sqlite";
-    std::filesystem::path cwd = std::filesystem::current_path();
+    /*std::filesystem::path cwd = std::filesystem::current_path();
     std::cout << "Current working directory: " << cwd << std::endl;
     std::cout << "Files in the current directory:" << std::endl;
     for (const auto& entry : std::filesystem::directory_iterator(cwd)) {
         std::cout << entry.path() << std::endl;
-    }
+    }*/
     REQUIRE(std::filesystem::exists(valid_db_path));
     SECTION("Connect to valid database")
     {
