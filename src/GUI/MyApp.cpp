@@ -185,7 +185,13 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
   return JSValue(fileContent.c_str());
 }
 
-
+/*!
+* @brief Open get the contents of a file
+* @details Using windows GetOpenFileName file dialog to open a file
+*					 then converts it to a std::fstream and reads the contents
+* @returns The contents of the opened file as a JSValue string or the
+           error as a JSValue string
+*/
 JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args) {
   if (!args[0].IsString()) {
     return JSValue("Invalid string");
@@ -229,7 +235,13 @@ JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args) {
 
   return JSValue("Success");
 }
-
+/*!
+* @brief Open get the contents of a file
+* @details Using windows GetOpenFileName file dialog to open a file
+*					 then converts it to a std::fstream and reads the contents
+* @returns The contents of the opened file as a JSValue string or the
+           error as a JSValue string
+*/
 JSValue MyApp::getPreviousLocalFiles(const JSObject& thisObject, const JSArgs& args) {
   std::string writeFile = "./local_files.txt";
 
