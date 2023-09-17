@@ -31,6 +31,8 @@
     border-radius: 4px;
     padding: 4px 6px;
     color: var(--color-base-80);
+    border: none;
+    background-color: var(--color-base-00);
 }
 .clickable-icon:hover {
     background-color: var(--color-base-30);
@@ -57,7 +59,7 @@ body {
 }
 
 /* Library */
-.library-grid-item {
+.book-grid-item {
     text-decoration: none;
     border: var(--divider-width) solid var(--divider-color);
     color: var(--text-normal);
@@ -69,7 +71,7 @@ body {
     flex-direction: column;
     justify-content: start;
 }
-.library-grid-item h3 {
+.book-grid-item h3 {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -77,7 +79,7 @@ body {
     -webkit-box-orient: vertical;  
     margin-bottom: 4px;
 }
-.library-grid-item:hover {
+.book-grid-item:hover {
     background-color: var(--color-base-30);
 }
 #btn-add-book {
@@ -85,15 +87,15 @@ body {
 }
 
 /* Reader */
-.reader {
+#reader {
     color: var(--text-normal);
     text-align: center;
 }
-.reader-content {
+#reader-content {
     padding: 32px;
     overflow-y: scroll;
 }
-.reader-content p {
+#reader-content p {
   text-overflow: ellipsis;
 }
 h1 {
