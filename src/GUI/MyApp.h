@@ -65,4 +65,9 @@ protected:
   RefPtr<App> app_;
   RefPtr<Window> window_;
   RefPtr<Overlay> overlay_;
+
+private:
+    std::streampos currentPosition = 0;
+    std::string currentPath = "default";
+    size_t chunkSize = 500;
 };

@@ -15,12 +15,14 @@
 #include <windows.h>
 #endif
 
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 400
+#define WINDOW_WIDTH 1440
+#define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
 
 MyApp::MyApp() {
   ///
+  /// 
+    currentPosition = 0;
   /// Create our main App instance.
   ///
   app_ = App::Create();
@@ -165,24 +167,59 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
 * @returns The contents of the opened file as a JSValue string or the
            error as a JSValue string
 */
+//JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args) {
+//  if (!args[0].IsString()) {
+//    return JSValue("Invalid string");
+//  }
+//  JSValueRef exception = NULL;
+//  JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
+//  size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
+//  char* filePath = new char[pathLength];
+//  JSStringGetUTF8CString(jsPathString, filePath, pathLength);
+//  std::ifstream file(filePath);
+//  if (!file.is_open()) {
+//    std::cerr << "Failed to open the file: " << filePath << std::endl;
+//    return JSValue("Failed to open the file");
+//  }
+//  delete[] filePath;
+//  std::string fileContent = translate_and_replace(file, 42);
+//  file.close();
+//  return JSValue(fileContent.c_str());
+//}
 JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args) {
-  if (!args[0].IsString()) {
-    return JSValue("Invalid string");
-  }
-  JSValueRef exception = NULL;
-  JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
-  size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
-  char* filePath = new char[pathLength];
-  JSStringGetUTF8CString(jsPathString, filePath, pathLength);
-  std::ifstream file(filePath);
-  if (!file.is_open()) {
-    std::cerr << "Failed to open the file: " << filePath << std::endl;
-    return JSValue("Failed to open the file");
-  }
-  delete[] filePath;
-  std::string fileContent = translate_and_replace(file, 42);
-  file.close();
-  return JSValue(fileContent.c_str());
+    if (!args[0].IsString()) {
+        return JSValue("Invalid string");
+    }
+    JSValueRef exception = NULL;
+    JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
+    size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
+    char* filePath = new char[pathLength];
+    JSStringGetUTF8CString(jsPathString, filePath, pathLength);
+    std::ifstream file(filePath, std::ios::in | std::ios::binary);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open the file: " << filePath << std::endl;
+        return JSValue("Failed to open the file");
+    }
+    std::string strPath = filePath;
+    if (strPath != currentPath && strPath != "default") {
+        currentPosition = 0;
+        currentPath = strPath;
+    }
+    
+    delete[] filePath;
+    file.seekg(currentPosition); // Move to the position from where we left off
+
+    std::string chunk;
+    chunk.resize(chunkSize);
+    file.read(&chunk[0], chunkSize);
+
+    //currentPosition = file.tellg(); // Update the position
+
+    file.close();
+    std::istringstream chunkStream(chunk);  // Convert string to stream
+    std::string fileContent = translate_and_replace(chunkStream, 42);
+    file.close();
+    return JSValue(fileContent.c_str());
 }
 
 /*!
