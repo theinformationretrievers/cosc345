@@ -97,7 +97,8 @@ include(cmake/App.cmake)
 # set source files for GUI. 
 set(GUI_SOURCES "src/GUI/MyApp.h"
             "src/GUI/MyApp.cpp"
-            "src/GUI/main.cpp")
+            "src/GUI/main.cpp"
+            "src/GUI/logging.cpp")
 # Will register an exe with the name Diglot. 
 ADD_APP("${GUI_SOURCES}")
 target_link_libraries(Diglot TranslatorLib)

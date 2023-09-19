@@ -1,5 +1,8 @@
 #pragma once
+#include "logging.h"
 #include <AppCore/AppCore.h>
+#include <Ultralight/Ultralight.h>
+#include <iostream>
 #include <string>
 
 using namespace ultralight;
@@ -58,6 +61,14 @@ public:
 
     virtual void OnChangeTitle(ultralight::View* caller,
         const String& title) override;
+
+    virtual void OnAddConsoleMessage(ultralight::View* caller,
+        ultralight::MessageSource source,
+        ultralight::MessageLevel level,
+        const ultralight::String& message,
+        uint32_t line_number,
+        uint32_t column_number,
+        const ultralight::String& source_id);
     void chunkFileIntoWords(const std::string& filePath);
 
 protected:
@@ -69,5 +80,5 @@ private:
     std::streampos currentPosition = 0;
     std::string currentPath = "default";
     std::vector<std::string> chunks;
-    size_t chunkSize = 500;
+    size_t chunkSize = 2000;
 };

@@ -1,14 +1,14 @@
 #include "MyApp.h"
-
-#include <stdio.h>
-
+#include "logging.h"
 #include "translator.h"
+#include <Ultralight/Ultralight.h>
 #include <cerrno>
 #include <fstream>
 #include <functional>
 #include <iostream>
 #include <set>
 #include <sstream>
+#include <stdio.h>
 #include <string>
 #ifdef _WIN32
 #include <tchar.h>
@@ -18,7 +18,6 @@
 #define WINDOW_WIDTH 1440
 #define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
-
 MyApp::MyApp()
 {
     ///
@@ -193,8 +192,8 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     if (!args[0].IsString()) {
         return JSValue("Invalid string");
     }
-    std::cout << "being called";
     JSValueRef exception = NULL;
+    double page = args[1].ToNumber();
     JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
     size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
     char* filePath = new char[pathLength];
@@ -209,6 +208,7 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         currentPath = strPath;
         chunks = {};
         chunkFileIntoWords(strPath);
+        
     }
 
     delete[] filePath;
@@ -221,7 +221,8 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     // // currentPosition = file.tellg(); // Update the position
 
     // file.close();
-    std::istringstream chunkStream(chunks[args[1]]); // Convert string to stream
+    // std::cout << chunks[page] << std::endl;
+    std::istringstream chunkStream(chunks[page]); // Convert string to stream
     std::string fileContent = translate_and_replace(chunkStream, 42);
     // file.close();
     return JSValue(fileContent.c_str());
@@ -413,4 +414,23 @@ void MyApp::OnChangeTitle(ultralight::View* caller, const String& title)
     /// We update the main window's title here.
     ///
     window_->SetTitle(title.utf8().data());
+}
+void MyApp::OnAddConsoleMessage(ultralight::View* caller,
+    ultralight::MessageSource source,
+    ultralight::MessageLevel level,
+    const ultralight::String& message,
+    uint32_t line_number,
+    uint32_t column_number,
+    const ultralight::String& source_id)
+{
+
+    std::cout << "[Console]: [" << Stringify(source) << "] ["
+              << Stringify(level) << "] " << ToUTF8(message);
+
+    if (source == kMessageSource_JS) {
+        std::cout << " (" << ToUTF8(source_id) << " @ line " << line_number
+                  << ", col " << column_number << ")";
+    }
+
+    std::cout << std::endl;
 }
