@@ -26,6 +26,9 @@ const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
 </div>` ;
 
+
+let currentPage = 0;
+// const pages = [];
 /*! 
  * @brief Add a book to the users local library
  * @details Opens a file dialog to select a file. Then saves the filepath
@@ -73,7 +76,20 @@ function openBook(filePath) {
     console.log(filePath);
     // ISSSUE library book file paths are wrong
     document.getElementById("view").innerHTML = readerHTML;
-    const translatedText = GetTranslatedText(filePath);
+    const translatedText = GetTranslatedText(filePath, 0);
+    document.getElementById("reader-content").innerHTML = translatedText;
+    const nextButton = document.querySelector(".lucide-arrow-right");
+    const prevButton = document.querySelector(".lucide-arrow-left");
+    
+    nextButton.addEventListener("click", nextPage);
+    prevButton.addEventListener("click", prevPage);
+}
+
+function changePage() {
+    
+    // ISSSUE library book file paths are wrong
+    // document.getElementById("view").innerHTML = readerHTML;
+    const translatedText = GetTranslatedText(filePath, currentPage);
     document.getElementById("reader-content").innerHTML = translatedText;
 }
 
@@ -158,6 +174,13 @@ function getFileNameFromPath(filePath) {
     const fileNameWithoutExtension = fileNameParts.join('.');
 
     return fileNameWithoutExtension;
+}
+function nextPage() {
+    changePage(currentPage + 1);
+}
+
+function prevPage() {
+    changePage(currentPage - 1);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
