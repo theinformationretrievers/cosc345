@@ -19,7 +19,8 @@
 #define WINDOW_HEIGHT 400
 #define BUFSIZE MAX_PATH
 
-MyApp::MyApp() {
+MyApp::MyApp()
+{
   ///
   /// Create our main App instance.
   ///
@@ -79,18 +80,19 @@ void MyApp::Run() { app_->Run(); }
 
 #ifdef _WIN32
 /*!
-* @brief Use a dialog to get a file path
-* @details Using windows GetOpenFileName file dialog to open a file
-*					 and returns the file path
-* @returns The file path as a JSValue
-*/
-JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
+ * @brief Use a dialog to get a file path
+ * @details Using windows GetOpenFileName file dialog to open a file
+ *					 and returns the file path
+ * @returns The file path as a JSValue
+ */
+JSValue MyApp::GetFileWindows(const JSObject &thisObject, const JSArgs &args)
+{
   HWND hwnd = (HWND)window_->native_handle();
   TCHAR szFilter[] = TEXT("Text Files (*.TXT)\0*.txt\0");
 
-  OPENFILENAME ofn;  // common dialog box structure
-  char szFile[260];  // buffer for file name
-  HANDLE hf;         // file handle
+  OPENFILENAME ofn; // common dialog box structure
+  char szFile[260]; // buffer for file name
+  HANDLE hf;        // file handle
 
   // Initialize OPENFILENAME
   ZeroMemory(&ofn, sizeof(ofn));
@@ -109,10 +111,13 @@ JSValue MyApp::GetFileWindows(const JSObject& thisObject, const JSArgs& args) {
   ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
   // Display the Open dialog box.
-  if (GetOpenFileName(&ofn) == TRUE) {
+  if (GetOpenFileName(&ofn) == TRUE)
+  {
     hf = CreateFile(ofn.lpstrFile, GENERIC_READ, 0, (LPSECURITY_ATTRIBUTES)NULL,
                     OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
-  } else {
+  }
+  else
+  {
     std::cerr << "Error opening file" << std::endl;
     std::string err("unable to open file");
     return JSValue(err.c_str());
@@ -138,17 +143,20 @@ reads the contents
            error as a JSValue string
 *
 */
-JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
+JSValue MyApp::GetFileLinux(const JSObject &thisObject, const JSArgs &args)
+{
   std::array<char, 128> buffer;
   std::string result = "";
 
-  FILE* pipe = popen("./file_chooser", "r");
-  if (!pipe) {
+  FILE *pipe = popen("./file_chooser", "r");
+  if (!pipe)
+  {
     std::cerr << "Couldn't start command." << std::endl;
     return 0;
   }
 
-  while (fgets(buffer.data(), 128, pipe) != nullptr) {
+  while (fgets(buffer.data(), 128, pipe) != nullptr)
+  {
     result += buffer.data();
   }
 
@@ -165,24 +173,27 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args) {
 * @returns The contents of the opened file as a JSValue string or the
            error as a JSValue string
 */
-JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args) {
-  if (!args[0].IsString()) {
+JSValue MyApp::GetTranslatedText(const JSObject &thisObject, const JSArgs &args)
+{
+  if (!args[0].IsString())
+  {
     return JSValue("Invalid string");
   }
   JSValueRef exception = NULL;
   JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
   size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
-  char* filePath = new char[pathLength];
+  char *filePath = new char[pathLength];
   JSStringGetUTF8CString(jsPathString, filePath, pathLength);
   std::ifstream file(filePath);
-  if (!file.is_open()) {
+  if (!file.is_open())
+  {
     std::cerr << "Failed to open the file: " << filePath << std::endl;
     return JSValue("Failed to open the file");
   }
   delete[] filePath;
   std::string fileContent = translate_and_replace(file, 42);
   file.close();
-  return JSValue(fileContent.c_str());
+  return JSValue("fileContent.c_str()");
 }
 
 /*!
@@ -192,45 +203,51 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
 * @returns The contents of the opened file as a JSValue string or the
            error as a JSValue string
 */
-JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args) {
-  if (!args[0].IsString()) {
+JSValue MyApp::writeLocalBook(const JSObject &thisObject, const JSArgs &args)
+{
+  if (!args[0].IsString())
+  {
     return JSValue("Invalid string");
   }
 
   JSValueRef exception = NULL;
   JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
   size_t pathLength2 = JSStringGetMaximumUTF8CStringSize(jsPathString);
-  char* filePath2 = new char[pathLength2];
+  char *filePath2 = new char[pathLength2];
   JSStringGetUTF8CString(jsPathString, filePath2, pathLength2);
 
   std::string writeFile = "./local_files.txt";
-
 
   // Add each line to the set to ensure uniqueness
   std::ifstream inputFile(writeFile);
   std::set<std::string> uniqueLines;
   std::string line;
 
-  while (std::getline(inputFile, line)) {
+  while (std::getline(inputFile, line))
+  {
     uniqueLines.insert(line);
   }
 
   // If the new filepath is not already listed
-  if (uniqueLines.find(filePath2) == uniqueLines.end()) {
+  if (uniqueLines.find(filePath2) == uniqueLines.end())
+  {
     // Open the file in append mode
     std::ofstream file(writeFile, std::ios_base::app);
-    if (file.is_open() && filePath2 != "unable to open file") {
+    if (file.is_open() && filePath2 != "unable to open file")
+    {
       // Write the content followed by a newline character
       file << filePath2 << "\n";
       file.close();
       std::cout << "Content '" << filePath2 << "' written to file '" << writeFile << "'." << std::endl;
     }
-    else {
+    else
+    {
       std::cerr << "Error: Unable to open file '" << writeFile << "' for writing." << std::endl;
     }
   }
-  else {
-      return JSValue("Duplicate");
+  else
+  {
+    return JSValue("Duplicate");
   }
 
   return JSValue("Success");
@@ -242,22 +259,24 @@ JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args) {
 * @returns The contents of the opened file as a JSValue string or the
            error as a JSValue string
 */
-JSValue MyApp::getPreviousLocalFiles(const JSObject& thisObject, const JSArgs& args) {
+JSValue MyApp::getPreviousLocalFiles(const JSObject &thisObject, const JSArgs &args)
+{
   std::string writeFile = "./local_files.txt";
-
 
   // Add each line to the set to ensure uniqueness
   std::ifstream inputFile(writeFile);
   std::set<std::string> uniqueLines;
   std::string line;
 
-  while (std::getline(inputFile, line)) {
+  while (std::getline(inputFile, line))
+  {
     uniqueLines.insert(line);
   }
 
   ultralight::JSArray jsArray;
 
-  for (const std::string& str : uniqueLines) {
+  for (const std::string &str : uniqueLines)
+  {
     // Convert each string to a JSValue and add it to the JSArray
     ultralight::JSValue jsString = ultralight::JSValue(str.c_str());
     jsArray.push(jsString);
@@ -266,7 +285,8 @@ JSValue MyApp::getPreviousLocalFiles(const JSObject& thisObject, const JSArgs& a
   return JSValue(jsArray);
 }
 
-void MyApp::OnUpdate() {
+void MyApp::OnUpdate()
+{
   ///
   /// This is called repeatedly from the application's update loop.
   ///
@@ -274,10 +294,11 @@ void MyApp::OnUpdate() {
   ///
 }
 
-void MyApp::OnClose(ultralight::Window* window) { app_->Quit(); }
+void MyApp::OnClose(ultralight::Window *window) { app_->Quit(); }
 
-void MyApp::OnResize(ultralight::Window* window, uint32_t width,
-                     uint32_t height) {
+void MyApp::OnResize(ultralight::Window *window, uint32_t width,
+                     uint32_t height)
+{
   ///
   /// This is called whenever the window changes size (values in pixels).
   ///
@@ -286,15 +307,17 @@ void MyApp::OnResize(ultralight::Window* window, uint32_t width,
   overlay_->Resize(width, height);
 }
 
-void MyApp::OnFinishLoading(ultralight::View* caller, uint64_t frame_id,
-                            bool is_main_frame, const String& url) {
+void MyApp::OnFinishLoading(ultralight::View *caller, uint64_t frame_id,
+                            bool is_main_frame, const String &url)
+{
   ///
   /// This is called when a frame finishes loading on the page.
   ///
 }
 
-void MyApp::OnDOMReady(ultralight::View* caller, uint64_t frame_id,
-                       bool is_main_frame, const String& url) {
+void MyApp::OnDOMReady(ultralight::View *caller, uint64_t frame_id,
+                       bool is_main_frame, const String &url)
+{
   ///
   /// This is called when a frame's DOM has finished loading on the page.
   ///
@@ -316,11 +339,12 @@ void MyApp::OnDOMReady(ultralight::View* caller, uint64_t frame_id,
 
   // Call the openRecent() JavaScript function when the DOM is ready
   // this is for when the app first loads, as it doesn't seem to work when placed inside app.js
-  ultralight::String* x = NULL;
+  ultralight::String *x = NULL;
   caller->EvaluateScript("openRecent();", x);
 }
 
-void MyApp::OnChangeCursor(ultralight::View* caller, Cursor cursor) {
+void MyApp::OnChangeCursor(ultralight::View *caller, Cursor cursor)
+{
   ///
   /// This is called whenever the page requests to change the cursor.
   ///
@@ -329,7 +353,8 @@ void MyApp::OnChangeCursor(ultralight::View* caller, Cursor cursor) {
   window_->SetCursor(cursor);
 }
 
-void MyApp::OnChangeTitle(ultralight::View* caller, const String& title) {
+void MyApp::OnChangeTitle(ultralight::View *caller, const String &title)
+{
   ///
   /// This is called whenever the page requests to change the title.
   ///
