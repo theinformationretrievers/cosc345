@@ -104,6 +104,9 @@ ADD_APP("${GUI_SOURCES}")
 target_link_libraries(Diglot TranslatorLib)
 if (CMAKE_VERSION VERSION_GREATER 3.12)
 set_property(TARGET Diglot PROPERTY CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
     endif()
 # endif()
 
