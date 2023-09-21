@@ -2,8 +2,7 @@ name: codecov
 
 on:
   push:
-    branches: ["main"]
-    branches: ["pages"]
+    branches: ["main", "pages"]
     
 jobs:
   build-and-test:
