@@ -3,6 +3,7 @@ name: codecov
 on:
   push:
     branches: ["main"]
+    branches: ["pages"]
     
 jobs:
   build-and-test:

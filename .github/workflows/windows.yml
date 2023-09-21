@@ -3,6 +3,7 @@ name: CMake Windows with Coverage
 on:
   push:
     branches: ["main"]
+    branches: ["pages"]
   pull_request:
     branches: ["main"]
 
