@@ -19,10 +19,11 @@ jobs:
           sudo apt-get install gcc-13 g++-13
           sudo apt-get install lcov libgtk-3-dev
 
-      - name: Set g++-9 as default
+      - name: Set g++-13 as default
         run: |
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 90
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 90
+          
 
       - name: Create build directory
         run: mkdir build
@@ -42,7 +43,7 @@ jobs:
       - name: Generate coverage report
         working-directory: build
         run: |
-          lcov --capture --directory . --output-file coverage.info
+          lcov --gcov-tool /usr/bin/x86_64-linux-gnu-gcov-13 --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/lib/Catch2/src/*' --output-file coverage.info
 
       - name: Upload coverage to Codecov
