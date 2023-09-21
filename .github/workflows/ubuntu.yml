@@ -19,12 +19,17 @@ jobs:
           sudo apt-get install gcc-13 g++-13
           sudo apt-get install lcov libgtk-3-dev
 
+      - name: Set g++-9 as default
+        run: |
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 90
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 90
+
       - name: Create build directory
         run: mkdir build
 
       - name: Configure CMake with Code Coverage
         working-directory: build
-        run: cmake -DCODE_COVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=gcc-toolchain.cmake ..
+        run: cmake -DCODE_COVERAGE=ON ..
 
       - name: Build project
         working-directory: build
