@@ -1,40 +1,36 @@
-#include "MyApp.h"
 #include "logging.h"
-#include <Ultralight/Ultralight.h>
-
-#include <iostream>
 
 
 std::string ToUTF8(const ultralight::String& str)
 {
-    String8 utf8 = str.utf8();
+    ultralight::String8 utf8 = str.utf8();
     return std::string(utf8.data(), utf8.length());
 }
 
 const char* Stringify(ultralight::MessageSource source)
 {
     switch (source) {
-    case kMessageSource_XML:
+    case ultralight::kMessageSource_XML:
         return "XML";
-    case kMessageSource_JS:
+    case ultralight::kMessageSource_JS:
         return "JS";
-    case kMessageSource_Network:
+    case ultralight::kMessageSource_Network:
         return "Network";
-    case kMessageSource_ConsoleAPI:
+    case ultralight::kMessageSource_ConsoleAPI:
         return "ConsoleAPI";
-    case kMessageSource_Storage:
+    case ultralight::kMessageSource_Storage:
         return "Storage";
-    case kMessageSource_AppCache:
+    case ultralight::kMessageSource_AppCache:
         return "AppCache";
-    case kMessageSource_Rendering:
+    case ultralight::kMessageSource_Rendering:
         return "Rendering";
-    case kMessageSource_CSS:
+    case ultralight::kMessageSource_CSS:
         return "CSS";
-    case kMessageSource_Security:
+    case ultralight::kMessageSource_Security:
         return "Security";
-    case kMessageSource_ContentBlocker:
+    case ultralight::kMessageSource_ContentBlocker:
         return "ContentBlocker";
-    case kMessageSource_Other:
+    case ultralight::kMessageSource_Other:
         return "Other";
     default:
         return "";
@@ -44,24 +40,17 @@ const char* Stringify(ultralight::MessageSource source)
 const char* Stringify(ultralight::MessageLevel level)
 {
     switch (level) {
-    case kMessageLevel_Log:
+    case ultralight::kMessageLevel_Log:
         return "Log";
-    case kMessageLevel_Warning:
+    case ultralight::kMessageLevel_Warning:
         return "Warning";
-    case kMessageLevel_Error:
+    case ultralight::kMessageLevel_Error:
         return "Error";
-    case kMessageLevel_Debug:
+    case ultralight::kMessageLevel_Debug:
         return "Debug";
-    case kMessageLevel_Info:
+    case ultralight::kMessageLevel_Info:
         return "Info";
     default:
         return "";
     }
 }
-
-//
-// Inherited from ViewListener::OnAddConsoleMessage
-//
-// Make sure that you bind 'MyApp' to 'View::set_view_listener'
-// to receive this event.
-//
