@@ -4,6 +4,7 @@
 #include <Ultralight/Ultralight.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace ultralight;
 
@@ -69,7 +70,10 @@ public:
         uint32_t line_number,
         uint32_t column_number,
         const ultralight::String& source_id);
-    void chunkFileIntoWords(const std::string& filePath);
+    int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess);
+    void updateReaderContent(const std::string& filePath);
+    std::string escapeSpecialCharacters(const std::string& filePath);
+
 
 protected:
     RefPtr<App> app_;
@@ -77,8 +81,11 @@ protected:
     RefPtr<Overlay> overlay_;
 
 private:
-    std::streampos currentPosition = 0;
+    //std::streampos startPosition = 0;
+    //std::streampos endPosition = 0;
+
     std::string currentPath = "default";
+    int currentChunk = 0;
     std::vector<std::string> chunks;
-    size_t chunkSize = 2000;
+    size_t chunkSize = 500;
 };

@@ -10,6 +10,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <string>
+#include <algorithm>
 #ifdef _WIN32
 #include <tchar.h>
 #include <windows.h>
@@ -18,11 +19,17 @@
 #define WINDOW_WIDTH 1440
 #define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
+
+
+
+
+
+
+
 MyApp::MyApp()
 {
     ///
     ///
-    currentPosition = 0;
     /// Create our main App instance.
     ///
     app_ = App::Create();
@@ -198,66 +205,116 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
     char* filePath = new char[pathLength];
     JSStringGetUTF8CString(jsPathString, filePath, pathLength);
-    // std::ifstream file(filePath, std::ios::in | std::ios::binary);
-    // if (!file.is_open()) {
-    //     std::cerr << "Failed to open the file: " << filePath << std::endl;
-    //     return JSValue("Failed to open the file");
-    // }
     std::string strPath = filePath;
+
     if (strPath != currentPath && strPath != "default") {
         currentPath = strPath;
         chunks = {};
-        chunkFileIntoWords(strPath);
-        
+        currentChunk = 0; // Reset the current chunk counter
+        chunkFileIntoWords(strPath, currentChunk, 1); // Process the first chunk
+        currentChunk += 1;
+        delete[] filePath;
+        updateReaderContent(chunks[0]); // Update with the first chunk
+
+        return JSValue("Initialized");
     }
 
+    if (page == -1) {
+        // Process the next set of chunks in the background
+        int chunksProcessed = chunkFileIntoWords(strPath, currentChunk, 1);
+        currentChunk += chunksProcessed;
+        delete[] filePath;
+        return JSValue(std::to_string(chunksProcessed).c_str()); // Return the number of chunks processed
+    }
+
+    updateReaderContent(chunks[page]);
     delete[] filePath;
-    // file.seekg(currentPosition); // Move to the position from where we left off
-
-    // std::string chunk;
-    // chunk.resize(chunkSize);
-    // file.read(&chunk[0], chunkSize);
-
-    // // currentPosition = file.tellg(); // Update the position
-
-    // file.close();
-    // std::cout << chunks[page] << std::endl;
-    std::istringstream chunkStream(chunks[page]); // Convert string to stream
-    std::string fileContent = translate_and_replace(chunkStream, 42);
-    // file.close();
-    return JSValue(fileContent.c_str());
+    return JSValue("Updated");
 }
 
-void MyApp::chunkFileIntoWords(const std::string& filePath)
+
+std::string MyApp::escapeSpecialCharacters(const std::string& fileContent) {
+    std::string escapedContent = fileContent;
+    // Escape double quotes
+    size_t pos = 0;
+    while ((pos = escapedContent.find("\"", pos)) != std::string::npos) {
+        escapedContent.replace(pos, 1, "\\\"");
+        pos += 2; // Move past the replaced content
+    }
+
+    // Escape newlines
+    pos = 0;
+    while ((pos = escapedContent.find("\n", pos)) != std::string::npos) {
+        escapedContent.replace(pos, 1, "\\n");
+        pos += 2; // Move past the replaced content
+    }
+    return escapedContent;
+}
+void MyApp::updateReaderContent(const std::string& escapedContent) {
+    
+    std::string jsCode = "document.getElementById('reader-content').innerHTML = \" <pre> + " + escapedContent + "<\\pre> \";";
+    overlay_->view()->EvaluateScript(jsCode.c_str());
+}
+
+
+int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess)
 {
-    std::ifstream file(filePath);
+    std::ifstream file(filePath, std::ios::binary);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open the file");
     }
 
-    // std::vector<std::string> chunks;
-    std::ostringstream currentChunk;
-    std::string word;
-    size_t currentSize = 0;
+    // Move to the starting position
+    file.seekg(chunkSize * startChunk, std::ios::beg);
 
-    while (file >> word) {
-        // If adding the next word would exceed the chunk size, save the current chunk
-        if (currentSize + word.size() > chunkSize && currentSize > 0) {
-            chunks.push_back(currentChunk.str());
-            currentChunk.str(""); // Clear the current chunk
-            currentSize = 0;
+    int chunksProcessed = 0;
+    while (chunksProcessed < maxChunksToProcess) {
+        std::streampos startPosition = file.tellg();
+        file.seekg(chunkSize, std::ios::cur); // Move forward by chunkSize
+        std::streampos endPosition = file.tellg();
+
+        char ch;
+        bool foundEndOfChunk = false;
+        while (file.get(ch)) {
+            if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+                // Do nothing
+            }
+            else {
+                endPosition = file.tellg();
+                foundEndOfChunk = true;
+                break; // Exit the inner while loop
+            }
         }
+        if (!foundEndOfChunk && file.eof()) {
+            break;
+        }
+        std::streamoff chunkLength = endPosition - startPosition;
 
-        currentChunk << word << ' '; // Add a space after each word
-        currentSize += word.size() + 1; // +1 for the space
+        // Set the get position to startPosition
+        file.seekg(startPosition);
+
+        // Read the chunk into a buffer
+        std::vector<char> buffer(chunkLength);
+        file.read(buffer.data(), chunkLength);
+
+        // Convert the buffer directly to a std::istringstream
+        std::istringstream chunkStream(std::string(buffer.begin(), buffer.end()));
+
+        // Process the chunk and store the result
+        chunks.push_back(escapeSpecialCharacters(translate_and_replace(chunkStream, 42)));
+
+        chunksProcessed++;
+        if (file.eof()) {
+            break;
+        }
     }
 
-    // Add the last chunk if it's not empty
-    if (currentSize > 0) {
-        chunks.push_back(currentChunk.str());
-    }
-    // return chunks;
+    return chunksProcessed;
 }
+
+    
+    // return chunks;
+
 
 /*!
 * @brief Open get the contents of a file
@@ -347,7 +404,7 @@ void MyApp::OnUpdate()
     ///
 }
 
-void MyApp::OnClose(ultralight::Window* window) { app_->Quit(); }
+void MyApp::OnClose(ultralight::Window *window) { app_->Quit(); }
 
 void MyApp::OnResize(ultralight::Window* window, uint32_t width,
     uint32_t height)

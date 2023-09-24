@@ -80,7 +80,7 @@ function openBook(filePath) {
     // ISSSUE library book file paths are wrong
     document.getElementById("view").innerHTML = readerHTML;
     const translatedText = GetTranslatedText(filePath, 0);
-    document.getElementById("reader-content").innerHTML = translatedText;
+    //document.getElementById("reader-content").innerHTML = translatedText;
     // const nextButton = document.querySelector(".lucide-arrow-right");
     // const prevButton = document.querySelector(".lucide-arrow-left");
 
@@ -97,11 +97,11 @@ function changePage(direction) {
 
     // Assuming filePath is globally defined or you fetch it somehow
     updatePageNumber();
-    const translatedText = GetTranslatedText(currentPath, currentPage);
+    GetTranslatedText(currentPath, currentPage);
     // console.log(translatedText)
-    // console.log(currentPage)
+     console.log(currentPage)
 
-    document.getElementById("reader-content").innerHTML = translatedText;
+    //document.getElementById("reader-content").innerHTML = translatedText;
 }
 
 /*! 
