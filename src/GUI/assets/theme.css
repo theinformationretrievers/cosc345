@@ -104,6 +104,9 @@ body {
     overflow-y: scroll;
 }
 
+#reader-content pre {
+    white-space: pre-wrap;
+}
 #reader-content p {
   text-overflow: ellipsis;
 }

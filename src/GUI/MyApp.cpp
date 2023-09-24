@@ -2,6 +2,7 @@
 #include "logging.h"
 #include "translator.h"
 #include <Ultralight/Ultralight.h>
+#include <algorithm>
 #include <cerrno>
 #include <fstream>
 #include <functional>
@@ -10,7 +11,6 @@
 #include <sstream>
 #include <stdio.h>
 #include <string>
-#include <algorithm>
 #ifdef _WIN32
 #include <tchar.h>
 #include <windows.h>
@@ -19,12 +19,6 @@
 #define WINDOW_WIDTH 1440
 #define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
-
-
-
-
-
-
 
 MyApp::MyApp()
 {
@@ -210,9 +204,12 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     if (strPath != currentPath && strPath != "default") {
         currentPath = strPath;
         chunks = {};
+        end = false;
+        startPosition = 0;
+        endPosition = 0;
         currentChunk = 0; // Reset the current chunk counter
-        chunkFileIntoWords(strPath, currentChunk, 1); // Process the first chunk
-        currentChunk += 1;
+        chunkFileIntoWords(strPath, currentChunk, numChunks); // Process the first chunk
+        currentChunk += numChunks;
         delete[] filePath;
         updateReaderContent(chunks[0]); // Update with the first chunk
 
@@ -221,22 +218,38 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
 
     if (page == -1) {
         // Process the next set of chunks in the background
-        int chunksProcessed = chunkFileIntoWords(strPath, currentChunk, 1);
+        int chunksProcessed = chunkFileIntoWords(strPath, currentChunk, numChunks);
         currentChunk += chunksProcessed;
         delete[] filePath;
         return JSValue(std::to_string(chunksProcessed).c_str()); // Return the number of chunks processed
     }
+    if(end == true){
+        updateReaderContent(chunks[maxChunk-1]);
+        return JSValue("end");
+    }
+    if (page >= maxChunk) {
+        updateReaderContent("loading...");
+        return JSValue("loading");
 
+    }
     updateReaderContent(chunks[page]);
     delete[] filePath;
     return JSValue("Updated");
 }
 
-
-std::string MyApp::escapeSpecialCharacters(const std::string& fileContent) {
+std::string MyApp::escapeSpecialCharacters(const std::string& fileContent)
+{
     std::string escapedContent = fileContent;
-    // Escape double quotes
+
+    // Escape backslashes first
     size_t pos = 0;
+    while ((pos = escapedContent.find("\\", pos)) != std::string::npos) {
+        escapedContent.replace(pos, 1, "\\\\");
+        pos += 2; // Move past the replaced content
+    }
+
+    // Escape double quotes
+    pos = 0;
     while ((pos = escapedContent.find("\"", pos)) != std::string::npos) {
         escapedContent.replace(pos, 1, "\\\"");
         pos += 2; // Move past the replaced content
@@ -248,14 +261,20 @@ std::string MyApp::escapeSpecialCharacters(const std::string& fileContent) {
         escapedContent.replace(pos, 1, "\\n");
         pos += 2; // Move past the replaced content
     }
+
+    // Optionally, escape other special characters like \r, \t, etc. if needed
+
     return escapedContent;
 }
-void MyApp::updateReaderContent(const std::string& escapedContent) {
-    
-    std::string jsCode = "document.getElementById('reader-content').innerHTML = \" <pre> + " + escapedContent + "<\\pre> \";";
+
+void MyApp::updateReaderContent(const std::string& escapedContent)
+{
+
+    std::string jsCode = "document.getElementById('reader-content').innerHTML = \" <pre>" + escapedContent + "</pre> \";";
+
+    std::cout << jsCode << std::endl;
     overlay_->view()->EvaluateScript(jsCode.c_str());
 }
-
 
 int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess)
 {
@@ -265,27 +284,29 @@ int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int m
     }
 
     // Move to the starting position
-    file.seekg(chunkSize * startChunk, std::ios::beg);
+    // file.seekg(chunkSize * startChunk, std::ios::beg);
 
     int chunksProcessed = 0;
     while (chunksProcessed < maxChunksToProcess) {
-        std::streampos startPosition = file.tellg();
+        file.seekg(endPosition);
+        startPosition = file.tellg();
         file.seekg(chunkSize, std::ios::cur); // Move forward by chunkSize
-        std::streampos endPosition = file.tellg();
+        endPosition = file.tellg();
 
         char ch;
         bool foundEndOfChunk = false;
         while (file.get(ch)) {
-            if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
-                // Do nothing
-            }
-            else {
+            if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+                // This is a letter, so do nothing
+            } else {
+                // This is not a letter, so it's the end of the word
                 endPosition = file.tellg();
                 foundEndOfChunk = true;
                 break; // Exit the inner while loop
             }
         }
         if (!foundEndOfChunk && file.eof()) {
+            end = true;
             break;
         }
         std::streamoff chunkLength = endPosition - startPosition;
@@ -302,9 +323,11 @@ int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int m
 
         // Process the chunk and store the result
         chunks.push_back(escapeSpecialCharacters(translate_and_replace(chunkStream, 42)));
-
+        maxChunk = chunks.size();
+        // std::cout << chunks.back() << std::endl;
         chunksProcessed++;
         if (file.eof()) {
+            end = true;
             break;
         }
     }
@@ -312,9 +335,7 @@ int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int m
     return chunksProcessed;
 }
 
-    
-    // return chunks;
-
+// return chunks;
 
 /*!
 * @brief Open get the contents of a file
@@ -404,7 +425,7 @@ void MyApp::OnUpdate()
     ///
 }
 
-void MyApp::OnClose(ultralight::Window *window) { app_->Quit(); }
+void MyApp::OnClose(ultralight::Window* window) { app_->Quit(); }
 
 void MyApp::OnResize(ultralight::Window* window, uint32_t width,
     uint32_t height)

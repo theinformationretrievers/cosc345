@@ -29,6 +29,7 @@ const libraryGridHTML = `
 
 
 let currentPage = 0;
+let maxPage = Infinity;
 let currentPath = "";
 // const pages = [];
 /*! 
@@ -77,32 +78,47 @@ function createBook(filePath) {
 function openBook(filePath) {
     console.log(filePath);
     currentPath = filePath;
-    // ISSSUE library book file paths are wrong
     document.getElementById("view").innerHTML = readerHTML;
-    const translatedText = GetTranslatedText(filePath, 0);
-    //document.getElementById("reader-content").innerHTML = translatedText;
-    // const nextButton = document.querySelector(".lucide-arrow-right");
-    // const prevButton = document.querySelector(".lucide-arrow-left");
-
-    // nextButton.addEventListener("click", nextPage);
-    // prevButton.addEventListener("click", prevPage);
+    const status = GetTranslatedText(filePath, 0); // Load the initial content
+    console.log(status);
+    // Start background processing for the rest of the content
+    processInBackground(filePath);
 }
 
+function processInBackground(filePath) {
+    // Use -1 to indicate background processing
+    const chunksProcessed = GetTranslatedText(filePath, -1);
+    console.log("Chunks: ");
+    console.log(chunksProcessed);
+    if (chunksProcessed > 0) {
+        setTimeout(() => processInBackground(filePath), 0);
+    }
+}
+
+
 function changePage(direction) {
-    if (direction === "next") {
+    if (direction === "next" && currentPage) {
         currentPage++;
     } else if (direction === "prev" && currentPage > 0) { // Ensure currentPage doesn't go negative
         currentPage--;
     }
 
-    // Assuming filePath is globally defined or you fetch it somehow
     updatePageNumber();
-    GetTranslatedText(currentPath, currentPage);
-    // console.log(translatedText)
-     console.log(currentPage)
-
-    //document.getElementById("reader-content").innerHTML = translatedText;
+    fetchTranslatedText();
 }
+
+function fetchTranslatedText() {
+    const value = GetTranslatedText(currentPath, currentPage);
+    if (value === "loading") {
+        setTimeout(fetchTranslatedText, 1000);  // Wait for 1 second (1000 milliseconds) before trying again
+    } 
+    // if (value === "end"){
+    //     maxPage = currentPage    }
+}
+
+// You can call changePage with the desired direction
+// changePage("next");
+
 
 /*! 
  * @brief Opens the recent books view

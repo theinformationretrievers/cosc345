@@ -81,11 +81,13 @@ protected:
     RefPtr<Overlay> overlay_;
 
 private:
-    //std::streampos startPosition = 0;
-    //std::streampos endPosition = 0;
-
+    std::streampos startPosition = 0;
+    std::streampos endPosition = 0;
+    int maxChunk = 0;
     std::string currentPath = "default";
     int currentChunk = 0;
     std::vector<std::string> chunks;
-    size_t chunkSize = 500;
+    size_t chunkSize = 1000;
+    size_t numChunks = 1;
+    bool end = false;
 };
