@@ -70,10 +70,8 @@ public:
         uint32_t line_number,
         uint32_t column_number,
         const ultralight::String& source_id);
-    int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess);
+    int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize);
     void updateReaderContent(const std::string& filePath);
-    std::string escapeSpecialCharacters(const std::string& filePath);
-
 
 protected:
     RefPtr<App> app_;
@@ -87,7 +85,8 @@ private:
     std::string currentPath = "default";
     int currentChunk = 0;
     std::vector<std::string> chunks;
-    size_t chunkSize = 1000;
+    size_t loadChunks = 200;
+
     size_t numChunks = 1;
-    bool end = false;
+    bool endPage = false;
 };

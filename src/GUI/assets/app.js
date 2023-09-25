@@ -91,13 +91,13 @@ function processInBackground(filePath) {
     console.log("Chunks: ");
     console.log(chunksProcessed);
     if (chunksProcessed > 0) {
-        setTimeout(() => processInBackground(filePath), 0);
+        setTimeout(() => processInBackground(filePath), 1);
     }
 }
 
 
 function changePage(direction) {
-    if (direction === "next" && currentPage) {
+    if (direction === "next") {
         currentPage++;
     } else if (direction === "prev" && currentPage > 0) { // Ensure currentPage doesn't go negative
         currentPage--;
