@@ -76,11 +76,9 @@ function createBook(filePath) {
 * locally and adds the book to the users recently opened books
 */
 function openBook(filePath) {
-    console.log(filePath);
     currentPath = filePath;
     document.getElementById("view").innerHTML = readerHTML;
     const status = GetTranslatedText(filePath, 0); // Load the initial content
-    console.log(status);
     // Start background processing for the rest of the content
     processInBackground(filePath);
 }
@@ -88,8 +86,8 @@ function openBook(filePath) {
 function processInBackground(filePath) {
     // Use -1 to indicate background processing
     const chunksProcessed = GetTranslatedText(filePath, -1);
-    console.log("Chunks: ");
-    console.log(chunksProcessed);
+    // console.log("Chunks: ");
+    // console.log(chunksProcessed);
     if (chunksProcessed > 0) {
         setTimeout(() => processInBackground(filePath), 1);
     }
@@ -104,7 +102,9 @@ function changePage(direction) {
     }
 
     updatePageNumber();
-    fetchTranslatedText();
+    const status = GetTranslatedText(currentPath, 0); // Load the initial content
+
+    // fetchTranslatedText();
 }
 
 function fetchTranslatedText() {

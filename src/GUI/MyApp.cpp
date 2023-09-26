@@ -210,50 +210,62 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         currentChunk = 0; // Reset the current chunk counter
         // chunkFileIntoWords(strPath, currentChunk, numChunks); // Process the first chunk
         // currentChunk += numChunks;
-        delete[] filePath;
         // updateReaderContent(chunks[0]); // Update with the first chunk
-        std::string jsCode = "document.getElementById('reader-content').innerHTML = `<div class=\"center-wrapper\"><div class=\"loader\"></div></div>`";
+        // std::string jsCode = "document.getElementById('reader-content').innerHTML = `<div class=\"center-wrapper\"><div class=\"loader\"></div></div>`";
+        // overlay_->view()->EvaluateScript(jsCode.c_str());
+        std::ifstream file(filePath);
+        if (!file.is_open()) {
+            std::cerr << "Failed to open the file: " << filePath << std::endl;
+            return JSValue("Failed to open the file");
+        }
+        delete[] filePath;
+        std::string renderContent = translate_and_replace(file, 42);
+        std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + renderContent + "</pre>`";
+        std::cout << jsCode << std::endl;
         overlay_->view()->EvaluateScript(jsCode.c_str());
-
         return JSValue("Initialized");
     }
 
     if (page == -1) {
-        
+
         // Process the next set of chunkSize in the background
-        int chunksProcessed = chunkFileIntoWords(strPath, currentChunk, numChunks, loadChunks);
+        // int chunksProcessed = chunkFileIntoWords(strPath, currentChunk, numChunks, loadChunks);
+        int chunksProcessed = 0;
+
         delete[] filePath;
-        
-        currentChunk += chunksProcessed;
-        if (currentChunk == 20 ){
-            std::string result;
-            for (auto& chunk: chunks){
-                result += chunk;
-            }
-            updateReaderContent(result);
-        }
+
+        // currentChunk += chunksProcessed;
+        // std::streampos renderStart = 0;
+        // std::streampos renderEnd = endPosition;
+        // updateReaderContent(renderStart, renderEnd);
+
         return JSValue(std::to_string(chunksProcessed).c_str()); // Return the number of chunks processed
     }
-    // if(end == true){
-    //     updateReaderContent(chunks[maxChunk-1]);
-    //     return JSValue("end");
-    // }
-    // if (page >= maxChunk) {
-    //     updateReaderContent("loading...");
-    //     return JSValue("loading");
 
-    // }
-    updateReaderContent(chunks[page]);
     delete[] filePath;
     return JSValue("Updated");
 }
 
-void MyApp::updateReaderContent(const std::string& escapedContent)
+void MyApp::updateReaderContent(const std::streampos renderStart, const std::streampos renderEnd)
 {
+    size_t contentSize = renderEnd - renderStart;
 
-    std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre loading=lazy>" + escapedContent + "</pre>`";
+    // Ensure you have a dynamically allocated buffer if contentSize can be large
+    char* buffer = new char[contentSize];
 
-    // std::cout << jsCode << std::endl;
+    // Seek to the start position
+    chunks.seekg(renderStart);
+
+    // Read content from renderStart to renderEnd
+    chunks.read(buffer, contentSize);
+
+    std::string renderContent(buffer, contentSize);
+
+    // Don't forget to delete the buffer to avoid memory leaks
+    delete[] buffer;
+
+    std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + renderContent + "</pre>`";
+
     overlay_->view()->EvaluateScript(jsCode.c_str());
 }
 
@@ -300,11 +312,10 @@ int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int m
 
         // Convert the buffer directly to a std::istringstream
         std::istringstream chunkStream(std::string(buffer.begin(), buffer.end()));
-
+        std::string result = translate_and_replace(chunkStream, 42);
+        maxChunk += result.size();
         // Process the chunk and store the result
-        chunks.push_back(translate_and_replace(chunkStream, 42));
-        maxChunk = chunks.size();
-        // std::cout << chunks.back() << std::endl;
+        chunks << result;
         chunksProcessed++;
         if (file.eof()) {
             endPage = true;
