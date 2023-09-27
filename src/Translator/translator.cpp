@@ -12,12 +12,6 @@
 
 #pragma execution_character_set("utf-8")
 
-struct translation {
-    std::string maori_word; // The Maori word that will replace the original word.
-    int original_word_length; // Length of the original word.
-    std::streampos start_position; // Starting position of the original word in the stream.
-};
-
 void strip_and_lower(std::string& str)
 {
     str.erase(std::remove_if(str.begin(), str.end(),
@@ -35,52 +29,10 @@ double should_translate(int user_encounter_count, double word_preference, double
     return 1.0 / (1.0 + std::exp(-introduction_rate * (user_encounter_count - word_preference)));
 }
 
-std::vector<translation> translate(std::istream& stream)
-{
-
-    Dictionary dict("./dict.sqlite");
-
-    std::unordered_map<std::string, int> encounter_map;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
-
-    std::string word;
-    std::vector<translation> translations;
-
-    while (stream >> word) {
-
-        int word_length = word.length();
-        std::string original = word;
-        strip_and_lower(word);
-
-        if (dict.can_translate(word)) {
-
-            int encountered = encounter_map[word]++;
-
-            if (dis(gen) <= should_translate(encountered, 1, 5)) {
-
-                std::streampos start_pos = stream.tellg() - static_cast<std::streampos>(word_length);
-
-                translation t;
-                t.maori_word = dict.translate(word).front();
-                t.original_word_length = word_length;
-                t.start_position = start_pos;
-
-                translations.push_back(t);
-            }
-        }
-    }
-
-    stream.clear();
-    stream.seekg(0);
-    return translations;
-}
-
 std::string translate_and_replace(std::istream& stream, int seed)
 {
     Dictionary dict("./dict.sqlite");
-
+    
     std::unordered_map<std::string, int> encounter_map;
     std::unordered_map<std::string, std::string> translation_cache;
 
@@ -93,8 +45,6 @@ std::string translate_and_replace(std::istream& stream, int seed)
     char ch;
 
     // output << "<pre>";
-    output << "<p>";
-
 
     auto process_word = [&](std::string& word) {
         std::string original = word;
@@ -105,48 +55,41 @@ std::string translate_and_replace(std::istream& stream, int seed)
 
         if (cached_translation != translation_cache.end()) {
             maori_translation = cached_translation->second;
-        }
-        else {
-            if (dict.can_translate(word)) {
-                maori_translation = dict.translate(word).front();
+        } else {
+
+            auto translation = dict.translate(word);
+
+            if (translation.size()) {
+                maori_translation = translation.front();
                 translation_cache[word] = maori_translation;
-            }
-            else {
-                maori_translation = "<notranslation>";
+            } else {
+                maori_translation = "!";
                 translation_cache[word] = maori_translation;
             }
         }
 
-        if (maori_translation != "<notranslation>") {
+        if (maori_translation != "!") {
             int encountered = encounter_map[word]++;
             if (dis(gen) <= should_translate(encountered, 1, 5)) {
                 output << "<span class=\"maori-word tooltip\">" << maori_translation << "<span class=\"tooltiptext\">" << original << "</span></span>";
-            }
-            else {
+            } else {
                 output << original;
             }
-        }
-        else {
+        } else {
             output << original;
         }
-        };
+    };
 
     while (stream.get(ch)) {
         if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
             word_buffer.push_back(ch);
-        }
-        else {
+        } else {
             if (!word_buffer.empty()) {
                 process_word(word_buffer);
                 word_buffer.clear();
             }
 
-            if (ch == '\n') {
-                output << "</p>\n<br><p>";
-            }
-            else {
-                output << ch; // Append non-alpha character to output
-            }
+            output << ch; // Append non-alpha character to output
         }
     }
 
@@ -155,9 +98,7 @@ std::string translate_and_replace(std::istream& stream, int seed)
         process_word(word_buffer);
     }
 
-
     // output << "</pre>";
-    output << "</p>";
 
     return output.str();
 }

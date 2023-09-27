@@ -2,6 +2,7 @@ personal/
 out/build/
 .vs/
 build/
+linux/
 # vscode buildscript.
 clean_build.sh
 

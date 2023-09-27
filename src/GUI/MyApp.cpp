@@ -2,6 +2,7 @@
 #include "logging.h"
 #include "translator.h"
 #include <Ultralight/Ultralight.h>
+#include <algorithm>
 #include <cerrno>
 #include <fstream>
 #include <functional>
@@ -18,11 +19,11 @@
 #define WINDOW_WIDTH 1440
 #define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
+
 MyApp::MyApp()
 {
     ///
     ///
-    currentPosition = 0;
     /// Create our main App instance.
     ///
     app_ = App::Create();
@@ -168,25 +169,7 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args)
 * @returns The contents of the opened file as a JSValue string or the
            error as a JSValue string
 */
-// JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args) {
-//   if (!args[0].IsString()) {
-//     return JSValue("Invalid string");
-//   }
-//   JSValueRef exception = NULL;
-//   JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
-//   size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
-//   char* filePath = new char[pathLength];
-//   JSStringGetUTF8CString(jsPathString, filePath, pathLength);
-//   std::ifstream file(filePath);
-//   if (!file.is_open()) {
-//     std::cerr << "Failed to open the file: " << filePath << std::endl;
-//     return JSValue("Failed to open the file");
-//   }
-//   delete[] filePath;
-//   std::string fileContent = translate_and_replace(file, 42);
-//   file.close();
-//   return JSValue(fileContent.c_str());
-// }
+
 JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
 {
     if (!args[0].IsString()) {
@@ -198,66 +181,113 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
     char* filePath = new char[pathLength];
     JSStringGetUTF8CString(jsPathString, filePath, pathLength);
-    // std::ifstream file(filePath, std::ios::in | std::ios::binary);
-    // if (!file.is_open()) {
-    //     std::cerr << "Failed to open the file: " << filePath << std::endl;
-    //     return JSValue("Failed to open the file");
-    // }
     std::string strPath = filePath;
+
     if (strPath != currentPath && strPath != "default") {
         currentPath = strPath;
-        chunks = {};
-        chunkFileIntoWords(strPath);
-        
+        // chunks = {};
+        endPage = true;
+        startPosition = 0;
+        endPosition = 0;
+        currentChunk = 0; // Reset the current chunk counter
+
+        std::ifstream file(filePath);
+        if (!file.is_open()) {
+            std::cerr << "Failed to open the file: " << filePath << std::endl;
+            return JSValue("Failed to open the file");
+        }
+        delete[] filePath;
+        std::string renderContent = translate_and_replace(file, 42);
+        std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + renderContent + "</pre>`";
+        overlay_->view()->EvaluateScript(jsCode.c_str());
+        return JSValue("Initialized");
     }
 
     delete[] filePath;
-    // file.seekg(currentPosition); // Move to the position from where we left off
-
-    // std::string chunk;
-    // chunk.resize(chunkSize);
-    // file.read(&chunk[0], chunkSize);
-
-    // // currentPosition = file.tellg(); // Update the position
-
-    // file.close();
-    // std::cout << chunks[page] << std::endl;
-    std::istringstream chunkStream(chunks[page]); // Convert string to stream
-    std::string fileContent = translate_and_replace(chunkStream, 42);
-    // file.close();
-    return JSValue(fileContent.c_str());
+    return JSValue("Updated");
 }
 
-void MyApp::chunkFileIntoWords(const std::string& filePath)
+void MyApp::updateReaderContent(const std::streampos renderStart, const std::streampos renderEnd)
 {
-    std::ifstream file(filePath);
+    size_t contentSize = renderEnd - renderStart;
+
+    // Ensure you have a dynamically allocated buffer if contentSize can be large
+    char* buffer = new char[contentSize];
+
+    // Seek to the start position
+    chunks.seekg(renderStart);
+
+    // Read content from renderStart to renderEnd
+    chunks.read(buffer, contentSize);
+
+    std::string renderContent(buffer, contentSize);
+
+    // Don't forget to delete the buffer to avoid memory leaks
+    delete[] buffer;
+
+    std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + renderContent + "</pre>`";
+
+    overlay_->view()->EvaluateScript(jsCode.c_str());
+}
+
+int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize)
+{
+    std::ifstream file(filePath, std::ios::binary);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open the file");
     }
 
-    // std::vector<std::string> chunks;
-    std::ostringstream currentChunk;
-    std::string word;
-    size_t currentSize = 0;
+    // Move to the starting position
+    // file.seekg(chunkSize * startChunk, std::ios::beg);
 
-    while (file >> word) {
-        // If adding the next word would exceed the chunk size, save the current chunk
-        if (currentSize + word.size() > chunkSize && currentSize > 0) {
-            chunks.push_back(currentChunk.str());
-            currentChunk.str(""); // Clear the current chunk
-            currentSize = 0;
+    int chunksProcessed = 0;
+    while (chunksProcessed < maxChunksToProcess) {
+        file.seekg(endPosition);
+        startPosition = file.tellg();
+        file.seekg(chunkSize, std::ios::cur); // Move forward by chunkSize
+        endPosition = file.tellg();
+
+        char ch;
+        bool foundEndOfChunk = false;
+        while (file.get(ch)) {
+            if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+            } else {
+                // This is not a letter, so it's the end of the word
+                endPosition = file.tellg();
+                foundEndOfChunk = true;
+                break; // Exit the inner while loop
+            }
         }
+        if (!foundEndOfChunk && file.eof()) {
+            endPage = true;
+            break;
+        }
+        std::streamoff chunkLength = endPosition - startPosition;
 
-        currentChunk << word << ' '; // Add a space after each word
-        currentSize += word.size() + 1; // +1 for the space
+        // Set the get position to startPosition
+        file.seekg(startPosition);
+
+        // Read the chunk into a buffer
+        std::vector<char> buffer(chunkLength);
+        file.read(buffer.data(), chunkLength);
+
+        // Convert the buffer directly to a std::istringstream
+        std::istringstream chunkStream(std::string(buffer.begin(), buffer.end()));
+        std::string result = translate_and_replace(chunkStream, 42);
+        maxChunk += result.size();
+        // Process the chunk and store the result
+        chunks << result;
+        chunksProcessed++;
+        if (file.eof()) {
+            endPage = true;
+            break;
+        }
     }
 
-    // Add the last chunk if it's not empty
-    if (currentSize > 0) {
-        chunks.push_back(currentChunk.str());
-    }
-    // return chunks;
+    return chunksProcessed;
 }
+
+// return chunks;
 
 /*!
 * @brief Open get the contents of a file

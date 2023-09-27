@@ -4,7 +4,8 @@
 #include <Ultralight/Ultralight.h>
 #include <iostream>
 #include <string>
-
+#include <vector>
+#include <sstream>
 using namespace ultralight;
 
 class MyApp : public AppListener,
@@ -69,7 +70,8 @@ public:
         uint32_t line_number,
         uint32_t column_number,
         const ultralight::String& source_id);
-    void chunkFileIntoWords(const std::string& filePath);
+    int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize);
+    void updateReaderContent(const std::streampos renderStart, const std::streampos renderEnd);
 
 protected:
     RefPtr<App> app_;
@@ -77,8 +79,16 @@ protected:
     RefPtr<Overlay> overlay_;
 
 private:
-    std::streampos currentPosition = 0;
+    std::streampos startPosition = 0;
+    std::streampos endPosition = 0;
+
+
+    int maxChunk = 0;
     std::string currentPath = "default";
-    std::vector<std::string> chunks;
-    size_t chunkSize = 2000;
+    int currentChunk = 0;
+    std::stringstream chunks;
+    size_t loadChunks = 1000;
+
+    size_t numChunks = 1;
+    bool endPage = false;
 };
