@@ -7,10 +7,7 @@ const readerHTML = `
     <div id="reader-content">
     </div>
     <footer>
-        <div class="footer-menu">
-            <button class="clickable-icon" onclick="prevPage();"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg><span id="pageNumber">0</span></button>
-            <button class="clickable-icon" onclick="nextPage();"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
-        </div>
+        
     </footer>
 </div>`;
 
@@ -27,10 +24,6 @@ const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
 </div>` ;
 
-
-let currentPage = 0;
-let maxPage = Infinity;
-let currentPath = "";
 // const pages = [];
 /*! 
  * @brief Add a book to the users local library
@@ -79,46 +72,7 @@ function openBook(filePath) {
     currentPath = filePath;
     document.getElementById("view").innerHTML = readerHTML;
     const status = GetTranslatedText(filePath, 0); // Load the initial content
-    // Start background processing for the rest of the content
-    processInBackground(filePath);
 }
-
-function processInBackground(filePath) {
-    // Use -1 to indicate background processing
-    const chunksProcessed = GetTranslatedText(filePath, -1);
-    // console.log("Chunks: ");
-    // console.log(chunksProcessed);
-    if (chunksProcessed > 0) {
-        setTimeout(() => processInBackground(filePath), 1);
-    }
-}
-
-
-function changePage(direction) {
-    if (direction === "next") {
-        currentPage++;
-    } else if (direction === "prev" && currentPage > 0) { // Ensure currentPage doesn't go negative
-        currentPage--;
-    }
-
-    updatePageNumber();
-    const status = GetTranslatedText(currentPath, 0); // Load the initial content
-
-    // fetchTranslatedText();
-}
-
-function fetchTranslatedText() {
-    const value = GetTranslatedText(currentPath, currentPage);
-    if (value === "loading") {
-        setTimeout(fetchTranslatedText, 1000);  // Wait for 1 second (1000 milliseconds) before trying again
-    } 
-    // if (value === "end"){
-    //     maxPage = currentPage    }
-}
-
-// You can call changePage with the desired direction
-// changePage("next");
-
 
 /*! 
  * @brief Opens the recent books view
@@ -202,20 +156,7 @@ function getFileNameFromPath(filePath) {
 
     return fileNameWithoutExtension;
 }
-function nextPage() {
-    changePage("next");
-}
-
-function prevPage() {
-    changePage("prev");
-}
-
-function updatePageNumber() {
-    document.getElementById("pageNumber").textContent = currentPage;
-}
-
 
 document.addEventListener('DOMContentLoaded', () => {
     openRecent();
 });
-updatePageNumber();

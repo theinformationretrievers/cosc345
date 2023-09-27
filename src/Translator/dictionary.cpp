@@ -38,49 +38,6 @@ Dictionary::Dictionary(const std::string& db_path) {
     // Add more indexes as needed...
 }
 
-
-// Dictionary::Dictionary(const std::string& db_path)
-// {
-//     if (!std::filesystem::exists(db_path)) {
-//         throw std::runtime_error("Database file does not exist at the specified path: " + db_path);
-//     }
-
-//     // Open an in-memory database
-//     int rc = sqlite3_open(":memory:", &db);
-//     if (rc) {
-//         throw std::runtime_error("Can't open in-memory database: " + std::string(sqlite3_errmsg(db)));
-//     }
-
-//     // Attach the disk-based database
-//     std::string attachSQL = "ATTACH DATABASE '" + db_path + "' AS diskDB";
-//     rc = sqlite3_exec(db, attachSQL.c_str(), 0, 0, 0);
-//     if (rc != SQLITE_OK) {
-//         throw std::runtime_error("Can't attach disk-based database: " + std::string(sqlite3_errmsg(db)));
-//     }
-
-//     // Increase cache size for the session
-//     sqlite3_exec(db, "PRAGMA cache_size=10000;", 0, 0, 0);
-
-//     // Begin a transaction
-//     sqlite3_exec(db, "BEGIN TRANSACTION;", 0, 0, 0);
-
-//     // Copy data from disk to memory (assuming tables are 'mappings', 'english_words', and 'maori_words')
-//     std::vector<std::string> tables = { "mappings", "english_words", "maori_words" };
-//     for (const auto& table : tables) {
-//         std::string copySQL = "CREATE TABLE " + table + " AS SELECT * FROM diskDB." + table;
-//         rc = sqlite3_exec(db, copySQL.c_str(), 0, 0, 0);
-//         if (rc != SQLITE_OK) {
-//             // If there's an error, rollback the transaction to avoid partial data in memory
-//             sqlite3_exec(db, "ROLLBACK;", 0, 0, 0);
-//             throw std::runtime_error("Can't copy table " + table + ": " + std::string(sqlite3_errmsg(db)));
-//         }
-//     }
-
-//     // Commit the transaction
-//     sqlite3_exec(db, "COMMIT;", 0, 0, 0);
-// }
-
-
 Dictionary::~Dictionary()
 {
     sqlite3_close(db);

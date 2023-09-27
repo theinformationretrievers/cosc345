@@ -169,25 +169,7 @@ JSValue MyApp::GetFileLinux(const JSObject& thisObject, const JSArgs& args)
 * @returns The contents of the opened file as a JSValue string or the
            error as a JSValue string
 */
-// JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args) {
-//   if (!args[0].IsString()) {
-//     return JSValue("Invalid string");
-//   }
-//   JSValueRef exception = NULL;
-//   JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
-//   size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
-//   char* filePath = new char[pathLength];
-//   JSStringGetUTF8CString(jsPathString, filePath, pathLength);
-//   std::ifstream file(filePath);
-//   if (!file.is_open()) {
-//     std::cerr << "Failed to open the file: " << filePath << std::endl;
-//     return JSValue("Failed to open the file");
-//   }
-//   delete[] filePath;
-//   std::string fileContent = translate_and_replace(file, 42);
-//   file.close();
-//   return JSValue(fileContent.c_str());
-// }
+
 JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
 {
     if (!args[0].IsString()) {
@@ -203,16 +185,12 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
 
     if (strPath != currentPath && strPath != "default") {
         currentPath = strPath;
-        chunks = {};
+        // chunks = {};
         endPage = true;
         startPosition = 0;
         endPosition = 0;
         currentChunk = 0; // Reset the current chunk counter
-        // chunkFileIntoWords(strPath, currentChunk, numChunks); // Process the first chunk
-        // currentChunk += numChunks;
-        // updateReaderContent(chunks[0]); // Update with the first chunk
-        // std::string jsCode = "document.getElementById('reader-content').innerHTML = `<div class=\"center-wrapper\"><div class=\"loader\"></div></div>`";
-        // overlay_->view()->EvaluateScript(jsCode.c_str());
+
         std::ifstream file(filePath);
         if (!file.is_open()) {
             std::cerr << "Failed to open the file: " << filePath << std::endl;
@@ -221,25 +199,8 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         delete[] filePath;
         std::string renderContent = translate_and_replace(file, 42);
         std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + renderContent + "</pre>`";
-        std::cout << jsCode << std::endl;
         overlay_->view()->EvaluateScript(jsCode.c_str());
         return JSValue("Initialized");
-    }
-
-    if (page == -1) {
-
-        // Process the next set of chunkSize in the background
-        // int chunksProcessed = chunkFileIntoWords(strPath, currentChunk, numChunks, loadChunks);
-        int chunksProcessed = 0;
-
-        delete[] filePath;
-
-        // currentChunk += chunksProcessed;
-        // std::streampos renderStart = 0;
-        // std::streampos renderEnd = endPosition;
-        // updateReaderContent(renderStart, renderEnd);
-
-        return JSValue(std::to_string(chunksProcessed).c_str()); // Return the number of chunks processed
     }
 
     delete[] filePath;
