@@ -73,8 +73,9 @@ public:
         uint32_t column_number,
         const ultralight::String& source_id);
     // int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize);
-    void updateReaderContent(const double page);
+    void updateReaderContent(const std::string& status);
     void translateNextChunk();
+    std::string makeJsString();
     void diagnoseFileStream(const std::string& context);
 protected:
     RefPtr<App> app_;
@@ -86,11 +87,11 @@ private:
     std::streampos endPosition = 0;
     std::streampos fileSize;
     std::ifstream fileStream;
-
-    int maxChunk = 0;
     std::string currentPath = "default";
+    double page = 0;
+    int maxChunk = 0;
     int currentChunk = 0;
-    size_t chunkSize = 4000;
+    size_t chunkSize = 1500;
     std::vector<std::string> pages;
     size_t numChunks = 1;
     bool endPage = false;

@@ -178,14 +178,24 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         return JSValue("Invalid string");
     }
     JSValueRef exception = NULL;
-    double page = args[1].ToNumber();
+
+    // Extracting the filePath
     JSStringRef jsPathString = JSValueToStringCopy(thisObject.context(), args[0], &exception);
     size_t pathLength = JSStringGetMaximumUTF8CStringSize(jsPathString);
     char* filePath = new char[pathLength];
     JSStringGetUTF8CString(jsPathString, filePath, pathLength);
     std::string strPath = filePath;
 
-    if (strPath != currentPath || strPath != "default") {
+    // Extracting the status
+    JSStringRef jsStatus = JSValueToStringCopy(thisObject.context(), args[1], &exception);
+    size_t statusLength = JSStringGetMaximumUTF8CStringSize(jsStatus);
+    char* cstatus = new char[statusLength];
+    JSStringGetUTF8CString(jsStatus, cstatus, statusLength);
+    std::string status = cstatus;
+    delete[] filePath;
+    delete[] cstatus;
+    if (strPath != currentPath || currentPath == "default") {
+
         currentPath = strPath;
         fileStream.close();
         pages = {};
@@ -193,31 +203,26 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         startPosition = 0;
         endPosition = 0;
 
-        fileStream = std::ifstream(filePath);
+        fileStream = std::ifstream(strPath);
         fileStream.seekg(0, std::ios::end); // Move to the end of the file
         fileSize = fileStream.tellg(); // Get the current position (which is the end)
         fileStream.seekg(0, std::ios::beg); // Move back to the beginning or to the original position
 
         if (!fileStream.is_open()) {
-            std::cerr << "Failed to open the fileStream: " << filePath << std::endl;
+            std::cerr << "Failed to open the fileStream: " << strPath << std::endl;
             diagnoseFileStream("MyApp::GetTranslatedText - After trying to open file");
             return JSValue("Failed to open the fileStream");
         }
 
-        delete[] filePath;
         translateNextChunk();
         translateNextChunk();
-        updateReaderContent(0);
+        translateNextChunk();
+        page++;
+        updateReaderContent("current");
         return JSValue("Initialized");
     }
-    if (!pages.size() >= page) {
-        if (endPage) {
-            updateReaderContent(pages.size() - 1);
-            return JSValue(pages.size());
-        }
-        translateNextChunk();
-    }
-    updateReaderContent(page);
+    std::cout << "Updating reader content with status: " << status << std::endl;
+    updateReaderContent(status);
     return JSValue(pages.size());
 }
 void MyApp::diagnoseFileStream(const std::string& context)
@@ -244,29 +249,66 @@ void MyApp::diagnoseFileStream(const std::string& context)
     std::cerr << "Current file stream position: " << fileStream.tellg() << std::endl;
 }
 
-void MyApp::updateReaderContent(const double page)
+void MyApp::updateReaderContent(const std::string& status)
 {
-    std::string renderContent = "";
 
-    // Check and add page-1 if it's within bounds
-    if (page - 1 >= 0) {
-        renderContent += pages[page - 1];
+    if (status == "next") {
+
+        page++;
+        if (pages.size() <= page + 1) {
+            translateNextChunk();
+        }
+        if (page < pages.size()) {
+            std::string jsCode = makeJsString();
+
+            overlay_->view()->EvaluateScript(jsCode.c_str());
+        }
+    } else if (status == "prev" && page - 2 >= 0) {
+        page--;
+        std::string jsCode = makeJsString();
+        overlay_->view()->EvaluateScript(jsCode.c_str());
+    } else if (status == "current") {
+
+        std::string jsCode = makeJsString();
+        overlay_->view()->EvaluateScript(jsCode.c_str());
     }
-
-    // Check and add page if it's within bounds
-    if (page >= 0 && page < pages.size()) {
-        renderContent += pages[page];
-    }
-
-    // Check and add page+1 if it's within bounds
-    if (page + 1 < pages.size()) {
-        renderContent += pages[page + 1];
-    }
-    std::cout << renderContent << std::endl;
-    std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + renderContent + "</pre>`";
-
-    overlay_->view()->EvaluateScript(jsCode.c_str());
 }
+
+std::string MyApp::makeJsString()
+{
+    // std::cout << "*****************************\npage -1 :" << pages[page-1] << "\n\n\n";
+    // std::cout << "*****************************\npage 0 :" << pages[page] << "\n\n\n";
+    // std::cout << "*****************************\npage +1 :" << pages[page+1] << "\n\n\n";
+
+    std::string jsCode = "document.getElementById('top-sentinel').innerHTML = `<pre>"
+        + pages[page - 1] + "</pre>`;" // Move middle to top
+                            "document.getElementById('middle-content').innerHTML = `<pre>"
+        + pages[page] + "</pre>`;"
+                        "document.getElementById('bottom-sentinel').innerHTML = `<pre>"
+        + pages[page + 1] + "</pre>`;document.getElementById('middle-content').scrollIntoView({ behavior: 'smooth' });"; // Added this line; // Load new content into bottom
+
+    return jsCode;
+}
+// std::string MyApp::makeJsString()
+// {
+//     std::string jsCode = "console.log('Updating content...');"
+//                          "const topSentinel = document.getElementById('top-sentinel');"
+//                          "const middleContent = document.getElementById('middle-content');"
+//                          "const bottomSentinel = document.getElementById('bottom-sentinel');"
+//                          "console.log('Top content:'+ `"
+//         + pages[page - 1] + "`);"
+//                             "console.log('Middle content:' + `"
+//         + pages[page] + "`);"
+//                         "console.log('Bottom content:' + `"
+//         + pages[page + 1] + "`);"
+//                             "topSentinel.innerHTML = `"
+//         + pages[page - 1] + "`;"
+//                             "middleContent.innerHTML = `"
+//         + pages[page] + "`;"
+//                         "bottomSentinel.innerHTML = `"
+//         + pages[page + 1] + "`;";
+//     return jsCode;
+// }
 
 void MyApp::translateNextChunk()
 {

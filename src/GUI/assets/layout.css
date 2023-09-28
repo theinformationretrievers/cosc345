@@ -98,7 +98,20 @@ footer {
     gap: 0;
 }
 
-
+.sentinel {
+    padding: 32px;
+    overflow: visible;
+    background-color: red;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+}
+.content {
+    padding: 32px;
+    overflow: visible;
+    background-color: blue;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+}
 
 
 

@@ -5,11 +5,15 @@ const readerHTML = `
         </div>
     </header>
     <div id="reader-content">
+        <div id="top-sentinel" class="sentinel"></div>
+        <div id="middle-content" class="content"></div>
+        <div id="bottom-sentinel" class="sentinel"></div>
     </div>
     <footer>
         
     </footer>
-</div>`;
+</div>
+`
 
 
 const recentGridHTML = `
@@ -23,11 +27,14 @@ const recentGridHTML = `
 const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
 </div>` ;
-let contentCounter = 1;
-let currentPage = 0;
+
+const options = {
+    root: null, // Use the viewport as the root
+    rootMargin: '0px',
+    threshold: 0.1 // Trigger callback when at least 10% of the sentinel is visible
+};
+let isLoadingContent = false;
 let currentPath = ""
-let lastScrollTop = 0; // This variable will store the previous scroll position
-// const pages = [];
 /*! 
  * @brief Add a book to the users local library
  * @details Opens a file dialog to select a file. Then saves the filepath
@@ -73,42 +80,35 @@ function createBook(filePath) {
 */
 
 function openBook(filePath) {
-    console.log(filePath)
     currentPath = filePath;
-    currentPage = 0;
-    lastScrollTop = 0;
-    contentCounter = 1;
-    document.getElementById("view").innerHTML = readerHTML;
-    const content = document.getElementById("view"); 
-    const status = GetTranslatedText(filePath, 0); // Load the initial content
-    content.addEventListener('scroll', function () {
-        console.log("scrolling")
-        // Check if user scrolled down
-        if (content.scrollTop > lastScrollTop) {
-            if (content.scrollTop + content.clientHeight >= content.scrollHeight) {
-                nextPage();
-            }
+    const view = document.getElementById("view")
+    view.innerHTML = readerHTML;
+    GetTranslatedText(filePath, "current"); // Load the initial content
+    view.addEventListener('scroll', debounce(function () {
+        if (isLoadingContent) {
+            return; // Exit if content is currently being loaded
         }
-        // Check if user scrolled up
-        else if (content.scrollTop < lastScrollTop) {
-            prevPage();
+        const bottomSentinel = document.getElementById('bottom-sentinel');
+        const topSentinel = document.getElementById('top-sentinel');
+
+        const bottomSentinelPosition = bottomSentinel.getBoundingClientRect();
+        const topSentinelPosition = topSentinel.getBoundingClientRect();
+        // Check if bottom sentinel is in view
+        if (topSentinelPosition.top <= window.innerHeight && topSentinelPosition.bottom >= 0) {
+            GetTranslatedText(currentPath, "prev");
+            
+            isLoadingContent = false;
         }
-        // Update the lastScrollTop with the current scrollTop value
-        lastScrollTop = content.scrollTop;
-    });
-}
-function changePage(direction) {
-    if (direction === "next" && currentPage) {
-        currentPage++;
-    } else if (direction === "prev" && currentPage > 0) { // Ensure currentPage doesn't go negative
-        currentPage--;
-    }
-    fetchTranslatedText();
+        if (bottomSentinelPosition.top <= window.innerHeight && bottomSentinelPosition.bottom >= 0) {
+            GetTranslatedText(currentPath, "next");
+            isLoadingContent = false;
+        }
+
+        // Check if top sentinel is in view
+    },0));
 }
 
-function fetchTranslatedText() {
-    const value = GetTranslatedText(currentPath, currentPage);
-}
+
 
 
 
@@ -120,25 +120,6 @@ function prevPage() {
     changePage("prev");
 }
 
-function loadMoreText(filePath) {
-    // Simulating an asynchronous call to fetch more content
-    setTimeout(function () {
-        const newText = document.createElement('pre');
-
-        content.appendChild(newText);
-
-        // Check if content fills the container
-        if (content.scrollHeight <= content.clientHeight) {
-            loadMoreText(filePath); // Load another chunk if the container isn't filled
-        }
-    }, 0); // 500ms delay to simulate network latency
-}
-function removeOldText() {
-    const content = document.getElementById('reader-content');
-    if (content.children.length > 5) { // Keep only the last 5 chunks
-        content.removeChild(content.firstChild);
-    }
-}
 /*! 
  * @brief Opens the recent books view
  * @details loads the users recently opened local files
@@ -222,21 +203,16 @@ function getFileNameFromPath(filePath) {
     return fileNameWithoutExtension;
 }
 
-function handleScroll(event) {
-    const content = event.target;
-    console.log("scrolling");
-    // Check if user scrolled down
-    if (content.scrollTop > lastScrollTop) {
-        if (content.scrollTop + content.clientHeight >= content.scrollHeight) {
-            nextPage();
-        }
-    }
-    // Check if user scrolled up
-    else if (content.scrollTop < lastScrollTop) {
-        prevPage();
-    }
-    // Update the lastScrollTop with the current scrollTop value
-    lastScrollTop = content.scrollTop;
+
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            func.apply(context, args);
+        }, wait);
+    };
 }
 
 
