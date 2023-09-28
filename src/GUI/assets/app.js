@@ -23,7 +23,10 @@ const recentGridHTML = `
 const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
 </div>` ;
-
+let contentCounter = 1;
+let currentPage = 0;
+let currentPath = ""
+let lastScrollTop = 0; // This variable will store the previous scroll position
 // const pages = [];
 /*! 
  * @brief Add a book to the users local library
@@ -68,12 +71,74 @@ function createBook(filePath) {
 * @details Opens a file dialog to select a file. Then saves the filepath
 * locally and adds the book to the users recently opened books
 */
+
 function openBook(filePath) {
+    console.log(filePath)
     currentPath = filePath;
+    currentPage = 0;
+    lastScrollTop = 0;
+    contentCounter = 1;
     document.getElementById("view").innerHTML = readerHTML;
+    const content = document.getElementById("view"); 
     const status = GetTranslatedText(filePath, 0); // Load the initial content
+    content.addEventListener('scroll', function () {
+        console.log("scrolling")
+        // Check if user scrolled down
+        if (content.scrollTop > lastScrollTop) {
+            if (content.scrollTop + content.clientHeight >= content.scrollHeight) {
+                nextPage();
+            }
+        }
+        // Check if user scrolled up
+        else if (content.scrollTop < lastScrollTop) {
+            prevPage();
+        }
+        // Update the lastScrollTop with the current scrollTop value
+        lastScrollTop = content.scrollTop;
+    });
+}
+function changePage(direction) {
+    if (direction === "next" && currentPage) {
+        currentPage++;
+    } else if (direction === "prev" && currentPage > 0) { // Ensure currentPage doesn't go negative
+        currentPage--;
+    }
+    fetchTranslatedText();
 }
 
+function fetchTranslatedText() {
+    const value = GetTranslatedText(currentPath, currentPage);
+}
+
+
+
+function nextPage() {
+    changePage("next");
+}
+
+function prevPage() {
+    changePage("prev");
+}
+
+function loadMoreText(filePath) {
+    // Simulating an asynchronous call to fetch more content
+    setTimeout(function () {
+        const newText = document.createElement('pre');
+
+        content.appendChild(newText);
+
+        // Check if content fills the container
+        if (content.scrollHeight <= content.clientHeight) {
+            loadMoreText(filePath); // Load another chunk if the container isn't filled
+        }
+    }, 0); // 500ms delay to simulate network latency
+}
+function removeOldText() {
+    const content = document.getElementById('reader-content');
+    if (content.children.length > 5) { // Keep only the last 5 chunks
+        content.removeChild(content.firstChild);
+    }
+}
 /*! 
  * @brief Opens the recent books view
  * @details loads the users recently opened local files
@@ -156,6 +221,26 @@ function getFileNameFromPath(filePath) {
 
     return fileNameWithoutExtension;
 }
+
+function handleScroll(event) {
+    const content = event.target;
+    console.log("scrolling");
+    // Check if user scrolled down
+    if (content.scrollTop > lastScrollTop) {
+        if (content.scrollTop + content.clientHeight >= content.scrollHeight) {
+            nextPage();
+        }
+    }
+    // Check if user scrolled up
+    else if (content.scrollTop < lastScrollTop) {
+        prevPage();
+    }
+    // Update the lastScrollTop with the current scrollTop value
+    lastScrollTop = content.scrollTop;
+}
+
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     openRecent();

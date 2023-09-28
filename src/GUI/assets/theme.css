@@ -101,7 +101,7 @@ body {
 
 #reader-content {
     padding: 32px;
-    overflow-y: scroll;
+    overflow: visible;
 }
 
 #reader-content pre {
