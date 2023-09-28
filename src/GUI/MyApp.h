@@ -89,10 +89,8 @@ private:
     std::ifstream fileStream;
     std::string currentPath = "default";
     double page = 0;
-    int maxChunk = 0;
-    int currentChunk = 0;
+    bool endPage = false;
+
     size_t chunkSize = 1500;
     std::vector<std::string> pages;
-    size_t numChunks = 1;
-    bool endPage = false;
 };
