@@ -202,7 +202,7 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         endPage = false;
         startPosition = 0;
         endPosition = 0;
-        fileSize = INFINITY;
+        fileSize = MAXFLOAT;
         page = 0;
         fileStream = std::ifstream(strPath);
         fileStream.seekg(0, std::ios::end); // Move to the end of the file
@@ -261,12 +261,17 @@ void MyApp::updateReaderContent(const std::string& status)
         }
         if (page < pages.size()) {
             std::string jsCode = makeJsString();
+            jsCode += "document.getElementById('middle-content').scrollIntoView({ behavior: 'smooth', block: 'start' })";
+            
 
             overlay_->view()->EvaluateScript(jsCode.c_str());
         }
     } else if (status == "prev" && page - 2 >= 0) {
         page--;
+        std::cout << "Prev pages:" << page << std::endl; 
         std::string jsCode = makeJsString();
+        jsCode += "document.getElementById('middle-content').scrollIntoView({ behavior: 'smooth', block: 'center' })";
+
         overlay_->view()->EvaluateScript(jsCode.c_str());
     } else if (status == "current") {
 
@@ -286,7 +291,7 @@ std::string MyApp::makeJsString()
                             "document.getElementById('middle-content').innerHTML = `<pre>"
         + pages[page] + "</pre>`;"
                         "document.getElementById('bottom-sentinel').innerHTML = `<pre>"
-        + pages[page + 1] + "</pre>`;document.getElementById('middle-content').scrollIntoView({ behavior: 'smooth' });"; // Added this line; // Load new content into bottom
+        + pages[page + 1] + "</pre>`;"; // Added this line; // Load new content into bottom
 
     return jsCode;
 }

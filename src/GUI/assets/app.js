@@ -93,19 +93,29 @@ function openBook(filePath) {
 
         const bottomSentinelPosition = bottomSentinel.getBoundingClientRect();
         const topSentinelPosition = topSentinel.getBoundingClientRect();
-        // Check if bottom sentinel is in view
-        if (topSentinelPosition.top <= window.innerHeight && topSentinelPosition.bottom >= 0) {
+
+        // Calculate the visible height for top sentinel
+        const topSentinelHeight = topSentinelPosition.bottom - topSentinelPosition.top;
+        const topVisibleHeight = Math.min(topSentinelPosition.bottom, window.innerHeight) - Math.max(topSentinelPosition.top, 0);
+
+        // Calculate the visible height for bottom sentinel
+        const bottomSentinelHeight = bottomSentinelPosition.bottom - bottomSentinelPosition.top;
+        const bottomVisibleHeight = Math.min(bottomSentinelPosition.bottom, window.innerHeight) - Math.max(bottomSentinelPosition.top, 0);
+
+        // Check if at least 20% of top sentinel is in view
+        if (topVisibleHeight >= 0.2 * topSentinelHeight) {
             GetTranslatedText(currentPath, "prev");
-            
             isLoadingContent = false;
         }
-        if (bottomSentinelPosition.top <= window.innerHeight && bottomSentinelPosition.bottom >= 0) {
+
+        // Check if at least 20% of bottom sentinel is in view
+        if (bottomVisibleHeight >= 0.2 * bottomSentinelHeight) {
             GetTranslatedText(currentPath, "next");
             isLoadingContent = false;
         }
 
         // Check if top sentinel is in view
-    },0));
+    }, 20));
 }
 
 
@@ -206,10 +216,10 @@ function getFileNameFromPath(filePath) {
 
 function debounce(func, wait) {
     let timeout;
-    return function() {
+    return function () {
         const context = this, args = arguments;
         clearTimeout(timeout);
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
             func.apply(context, args);
         }, wait);
     };

@@ -99,18 +99,22 @@ footer {
 }
 
 .sentinel {
-    padding: 32px;
+    padding: 50px;
     overflow: visible;
     background-color: red;
     white-space: pre-wrap;
     text-overflow: ellipsis;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 .content {
-    padding: 32px;
+    padding: 50px;
     overflow: visible;
     background-color: blue;
     white-space: pre-wrap;
     text-overflow: ellipsis;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 
