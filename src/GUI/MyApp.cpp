@@ -177,6 +177,7 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     if (!args[0].IsString()) {
         return JSValue("Invalid string");
     }
+    double page = args[1].ToNumber();
     JSValueRef exception = NULL;
 
     // Extracting the filePath
@@ -187,23 +188,15 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
     std::string strPath = filePath;
 
     // Extracting the status
-    JSStringRef jsStatus = JSValueToStringCopy(thisObject.context(), args[1], &exception);
-    size_t statusLength = JSStringGetMaximumUTF8CStringSize(jsStatus);
-    char* cstatus = new char[statusLength];
-    JSStringGetUTF8CString(jsStatus, cstatus, statusLength);
-    std::string status = cstatus;
     delete[] filePath;
-    delete[] cstatus;
     if (strPath != currentPath || currentPath == "default") {
-
         currentPath = strPath;
         fileStream.close();
         pages = {};
         endPage = false;
         startPosition = 0;
         endPosition = 0;
-        fileSize = MAXFLOAT;
-        page = 0;
+        fileSize = 1000000;
         fileStream = std::ifstream(strPath);
         fileStream.seekg(0, std::ios::end); // Move to the end of the file
         fileSize = fileStream.tellg(); // Get the current position (which is the end)
@@ -216,15 +209,12 @@ JSValue MyApp::GetTranslatedText(const JSObject& thisObject, const JSArgs& args)
         }
 
         translateNextChunk();
-        translateNextChunk();
-        translateNextChunk();
-        page++;
-        updateReaderContent("current");
-        return JSValue("Initialized");
     }
-    std::cout << "Updating reader content with status: " << status << std::endl;
-    updateReaderContent(status);
-    return JSValue(pages.size());
+    updateReaderContent(page);
+    if (endPage){
+        return JSValue(pages.size());
+    }
+    return JSValue("normal");
 }
 void MyApp::diagnoseFileStream(const std::string& context)
 {
@@ -250,71 +240,15 @@ void MyApp::diagnoseFileStream(const std::string& context)
     std::cerr << "Current file stream position: " << fileStream.tellg() << std::endl;
 }
 
-void MyApp::updateReaderContent(const std::string& status)
+void MyApp::updateReaderContent(const double page)
 {
-
-    if (status == "next") {
-
-        page++;
-        if (pages.size() <= page + 1) {
-            translateNextChunk();
-        }
-        if (page < pages.size()) {
-            std::string jsCode = makeJsString();
-            jsCode += "document.getElementById('middle-content').scrollIntoView({ behavior: 'smooth', block: 'start' })";
-            
-
-            overlay_->view()->EvaluateScript(jsCode.c_str());
-        }
-    } else if (status == "prev" && page - 2 >= 0) {
-        page--;
-        std::cout << "Prev pages:" << page << std::endl; 
-        std::string jsCode = makeJsString();
-        jsCode += "document.getElementById('middle-content').scrollIntoView({ behavior: 'smooth', block: 'center' })";
-
-        overlay_->view()->EvaluateScript(jsCode.c_str());
-    } else if (status == "current") {
-
-        std::string jsCode = makeJsString();
-        overlay_->view()->EvaluateScript(jsCode.c_str());
+    if (pages.size() <= page) {
+        translateNextChunk();
     }
+    std::string jsCode = "document.getElementById('reader-content').innerHTML = `<pre>" + pages[page] + "</pre>`;";
+    // std::cout << jsCode << std::endl;
+    overlay_->view()->EvaluateScript(jsCode.c_str());
 }
-
-std::string MyApp::makeJsString()
-{
-    // std::cout << "*****************************\npage -1 :" << pages[page-1] << "\n\n\n";
-    // std::cout << "*****************************\npage 0 :" << pages[page] << "\n\n\n";
-    // std::cout << "*****************************\npage +1 :" << pages[page+1] << "\n\n\n";
-
-    std::string jsCode = "document.getElementById('top-sentinel').innerHTML = `<pre>"
-        + pages[page - 1] + "</pre>`;" // Move middle to top
-                            "document.getElementById('middle-content').innerHTML = `<pre>"
-        + pages[page] + "</pre>`;"
-                        "document.getElementById('bottom-sentinel').innerHTML = `<pre>"
-        + pages[page + 1] + "</pre>`;"; // Added this line; // Load new content into bottom
-
-    return jsCode;
-}
-// std::string MyApp::makeJsString()
-// {
-//     std::string jsCode = "console.log('Updating content...');"
-//                          "const topSentinel = document.getElementById('top-sentinel');"
-//                          "const middleContent = document.getElementById('middle-content');"
-//                          "const bottomSentinel = document.getElementById('bottom-sentinel');"
-//                          "console.log('Top content:'+ `"
-//         + pages[page - 1] + "`);"
-//                             "console.log('Middle content:' + `"
-//         + pages[page] + "`);"
-//                         "console.log('Bottom content:' + `"
-//         + pages[page + 1] + "`);"
-//                             "topSentinel.innerHTML = `"
-//         + pages[page - 1] + "`;"
-//                             "middleContent.innerHTML = `"
-//         + pages[page] + "`;"
-//                         "bottomSentinel.innerHTML = `"
-//         + pages[page + 1] + "`;";
-//     return jsCode;
-// }
 
 void MyApp::translateNextChunk()
 {
@@ -328,6 +262,7 @@ void MyApp::translateNextChunk()
         std::string result = translate_and_replace(chunkStream, 42);
         pages.push_back(result);
         fileStream.seekg(endPosition);
+
         endPage = true;
     } else {
 
@@ -369,69 +304,12 @@ void MyApp::translateNextChunk()
         pages.push_back(result);
 
         fileStream.seekg(endPosition);
+        
     }
+
 }
 
-// int MyApp::chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize)
-// {
-//     std::ifstream file(filePath, std::ios::binary);
-//     if (!file.is_open()) {
-//         throw std::runtime_error("Failed to open the file");
-//     }
-
-//     // Move to the starting position
-//     // file.seekg(chunkSize * startChunk, std::ios::beg);
-
-//     int chunksProcessed = 0;
-//     while (chunksProcessed < maxChunksToProcess) {
-//         file.seekg(endPosition);
-//         startPosition = file.tellg();
-//         file.seekg(chunkSize, std::ios::cur); // Move forward by chunkSize
-//         endPosition = file.tellg();
-
-//         char ch;
-//         bool foundEndOfChunk = false;
-//         while (file.get(ch)) {
-//             if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
-//             } else {
-//                 // This is not a letter, so it's the end of the word
-//                 endPosition = file.tellg();
-//                 foundEndOfChunk = true;
-//                 break; // Exit the inner while loop
-//             }
-//         }
-//         if (!foundEndOfChunk && file.eof()) {
-//             endPage = true;
-//             break;
-//         }
-//         std::streamoff chunkLength = endPosition - startPosition;
-
-//         // Set the get position to startPosition
-//         file.seekg(startPosition);
-
-//         // Read the chunk into a buffer
-//         std::vector<char> buffer(chunkLength);
-//         file.read(buffer.data(), chunkLength);
-
-//         // Convert the buffer directly to a std::istringstream
-//         std::istringstream chunkStream(std::string(buffer.begin(), buffer.end()));
-//         std::string result = translate_and_replace(chunkStream, 42);
-//         maxChunk += result.size();
-//         // Process the chunk and store the result
-//         chunks << result;
-//         chunksProcessed++;
-//         if (file.eof()) {
-//             endPage = true;
-//             break;
-//         }
-//     }
-
-//     return chunksProcessed;
-// }
-
-// return chunks;
-
-/*!
+/*
 * @brief Open get the contents of a file
 * @details Using windows GetOpenFileName file dialog to open a file
 *					 then converts it to a std::fstream and reads the contents

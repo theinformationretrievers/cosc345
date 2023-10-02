@@ -2,11 +2,11 @@
 #include "logging.h"
 #include <AppCore/AppCore.h>
 #include <Ultralight/Ultralight.h>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <fstream>
 
 using namespace ultralight;
 
@@ -73,10 +73,10 @@ public:
         uint32_t column_number,
         const ultralight::String& source_id);
     // int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize);
-    void updateReaderContent(const std::string& status);
+    void updateReaderContent(const double page);
     void translateNextChunk();
-    std::string makeJsString();
     void diagnoseFileStream(const std::string& context);
+
 protected:
     RefPtr<App> app_;
     RefPtr<Window> window_;
@@ -88,9 +88,7 @@ private:
     std::streampos fileSize;
     std::ifstream fileStream;
     std::string currentPath = "default";
-    double page = 0;
     bool endPage = false;
-
-    size_t chunkSize = 1500;
+    size_t chunkSize = 2000;
     std::vector<std::string> pages;
 };

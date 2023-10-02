@@ -96,6 +96,9 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 0;
+    bottom: 0; 
+    transform: translateX(-50%); 
+    position: fixed;
 }
 
 .sentinel {
@@ -117,6 +120,23 @@ footer {
     scroll-behavior: smooth;
 }
 
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
 
 

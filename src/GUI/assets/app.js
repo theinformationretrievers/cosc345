@@ -5,15 +5,24 @@ const readerHTML = `
         </div>
     </header>
     <div id="reader-content">
-        <div id="top-sentinel" class="sentinel"></div>
-        <div id="middle-content" class="content"></div>
-        <div id="bottom-sentinel" class="sentinel"></div>
     </div>
     <footer>
-        
+        <div class="footer-menu">
+            <button id="firstPageButton" class="clickable-icon" onclick="goToFirstPage();">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 15 15" fill="none">
+            x<path fill-rule="evenodd" clip-rule="evenodd" d="M6.85355 3.85355C7.04882 3.65829 7.04882 3.34171 6.85355 3.14645C6.65829 2.95118 6.34171 2.95118 6.14645 3.14645L2.14645 7.14645C1.95118 7.34171 1.95118 7.65829 2.14645 7.85355L6.14645 11.8536C6.34171 12.0488 6.65829 12.0488 6.85355 11.8536C7.04882 11.6583 7.04882 11.3417 6.85355 11.1464L3.20711 7.5L6.85355 3.85355ZM12.8536 3.85355C13.0488 3.65829 13.0488 3.34171 12.8536 3.14645C12.6583 2.95118 12.3417 2.95118 12.1464 3.14645L8.14645 7.14645C7.95118 7.34171 7.95118 7.65829 8.14645 7.85355L12.1464 11.8536C12.3417 12.0488 12.6583 12.0488 12.8536 11.8536C13.0488 11.6583 13.0488 11.3417 12.8536 11.1464L9.20711 7.5L12.8536 3.85355Z" fill="#000000"/>
+</svg>
+</button>
+
+            <button id="prevButton" class="clickable-icon" onclick="prevPage();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-arrow-left">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline></svg></button>
+            <span id="pageNumber">0</span>
+            <button id="nextButton" class="clickable-icon" onclick="nextPage();"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
+        </div>
     </footer>
-</div>
-`
+</div>`;
 
 
 const recentGridHTML = `
@@ -28,13 +37,13 @@ const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
 </div>` ;
 
-const options = {
-    root: null, // Use the viewport as the root
-    rootMargin: '0px',
-    threshold: 0.1 // Trigger callback when at least 10% of the sentinel is visible
-};
-let isLoadingContent = false;
-let currentPath = ""
+
+let currentPage = 0;
+let maxPage = Infinity;
+let max = false;
+let currentPath = "";
+
+// const pages = [];
 /*! 
  * @brief Add a book to the users local library
  * @details Opens a file dialog to select a file. Then saves the filepath
@@ -46,6 +55,7 @@ function addBook() {
     if (result == "Success") {
         createBook(filePath);
     }
+    openBook(filePath);
 }
 
 /*! 
@@ -78,56 +88,36 @@ function createBook(filePath) {
 * @details Opens a file dialog to select a file. Then saves the filepath
 * locally and adds the book to the users recently opened books
 */
-
 function openBook(filePath) {
+    console.log(filePath);
     currentPath = filePath;
-    const view = document.getElementById("view")
-    view.innerHTML = readerHTML;
-    GetTranslatedText(filePath, "current"); // Load the initial content
-    view.addEventListener('scroll', debounce(function () {
-        if (isLoadingContent) {
-            return; // Exit if content is currently being loaded
-        }
-        const bottomSentinel = document.getElementById('bottom-sentinel');
-        const topSentinel = document.getElementById('top-sentinel');
-
-        const bottomSentinelPosition = bottomSentinel.getBoundingClientRect();
-        const topSentinelPosition = topSentinel.getBoundingClientRect();
-
-        // Calculate the visible height for top sentinel
-        const topSentinelHeight = topSentinelPosition.bottom - topSentinelPosition.top;
-        const topVisibleHeight = Math.min(topSentinelPosition.bottom, window.innerHeight) - Math.max(topSentinelPosition.top, 0);
-
-        // Calculate the visible height for bottom sentinel
-        const bottomSentinelHeight = bottomSentinelPosition.bottom - bottomSentinelPosition.top;
-        const bottomVisibleHeight = Math.min(bottomSentinelPosition.bottom, window.innerHeight) - Math.max(bottomSentinelPosition.top, 0);
-
-        // Check if at least 20% of top sentinel is in view
-        if (topVisibleHeight >= 0.2 * topSentinelHeight) {
-            GetTranslatedText(currentPath, "prev");
-            isLoadingContent = false;
-        }
-
-        // Check if at least 20% of bottom sentinel is in view
-        if (bottomVisibleHeight >= 0.2 * bottomSentinelHeight) {
-            GetTranslatedText(currentPath, "next");
-            isLoadingContent = false;
-        }
-
-        // Check if top sentinel is in view
-    }, 20));
+    currentPage = 0;
+    maxPage = Infinity;
+    max = false;
+    document.getElementById("view").innerHTML = readerHTML;
+    const status = GetTranslatedText(currentPath, currentPage); // Load the initial content
+    if (status != "normal" && max == false) {
+        maxPage = currentPage;
+        max = true;
+    }
+    // Start background processing for the rest of the content
 }
 
 
 
 
-
-function nextPage() {
-    changePage("next");
-}
-
-function prevPage() {
-    changePage("prev");
+function changePage(direction) {
+    if (direction === "next" && currentPage < maxPage) {
+        currentPage++;
+    } else if (direction === "prev" && currentPage > 0) { // Ensure currentPage doesn't go negative
+        currentPage--;
+    }
+    updatePageNumber();
+    const status = GetTranslatedText(currentPath, currentPage);
+    if (status != "normal" && max == false) {
+        maxPage = currentPage;
+        max = true;
+    }
 }
 
 /*! 
@@ -212,22 +202,43 @@ function getFileNameFromPath(filePath) {
 
     return fileNameWithoutExtension;
 }
+function nextPage() {
+    changePage("next");
+}
 
+function prevPage() {
+    changePage("prev");
+}
 
-function debounce(func, wait) {
-    let timeout;
-    return function () {
-        const context = this, args = arguments;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-            func.apply(context, args);
-        }, wait);
-    };
+function goToFirstPage() {
+    currentPage = 0;
+    let content = document.getElementById("reader-content");
+    content.style.animation = "fadeOut 0.5s forwards";
+
+    setTimeout(() => {
+
+        changePage("");
+        content.style.animation = "fadeIn 0.5s forwards";
+    }, 500); // 500ms matches the duration of the fade-out animation
 }
 
 
+function updatePageNumber() {
+    if (currentPage == maxPage) {
+        document.getElementById("pageNumber").textContent = "Final page";
+    } else {
+        document.getElementById("pageNumber").textContent = currentPage;
+    }
+}
 
-
+document.addEventListener('keydown', function (event) {
+    if (event.key === "ArrowLeft") {
+        document.getElementById("prevButton").click();
+    } else if (event.key === "ArrowRight") {
+        document.getElementById("nextButton").click();
+    }
+});
 document.addEventListener('DOMContentLoaded', () => {
     openRecent();
 });
+updatePageNumber();
