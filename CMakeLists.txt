@@ -73,9 +73,9 @@ configure_file(${CMAKE_SOURCE_DIR}/src/Translator/dict.sqlite ${CMAKE_BINARY_DIR
 
 ## Add Catch2 testing suite
 
-# add_subdirectory(lib/Catch2)
+add_subdirectory(lib/Catch2)
 file(GLOB TEST_SOURCES "tests/*/*.cpp")
-add_executable(tests EXCLUDE_FROM_ALL ${TEST_SOURCES}) # Add EXCLUDE_FROM_ALL here
+add_executable(tests ${TEST_SOURCES})
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain TranslatorLib)
 include(CTest)
 include(Catch)
