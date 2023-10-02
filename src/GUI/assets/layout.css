@@ -82,6 +82,7 @@ footer {
 #view {
     height: 100vh; /* or some other value */
     overflow: auto;
+    text-align: center;
 }
 
 .header-menu {
@@ -104,7 +105,7 @@ footer {
 .sentinel {
     padding: 50px;
     overflow: visible;
-    background-color: red;
+/*    background-color: red;*/
     white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow-y: scroll;
@@ -113,7 +114,7 @@ footer {
 .content {
     padding: 50px;
     overflow: visible;
-    background-color: blue;
+/*    background-color: blue;*/
     white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow-y: scroll;
