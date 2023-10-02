@@ -15,13 +15,15 @@
 void strip_and_lower(std::string& str)
 {
     str.erase(std::remove_if(str.begin(), str.end(),
-                  [](unsigned char c) {
-                      return std::ispunct(c);
-                  }),
-        str.end());
+                             [](unsigned char c)
+                             {
+                                 return std::ispunct(c);
+                             }),
+              str.end());
 
     std::transform(str.begin(), str.end(), str.begin(),
-        [](unsigned char c) { return std::tolower(c); });
+                   [](unsigned char c)
+                   { return std::tolower(c); });
 }
 
 double should_translate(int user_encounter_count, double word_preference, double introduction_rate)
@@ -53,7 +55,8 @@ std::string translate_and_replace(std::istream& stream, int seed)
         std::string maori_translation;
         auto cached_translation = translation_cache.find(word);
 
-        if (cached_translation != translation_cache.end()) {
+        if (cached_translation != translation_cache.end())
+        {
             maori_translation = cached_translation->second;
         } else {
 
@@ -70,7 +73,8 @@ std::string translate_and_replace(std::istream& stream, int seed)
 
         if (maori_translation != "!") {
             int encountered = encounter_map[word]++;
-            if (dis(gen) <= should_translate(encountered, 1, 5)) {
+            if (dis(gen) <= should_translate(encountered, 1, 5))
+            {
                 output << "<span class=\"maori-word tooltip\">" << maori_translation << "<span class=\"tooltiptext\">" << original << "</span></span>";
             } else {
                 output << original;
@@ -80,16 +84,25 @@ std::string translate_and_replace(std::istream& stream, int seed)
         }
     };
 
-    while (stream.get(ch)) {
-        if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122)) {
+    while (stream.get(ch))
+    {
+        if ((ch >= 41 && ch <= 90) || (ch >= 97 && ch <= 122))
+        {
             word_buffer.push_back(ch);
-        } else {
-            if (!word_buffer.empty()) {
+        } else
+        {
+            if (!word_buffer.empty())
+            {
                 process_word(word_buffer);
                 word_buffer.clear();
             }
 
-            output << ch; // Append non-alpha character to output
+            if (ch == '\n') {
+                output << "</p>\n<br><p>";
+            }
+            else {
+                output << ch; // Append non-alpha character to output
+            }
         }
     }
 

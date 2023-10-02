@@ -29,6 +29,12 @@ MyApp::MyApp()
     /// Create our main App instance.
     ///
     app_ = App::Create();
+MyApp::MyApp()
+{
+  ///
+  /// Create our main App instance.
+  ///
+  app_ = App::Create();
 
     ///
     /// Create a resizable window by passing by OR'ing our window flags with
