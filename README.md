@@ -33,10 +33,17 @@ run Diglot.exe once it has compiled
 
 ```
 
-In order for the app to work on Linux, install `libgtk-3-dev`, e.g. for ubunutu:
+In order for the app to work on Linux, install `libgtk-3-dev`, additionally g++ version must be > 13 e.g. for ubuntu:
 
 ```
 sudo apt-get install libgtk-3-dev
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-13 g++-13
+Then to run specify compiler by 
+mdkir && cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=gcc-toolchain.cmake ..
+
 ```
 
 ### License

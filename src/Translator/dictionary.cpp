@@ -1,31 +1,53 @@
 // dictionary.cpp
 #include "dictionary.h"
-#include <stdexcept>
-#include <iostream>
 #include <filesystem>
+#include <iostream>
+#include <stdexcept>
 #ifdef _WIN32
 #include <Windows.h>
 #endif
 
-
 Dictionary::Dictionary(const std::string& db_path) {
-    if (!std::filesystem::exists(db_path)) {
-        throw std::runtime_error("Database does not exist at this path: " + std::string(sqlite3_errmsg(db)));
-    }
     int rc = sqlite3_open(db_path.c_str(), &db);
     if (rc) {
         throw std::runtime_error("Can't open database: " + std::string(sqlite3_errmsg(db)));
     }
+
+    // Temporarily add indexes for testing
+    char* errMsg = 0;
+
+    // Example: Create an index on the `word` column of the `english_words` table
+    const char* createIndexSQL = "CREATE INDEX IF NOT EXISTS idx_english_word ON english_words(word)";
+    rc = sqlite3_exec(db, createIndexSQL, 0, 0, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Error creating index: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+    }
+    createIndexSQL = "CREATE INDEX IF NOT EXISTS idx_mappings_word_id ON mappings(word_id)";
+    rc = sqlite3_exec(db, createIndexSQL, 0, 0, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Error creating index: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+    }
+    createIndexSQL = "CREATE INDEX IF NOT EXISTS idx_mappings_maori_id ON mappings(maori_id)";
+    rc = sqlite3_exec(db, createIndexSQL, 0, 0, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Error creating index: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+    }
+    // Add more indexes as needed...
 }
 
-Dictionary::~Dictionary() {
+Dictionary::~Dictionary()
+{
     sqlite3_close(db);
 }
 
-bool Dictionary::query_word(const std::string& word, const std::string& pos) {
+bool Dictionary::query_word(const std::string& word, const std::string& pos)
+{
     std::string query = "SELECT 1 FROM mappings "
-        "JOIN english_words e ON e.word_id = mappings.word_id "
-        "WHERE e.word = ? ";
+                        "JOIN english_words e ON e.word_id = mappings.word_id "
+                        "WHERE e.word = ? ";
     if (!pos.empty()) {
         query += "AND mappings.part_of_speech = ? ";
     }
@@ -46,8 +68,7 @@ bool Dictionary::query_word(const std::string& word, const std::string& pos) {
 
         sqlite3_finalize(stmt);
         return exists;
-    }
-    catch (const std::exception& e) {
+    } catch (const std::exception& e) {
         std::string errorMessage = "Exception: " + std::string(e.what()) + "\n";
         // OutputDebugStringA(errorMessage.c_str());
 
@@ -65,14 +86,14 @@ bool Dictionary::query_word(const std::string& word, const std::string& pos) {
 
         return false;
     }
-
 }
 
-std::vector<std::string> Dictionary::fetch_translations(const std::string& word, const std::string& pos) {
+std::vector<std::string> Dictionary::fetch_translations(const std::string& word, const std::string& pos)
+{
     std::string query = "SELECT m.word FROM mappings "
-        "JOIN english_words e ON e.word_id = mappings.word_id "
-        "JOIN maori_words m ON m.maori_id = mappings.maori_id "
-        "WHERE e.word = ? ";
+                        "JOIN english_words e ON e.word_id = mappings.word_id "
+                        "JOIN maori_words m ON m.maori_id = mappings.maori_id "
+                        "WHERE e.word = ? ";
     if (!pos.empty()) {
         query += "AND mappings.part_of_speech = ? ";
     }
@@ -96,10 +117,12 @@ std::vector<std::string> Dictionary::fetch_translations(const std::string& word,
     return translations;
 }
 
-bool Dictionary::can_translate(const std::string& word, const std::string& pos) {
+bool Dictionary::can_translate(const std::string& word, const std::string& pos)
+{
     return query_word(word, pos);
 }
 
-std::vector<std::string> Dictionary::translate(const std::string& word, const std::string& pos) {
+std::vector<std::string> Dictionary::translate(const std::string& word, const std::string& pos)
+{
     return fetch_translations(word, pos);
 }

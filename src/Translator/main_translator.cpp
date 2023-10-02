@@ -25,19 +25,19 @@
  */
 int main(void)
 {
-    std::string in_path = "../test_data/small_test.txt";
-    std::string out_path = "../test_data/translated.test";
-    #ifdef _WIN32
-    in_path = "../../../test_data/small_test.txt";
-    out_path = "../../../test_data/translated.test";
-    #endif
-    std::ifstream inputFile(in_path);
-    std::stringstream inputStream;
-    inputStream << inputFile.rdbuf();
+    // std::string in_path = "../test_data/small_test.txt";
+    // std::string out_path = "../test_data/translated.test";
+    // #ifdef _WIN32
+    // in_path = "../../../test_data/small_test.txt";
+    // out_path = "../../../test_data/translated.test";
+    // #endif
+    // std::ifstream inputFile(in_path);
+    // std::stringstream inputStream;
+    // inputStream << inputFile.rdbuf();
 
-    std::string fileContent = translate_and_replace(inputStream, 42);
-    std::cout << fileContent << std::endl;
-    std::ofstream outputFile(out_path);
-    outputFile << fileContent;
+    // std::string fileContent = translate_and_replace(inputStream, 42);
+    // std::cout << fileContent << std::endl;
+    // std::ofstream outputFile(out_path);
+    // outputFile << fileContent;
     return 0;
 }

@@ -79,6 +79,10 @@ footer {
     grid-template-rows: min-content 1fr min-content;
     min-height: 100vh;
 }
+#view {
+    height: 100vh; /* or some other value */
+    overflow: auto;
+}
 
 .header-menu {
     display: flex;
@@ -92,7 +96,49 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 0;
+    bottom: 0; 
+    transform: translateX(-50%); 
+    position: fixed;
 }
+
+.sentinel {
+    padding: 50px;
+    overflow: visible;
+    background-color: red;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.content {
+    padding: 50px;
+    overflow: visible;
+    background-color: blue;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
 
 /* make sure everything is within the window */
 * {
