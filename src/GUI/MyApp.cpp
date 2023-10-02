@@ -22,13 +22,8 @@
 #define WINDOW_HEIGHT 900
 #define BUFSIZE MAX_PATH
 
-MyApp::MyApp()
-{
-    ///
-    ///
-    /// Create our main App instance.
-    ///
-    app_ = App::Create();
+
+
 MyApp::MyApp()
 {
   ///

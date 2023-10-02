@@ -46,8 +46,6 @@ std::string translate_and_replace(std::istream& stream, int seed)
     std::string word_buffer;
     char ch;
 
-    // output << "<pre>";
-
     auto process_word = [&](std::string& word) {
         std::string original = word;
         strip_and_lower(word);
@@ -110,8 +108,6 @@ std::string translate_and_replace(std::istream& stream, int seed)
     if (!word_buffer.empty()) {
         process_word(word_buffer);
     }
-
-    // output << "</pre>";
 
     return output.str();
 }
