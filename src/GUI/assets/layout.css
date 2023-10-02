@@ -99,7 +99,8 @@ footer {
     gap: 0;
     bottom: 0; 
     transform: translateX(-50%); 
-    position: fixed;
+    position: fixed; 
+    background-color: var(--color-base-00);
 }
 
 .sentinel {
