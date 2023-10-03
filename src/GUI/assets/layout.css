@@ -43,6 +43,7 @@ footer {
     align-items: stretch;
     align-content: flex-start;
     padding: 8px;
+    margin-top: 40px;
 }
 
 .book-grid-item {
@@ -57,6 +58,7 @@ footer {
     flex-direction: column;
     padding: 8px 4px 12px;
     width: var(--ribbon-width);
+    z-index: 200;
 }
 
 .ribbon-top-icons,
@@ -124,26 +126,28 @@ footer {
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
-
 .search-bar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     padding: 3px;
     padding-bottom: 10px;
-    background-color: var(--color-base-00)
+    background-color: var(--color-base-00);
+    z-index: 100;
 }
 
-    .search-bar input[type=text] {
-        display: inline-block;
-        padding: 6px;
-        border: none;
-        margin-top: 8px;
-        margin-right: 16px;
-        margin-left: 16px;
-        font-size: 17px;
-        border-radius: 20px;
-    }
+.search-bar input[type=text] {
+    display: inline-block;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    margin-left: 16px;
+    font-size: 17px;
+    border-radius: 20px;
+}
 
 @keyframes fadeOut {
     from {
