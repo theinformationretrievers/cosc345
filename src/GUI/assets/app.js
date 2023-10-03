@@ -281,10 +281,10 @@ function customFuzzySearchAndCreateBooks(searchTerm) {
             const results = fuzzysort.go(searchTerm, Object.values(data), {
                 keys: ['Title', 'Author'],
                 // limit: 10,
-                threshold: -200,
+                threshold: -9999,
 
                 // Create a custom combined score to sort by
-                scoreFn: a => Math.max(a[0]?a[0].score:-1000, a[1]?a[1].score:-1000)
+                scoreFn: a => Math.max(a[0]?a[0].score:-10000, a[1]?a[1].score:-10000)
             });
 
             results.forEach(result => {
