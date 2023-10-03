@@ -49,6 +49,7 @@ footer {
     align-self: start;
     margin: 8px 8px;
 }
+
 .ribbon-menu {
     display: flex;
     gap: 4px;
@@ -79,6 +80,7 @@ footer {
     grid-template-rows: min-content 1fr min-content;
     min-height: 100vh;
 }
+
 #view {
     height: 100vh; /* or some other value */
     overflow: auto;
@@ -97,35 +99,57 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 0;
-    bottom: 0; 
-    transform: translateX(-50%); 
-    position: fixed; 
+    bottom: 0;
+    transform: translateX(-50%);
+    position: fixed;
     background-color: var(--color-base-00);
 }
 
 .sentinel {
     padding: 50px;
     overflow: visible;
-/*    background-color: red;*/
-    white-space: pre-wrap;
-    text-overflow: ellipsis;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-}
-.content {
-    padding: 50px;
-    overflow: visible;
-/*    background-color: blue;*/
+    /*    background-color: red;*/
     white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
 
+.content {
+    padding: 50px;
+    overflow: visible;
+    /*    background-color: blue;*/
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.search-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 3px;
+    padding-bottom: 10px;
+    background-color: var(--color-base-00)
+}
+
+    .search-bar input[type=text] {
+        display: inline-block;
+        padding: 6px;
+        border: none;
+        margin-top: 8px;
+        margin-right: 16px;
+        margin-left: 16px;
+        font-size: 17px;
+        border-radius: 20px;
+    }
+
 @keyframes fadeOut {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
@@ -135,6 +159,7 @@ footer {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }

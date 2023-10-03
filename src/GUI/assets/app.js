@@ -34,6 +34,9 @@ const recentGridHTML = `
 </div>`;
 
 const libraryGridHTML = `
+<div class="search-bar">
+    <input id="search-input" type="text" placeholder="Search..">
+</div>
 <div id="library-grid" class="book-grid">
 </div>` ;
 
@@ -231,8 +234,81 @@ function updatePageNumber() {
     }
 }
 
+
+/**
+ * @brief Check if a string contains a partial match of a sub-string (case-insensitive).
+ * @param {string} text - The text to search within.
+ * @param {string} searchTerm - The partial search term.
+ * @returns {boolean} - True if the text contains a partial match of the search term, false otherwise.
+ */
+function containsPartialMatch(text, searchTerm) {
+    text = text.toLowerCase();
+    searchTerm = searchTerm.toLowerCase();
+
+    return text.includes(searchTerm);
+}
+
+function performSearch() {
+    const searchTerm = document.getElementById("search-input").value;
+
+    document.getElementById("view").innerHTML = libraryGridHTML;
+
+    if (searchTerm === "") {
+        readAndCreateBooks();
+    } else {
+        searchAndCreateBooks(searchTerm);
+        document.getElementById("search-input").value = searchTerm;
+    }
+}
+
+/**
+ * @brief Loads built-in books to the library based on partial matches of the search term.
+ * @details Book metadata stored in a JSON file is read,
+ * and for each book with a partial match in the title or author, a grid item is created in the library.
+ * @param {string} searchTerm - The search term to match books against.
+ */
+function searchAndCreateBooks(searchTerm) {
+    fetch('books.json')
+        .then(response => response.json())
+        .then(data => {
+            const libraryContainer = document.getElementById('library-grid'); // Replace with your actual class name
+
+            Object.keys(data).forEach(bookKey => {
+                const book = data[bookKey];
+
+                if (containsPartialMatch(book.Title, searchTerm) || containsPartialMatch(book.Author, searchTerm)) {
+                    const button = document.createElement('button');
+                    button.className = 'book-grid-item';
+                    button.onclick = () => openBook(book.Path);
+
+                    const h3 = document.createElement('h3');
+                    h3.textContent = book.Title;
+
+                    const p = document.createElement('p');
+                    p.textContent = book.Author;
+
+                    button.appendChild(h3);
+                    button.appendChild(p);
+
+                    libraryContainer.appendChild(button);
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error reading JSON file:', error);
+        });
+}
+
+
+const searchInput = document.getElementById("search-input");
+// why does this not work unless im adding it to document... should be able to do search-input
+// document.addEventListener("input", performSearch);
+
+
 document.addEventListener('keydown', function (event) {
-    if (event.key === "ArrowLeft") {
+    if (event.key === "Enter") {
+        performSearch()
+    } else if (event.key === "ArrowLeft") {
         document.getElementById("prevButton").click();
     } else if (event.key === "ArrowRight") {
         document.getElementById("nextButton").click();
