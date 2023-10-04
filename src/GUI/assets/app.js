@@ -56,11 +56,10 @@ const settingsHTML = `
         </label>
 
         <!-- Dropdown selection -->
-        <label for="dropdown">Choose an option:</label>
+        <label for="dropdown">Choose a theme:</label>
         <select id="dropdown" name="dropdown">
-            <option value="optionA">Option A</option>
-            <option value="optionB">Option B</option>
-            <option value="optionC">Option C</option>
+            <option value="theme-dark">Dark Mode</option>
+            <option value="theme-light">Light Mode</option>
         </select>
 
         <!-- Large text box for newline-separated strings -->
@@ -69,9 +68,9 @@ const settingsHTML = `
         
         <!-- Add more settings options as needed -->
         
-        <button type="submit">Save</button>
+        <button onclick="saveSettings();" type="button">Save</button>
         <!-- <button type="button">Cancel</button> -->
-        <button type="button">Reset to Defaults</button>
+        <!-- <button type="button">Reset to Defaults</button> -->
     </form>
 </section>
 `;
@@ -95,6 +94,27 @@ function addBook() {
         createBook(filePath);
     }
     openBook(filePath);
+}
+
+
+function saveSettings() {
+    console.log("Settings.")
+    // Get the select element by its ID
+    let selectElement = document.getElementById("dropdown");
+
+    // Get the selected index
+    let selectedIndex = selectElement.selectedIndex;
+
+    // Get the selected option element
+    let selectedOption = selectElement.options[selectedIndex];
+    let className = document.body.className
+
+    // Get the value and text of the selected option
+    let selectedValue = selectedOption.value;
+    document.body.classList.remove(className);
+    document.body.classList.add(selectedValue);
+    // location.reload()
+    console.log(document.body.className)
 }
 
 /*! 
@@ -183,7 +203,6 @@ function openLibrary() {
 }
 
 function openSettings(){
-    console.log("!");
     document.getElementById("view").innerHTML = settingsHTML;
 }
 
@@ -359,6 +378,7 @@ document.addEventListener('keydown', function (event) {
         document.getElementById("nextButton").click();
     }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     openRecent();
 });
