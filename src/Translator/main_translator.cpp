@@ -12,7 +12,6 @@
 #include <translator.h>
 #pragma execution_character_set("utf-8")
 
-
 /**
  * @brief Main function to handle file translation and replacement.
  *
@@ -25,19 +24,19 @@
  */
 int main(void)
 {
-    // std::string in_path = "../test_data/small_test.txt";
-    // std::string out_path = "../test_data/translated.test";
+    //     std::string in_path = "../test_data/small_test.txt";
+    //     std::string out_path = "../test_data/translated.test";
     // #ifdef _WIN32
-    // in_path = "../../../test_data/small_test.txt";
-    // out_path = "../../../test_data/translated.test";
+    //     in_path = "../../../test_data/small_test.txt";
+    //     out_path = "../../../test_data/translated.test";
     // #endif
-    // std::ifstream inputFile(in_path);
-    // std::stringstream inputStream;
-    // inputStream << inputFile.rdbuf();
+    //     std::ifstream inputFile(in_path);
+    //     std::stringstream inputStream;
+    //     inputStream << inputFile.rdbuf();
 
-    // std::string fileContent = translate_and_replace(inputStream, 42);
-    // std::cout << fileContent << std::endl;
-    // std::ofstream outputFile(out_path);
-    // outputFile << fileContent;
+    //     std::string fileContent = translate_and_replace(inputStream, 42);
+    //     std::cout << fileContent << std::endl;
+    //     std::ofstream outputFile(out_path);
+    //     outputFile << fileContent;
     return 0;
 }

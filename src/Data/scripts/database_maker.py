@@ -1,7 +1,7 @@
 import sqlite3
 import json
 
-with open('english_to_maori_dictionary_pos.json', 'r') as f:
+with open('/home/matt/Documents/UniStuff/COSC345/project/src/Data/clean_data/english_to_maori_dictionary_pos.json', 'r') as f:
     data = json.load(f)
     
 conn = sqlite3.connect('dict.sqlite')
@@ -16,7 +16,10 @@ cursor.execute('DROP TABLE IF EXISTS english_words')
 cursor.execute('''
 CREATE TABLE english_words (
     word_id INTEGER PRIMARY KEY,
-    word TEXT UNIQUE
+    word TEXT UNIQUE,
+    encounter_rate INTEGER DEFAULT 0,
+    word_preference INTEGER DEFAULT 1,
+    learned BOOLEAN DEFAULT 0
 )''')
 
 cursor.execute('''
@@ -42,6 +45,7 @@ for key, maori_word_list in data.items():
     english_word = english_word.strip()
 
     cursor.execute('INSERT OR IGNORE INTO english_words (word) VALUES (?)', (english_word,))
+
     word_id = cursor.execute('SELECT word_id FROM english_words WHERE word = ?', (english_word,)).fetchone()[0]
 
     for maori_word in maori_word_list:
