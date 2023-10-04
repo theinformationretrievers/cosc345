@@ -7,7 +7,7 @@
 
 ---
 
-Welcome to **Diglot Reader**, a text reading app designed to enhance language learning through technqiues such as space repitition and the Diglot Weave method. Our app combines the power of a text reader with an integrated Te Reo Māori vocabulary training component, helping users learn Te Reo Māori though general day-to-day reading.
+Welcome to **Diglot Reader**, a text reading app designed to enhance language learning through techniques such as space repetition and the Diglot Weave method. Our app combines the power of a text reader with an integrated Te Reo Māori vocabulary training component, helping users learn Te Reo Māori though general day-to-day reading.
 
 ### Key Features
 
