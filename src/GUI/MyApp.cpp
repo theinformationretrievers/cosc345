@@ -203,6 +203,7 @@ JSValue MyApp::GetTranslatedText(const JSObject &thisObject, const JSArgs &args)
         startPosition = 0;
         endPosition = 0;
         fileSize = 1000000;
+        page = 0;
         fileStream = std::ifstream(strPath);
         fileStream.seekg(0, std::ios::end); // Move to the end of the file
         fileSize = fileStream.tellg();      // Get the current position (which is the end)

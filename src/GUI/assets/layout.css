@@ -43,12 +43,14 @@ footer {
     align-items: stretch;
     align-content: flex-start;
     padding: 8px;
+    margin-top: 40px;
 }
 
 .book-grid-item {
     align-self: start;
     margin: 8px 8px;
 }
+
 .ribbon-menu {
     display: flex;
     gap: 4px;
@@ -56,6 +58,7 @@ footer {
     flex-direction: column;
     padding: 8px 4px 12px;
     width: var(--ribbon-width);
+    z-index: 200;
 }
 
 .ribbon-top-icons,
@@ -79,9 +82,11 @@ footer {
     grid-template-rows: min-content 1fr min-content;
     min-height: 100vh;
 }
+
 #view {
     height: 100vh; /* or some other value */
     overflow: auto;
+    text-align: center;
 }
 
 .header-menu {
@@ -96,34 +101,59 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 0;
-    bottom: 0; 
-    transform: translateX(-50%); 
+    bottom: 0;
+    transform: translateX(-50%);
     position: fixed;
+    background-color: var(--color-base-00);
 }
 
 .sentinel {
     padding: 50px;
     overflow: visible;
-    background-color: red;
+    /*    background-color: red;*/
     white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
+
 .content {
     padding: 50px;
     overflow: visible;
-    background-color: blue;
+    /*    background-color: blue;*/
     white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow-y: scroll;
     scroll-behavior: smooth;
+}
+.search-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 3px;
+    padding-bottom: 10px;
+    background-color: var(--color-base-00);
+    z-index: 100;
+}
+
+.search-bar input[type=text] {
+    display: inline-block;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    margin-left: 16px;
+    font-size: 17px;
+    border-radius: 20px;
 }
 
 @keyframes fadeOut {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
@@ -133,6 +163,7 @@ footer {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
