@@ -43,6 +43,39 @@ const libraryGridHTML = `
 <div id="library-grid" class="book-grid">
 </div>` ;
 
+const settingsHTML = `
+<h1>Settings</h1>
+<section id="general" class="settings-section">
+    <form>
+        <!-- Checkbox settings -->
+        <label>
+            <input type="checkbox" name="option1"> Option 1
+        </label>
+        <label>
+            <input type="checkbox" name="option2"> Option 2
+        </label>
+
+        <!-- Dropdown selection -->
+        <label for="dropdown">Choose an option:</label>
+        <select id="dropdown" name="dropdown">
+            <option value="optionA">Option A</option>
+            <option value="optionB">Option B</option>
+            <option value="optionC">Option C</option>
+        </select>
+
+        <!-- Large text box for newline-separated strings -->
+        <label for="newlineStrings">Input newline-separated strings to blacklist:</label>
+        <textarea id="newlineStrings" name="newlineStrings" rows="6"></textarea>
+        
+        <!-- Add more settings options as needed -->
+        
+        <button type="submit">Save</button>
+        <!-- <button type="button">Cancel</button> -->
+        <button type="button">Reset to Defaults</button>
+    </form>
+</section>
+`;
+
 
 let currentPage = 0;
 let maxPage = Infinity;
@@ -147,6 +180,11 @@ function openLibrary() {
     document.getElementById("view").innerHTML = libraryGridHTML;
     console.log("open library");
     readAndCreateBooks();
+}
+
+function openSettings(){
+    console.log("!");
+    document.getElementById("view").innerHTML = settingsHTML;
 }
 
 /*! 

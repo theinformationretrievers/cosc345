@@ -175,3 +175,64 @@ footer {
 * {
     max-width: 100%;
 }
+
+
+
+/* Apply styles only to elements within the settings section */
+.settings-section {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Apply styles to form elements within the settings section */
+.settings-section form {
+    margin-top: 20px;
+}
+
+/* Apply styles to labels within the settings section */
+.settings-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Apply styles to checkboxes within the settings section */
+.settings-section input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Apply styles to select and textarea elements within the settings section */
+.settings-section select,
+.settings-section textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+/* Apply styles to buttons within the settings section */
+.settings-section button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Apply styles to specific button types within the settings section */
+.settings-section button[type="submit"] {
+    /* Add specific positioning styles for the "Save" button here */
+}
+
+.settings-section button[type="reset"] {
+    /* Add specific positioning styles for the "Reset to Defaults" button here */
+}
+
+.settings-section button[type="button"] {
+    /* Add specific positioning styles for the "Cancel" button here */
+}
+
+/* Apply styles to the footer within the settings section */
+.settings-section footer {
+    text-align: center;
+    margin-top: 20px;
+}
