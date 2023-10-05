@@ -76,6 +76,8 @@ public:
     JSValue savePreferences(const JSObject& thisObject, const JSArgs& args);
     JSValue loadPreferences(const JSObject& thisObject, const JSArgs& args);
 
+    JSValue MyApp::saveBlacklist(const JSObject& thisObject, const JSArgs& args);
+
     // int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize);
     void updateReaderContent(const double page);
     void translateNextChunk();
