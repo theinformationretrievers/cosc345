@@ -55,9 +55,19 @@ const settingsHTML = `
             <input type="checkbox" name="option2"> Option 2
         </label>
 
+        <label for="input-fontsize">FontSize:</label>
+        <input type="number" id="input-fontsize" name="input-fontsize" min="0" max="50">
+
+        <label for="dropdown-align">Choose text alignment:</label>
+        <select id="dropdown-align" name="dropdown">
+            <option value="left">Left Align</option>
+            <option value="center">Center Align</option>
+            <option value="right">Right Align</option>
+        </select>
+
         <!-- Dropdown selection -->
-        <label for="dropdown">Choose a theme:</label>
-        <select id="dropdown" name="dropdown">
+        <label for="dropdown-theme">Choose a theme:</label>
+        <select id="dropdown-theme" name="dropdown">
             <option value="theme-dark">Dark Mode</option>
             <option value="theme-light">Light Mode</option>
         </select>
@@ -98,23 +108,32 @@ function addBook() {
 
 
 function saveSettings() {
-    console.log("Settings.")
-    // Get the select element by its ID
-    let selectElement = document.getElementById("dropdown");
-
-    // Get the selected index
-    let selectedIndex = selectElement.selectedIndex;
-
-    // Get the selected option element
-    let selectedOption = selectElement.options[selectedIndex];
+    // THEME SWITCHING
+    let selectTheme = document.getElementById("dropdown-theme");
+    let selectedIndex = selectTheme.selectedIndex;
+    let selectedOption = selectTheme.options[selectedIndex];
     let className = document.body.className
-
-    // Get the value and text of the selected option
     let selectedValue = selectedOption.value;
     document.body.classList.remove(className);
     document.body.classList.add(selectedValue);
-    // location.reload()
-    console.log(document.body.className)
+
+    rootStyle = getComputedStyle(document.documentElement);
+
+    //ALIGNMENT SWITCHING
+    // let selectAlign = document.getElementById("dropdown-align");
+    // let selectedAlignIndex = selectAlign.selectedIndex;
+    // let selectedAlignOption = selectAlign.options[selectedAlignIndex];
+    // let selectedAlignValue = selectedAlignOption.value;
+    // console.log(selectedAlignValue)
+    // document.documentElement.style.setProperty('--text-alignment', selectedAlignValue)
+
+    // console.log(document.documentElement.style.getPropertyValue('--text-alignment'));
+
+
+    // FONT SIZE SWITCHING
+    let inputFont = document.getElementById("input-fontsize").value; // Corrected ID attribute
+    document.documentElement.style.setProperty('--reader-font-size', (inputFont + "px"))
+
 }
 
 /*! 

@@ -4,6 +4,8 @@
     --ribbon-width: 44px;
     --header-height: 40px;
     --divider-width: 1px;
+    --reader-font-size: 18px;
+    --text-alignment: center;
 }
 
 * {

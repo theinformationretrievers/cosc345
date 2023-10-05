@@ -3,6 +3,8 @@ root {
   --icon-large: 18px;
   --icon-stroke: 1.75px;
   --font-small: 13px;
+  /* --reader-font-size: 30px; */
+  --text-alignment: center;
 }
 
 /* Colours */
@@ -126,7 +128,7 @@ body {
 /* Reader */
 #reader {
     color: var(--text-normal);
-    text-align: center;
+    text-align: var(--text-alignment); 
 }
 
 #reader-content {
@@ -136,7 +138,9 @@ body {
 
 #reader-content pre {
     white-space: pre-wrap;
+    font-size: var(--reader-font-size);
 }
+
 #reader-content p {
   text-overflow: ellipsis;
 }
