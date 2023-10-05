@@ -48,15 +48,10 @@ const settingsHTML = `
 <section id="general" class="settings-section">
     <form>
         <!-- Checkbox settings -->
-        <label>
-            <input type="checkbox" name="option1"> Option 1
-        </label>
-        <label>
-            <input type="checkbox" name="option2"> Option 2
-        </label>
 
         <label for="input-fontsize">FontSize:</label>
         <input type="number" id="input-fontsize" name="input-fontsize" min="0" max="50">
+        <span class="unit">px</span>
 
         <label for="dropdown-align">Choose text alignment:</label>
         <select id="dropdown-align" name="dropdown">
@@ -134,9 +129,12 @@ function saveSettings() {
     // FONT SIZE SWITCHING
     let inputFont = document.getElementById("input-fontsize").value; // Corrected ID attribute
     document.documentElement.style.setProperty('--reader-font-size', (inputFont + "px"))
-        userPreferences = {
+    
+    
+    userPreferences = {
         theme: selectedValue,
         fontSize: inputFont,
+        alignment: selectedAlignValue
     };
 
     savePreferences(JSON.stringify(userPreferences));
@@ -411,7 +409,7 @@ window.onload = function () {
 
     let jsonString = loadPreferences(); // Assume this function is bound and returns a JSON string from C++
     userPreferences = JSON.parse(jsonString);
-    let { theme, fontSize } = userPreferences;
+    let { theme, fontSize, alignment } = userPreferences;
     var body = document.body;
 
     if (body.classList.contains('theme-light')) {
@@ -422,6 +420,7 @@ window.onload = function () {
     // Apply the saved preferences 
     document.body.classList.add(theme);
     document.documentElement.style.setProperty('--reader-font-size', (fontSize + "px"))
+    document.documentElement.style.setProperty('--text-alignment', alignment)
 };
 
 // updatePageNumber();
