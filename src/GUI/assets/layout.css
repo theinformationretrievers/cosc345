@@ -18,6 +18,31 @@ body {
     grid-template-columns: min-content 1fr;
 }
 
+/* Settings layout */
+#settings {
+    padding: 32px 48px;
+    height: 100%;
+    max-width: 500px;
+}
+.setting-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+}
+.setting-item-info {
+    display: block;
+    text-align: left;
+    flex: 1 1 auto;
+}
+.setting-item-control {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+}
+
 /* Flex layouts */
 header {
     display: flex;
