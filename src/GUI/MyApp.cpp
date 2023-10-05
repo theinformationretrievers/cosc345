@@ -481,7 +481,7 @@ void MyApp::OnDOMReady(ultralight::View* caller, uint64_t frame_id,
     JSObject global = JSGlobalObject();
 
 #ifdef _WIN32
-    global["getFilePath"] = BindJSCallbackWithRetval(&MyApp::GetFileWindows);
+    global["getFilePath"] = BindJSCallbackWithRetval(&MyApp::getFileWindows);
 #else
     global["getFilePath"] = BindJSCallbackWithRetval(&MyApp::getFileLinux);
 #endif
