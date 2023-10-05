@@ -139,6 +139,7 @@ body {
 #reader-content pre {
     white-space: pre-wrap;
     font-size: var(--reader-font-size);
+    text-align: var(--text-alignment);
 }
 
 #reader-content p {

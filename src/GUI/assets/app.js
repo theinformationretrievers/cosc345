@@ -121,14 +121,14 @@ function saveSettings() {
     rootStyle = getComputedStyle(document.documentElement);
 
     //ALIGNMENT SWITCHING
-    // let selectAlign = document.getElementById("dropdown-align");
-    // let selectedAlignIndex = selectAlign.selectedIndex;
-    // let selectedAlignOption = selectAlign.options[selectedAlignIndex];
-    // let selectedAlignValue = selectedAlignOption.value;
-    // console.log(selectedAlignValue)
-    // document.documentElement.style.setProperty('--text-alignment', selectedAlignValue)
+    let selectAlign = document.getElementById("dropdown-align");
+    let selectedAlignIndex = selectAlign.selectedIndex;
+    let selectedAlignOption = selectAlign.options[selectedAlignIndex];
+    let selectedAlignValue = selectedAlignOption.value;
+    console.log(selectedAlignValue)
+    document.documentElement.style.setProperty('--text-alignment', selectedAlignValue)
 
-    // console.log(document.documentElement.style.getPropertyValue('--text-alignment'));
+    console.log(document.documentElement.style.getPropertyValue('--text-alignment'));
 
 
     // FONT SIZE SWITCHING
