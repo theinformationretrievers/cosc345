@@ -12,6 +12,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 #ifdef _WIN32
 #include <tchar.h>
@@ -238,6 +239,46 @@ void MyApp::diagnoseFileStream(const std::string& context)
     }
 
     std::cerr << "Current file stream position: " << fileStream.tellg() << std::endl;
+}
+
+
+JSValue MyApp::saveBlacklist(const JSObject& thisObject, const JSArgs& args) {
+    if (args.size() >= 1 && args[0].IsString()) {
+        // Convert JSArg to a string
+        JSValueRef exception = NULL;
+
+        // Extracting the filePath
+        JSStringRef jsStr = JSValueToStringCopy(thisObject.context(), args[0], &exception);
+        size_t jsLength = JSStringGetMaximumUTF8CStringSize(jsStr);
+        char* blacklistStrJS = new char[jsLength];
+        JSStringGetUTF8CString(jsStr, blacklistStrJS, jsLength);
+
+        std::string blacklistStr = blacklistStrJS;
+
+        // Create a vector to store the individual words
+        std::vector<std::string> words;
+
+        // Use stringstream to split the string by spaces
+        std::istringstream iss(blacklistStr);
+        std::string word;
+
+        while (iss >> word) {
+            words.push_back(word);
+        }
+
+        // Now 'words' contains individual words from the space-separated string
+        for (const std::string& w : words) {
+            std::cout << w << std::endl;
+        }
+
+        update_blacklist_word(words);
+
+
+    } else {
+        std::cerr << "Invalid arguments passed to SavePreferences!" << std::endl;
+    }
+
+    return JSValue(" "); // Return undefined to JS
 }
 
 void MyApp::updateReaderContent(const double page)

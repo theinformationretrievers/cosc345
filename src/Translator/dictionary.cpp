@@ -65,6 +65,7 @@ translation Dictionary::fetch_translations(const std::string &word, const std::s
                         "e.encounter_rate, "
                         "e.word_preference, "
                         "e.learned "
+                        "e.blacklisted"
                         "FROM mappings "
                         "JOIN english_words e ON e.word_id = mappings.word_id "
                         "JOIN maori_words m ON m.maori_id = mappings.maori_id "
@@ -123,6 +124,30 @@ translation Dictionary::translate(const std::string &word, const std::string &po
 {
     return fetch_translations(word, pos);
 }
+
+
+void Dictionary::update_blacklist_word(std::vector<std::string>& words) 
+{
+    sqlite3_exec(db, "BEGIN TRANSACTION;", nullptr, nullptr, nullptr);
+
+    for (const auto& word : words) 
+    {
+        // Update the 'blacklisted' column based on the word
+        std::string updateQuery = "UPDATE english_words SET blacklisted = 1 WHERE word = '" + word + "';";
+
+        int rc = sqlite3_exec(db, updateQuery.c_str(), nullptr, nullptr, nullptr);
+
+        if (rc != SQLITE_OK) 
+        {
+            sqlite3_exec(db, "ROLLBACK;", nullptr, nullptr, nullptr);
+            throw std::runtime_error("Failed to update blacklisted word");
+        }
+    }
+
+    sqlite3_exec(db, "COMMIT;", nullptr, nullptr, nullptr);
+}
+
+
 
 void Dictionary::update_translations(std::unordered_map<std::string, translation> &translations)
 {

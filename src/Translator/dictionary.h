@@ -52,5 +52,7 @@ public:
      */
     translation translate(const std::string &word, const std::string &pos = "");
 
+    void update_blacklist_word(std::vector<std::string> &words);
+
     void update_translations(std::unordered_map<std::string, translation> &translations);
 };

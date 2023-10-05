@@ -55,8 +55,8 @@ const settingsHTML = `
 
         <label for="dropdown-align">Choose text alignment:</label>
         <select id="dropdown-align" name="dropdown">
-            <option value="left">Left Align</option>
             <option value="center">Center Align</option>
+            <option value="left">Left Align</option>
             <option value="right">Right Align</option>
         </select>
 
@@ -79,6 +79,7 @@ const settingsHTML = `
     </form>
 </section>
 `;
+
 let userPreferences = {
 };
 
@@ -130,11 +131,24 @@ function saveSettings() {
     let inputFont = document.getElementById("input-fontsize").value; // Corrected ID attribute
     document.documentElement.style.setProperty('--reader-font-size', (inputFont + "px"))
     
+
+    // BLACKLIST
+    let blacklist_str = document.getElementById("newlineStrings").value;
+    let linesArray = blacklist_str.split('\n');
+    let linesSet = new Set(linesArray);
+    let strippedLowerCaseSet = new Set();
+    for (let line of linesSet){
+        // Strip leading and trailing whitespace and convert to lowercase
+        let strippedLowerCaseLine = line.trim().toLowerCase();
+        strippedLowerCaseSet.add(strippedLowerCaseLine);
+    }
+    let spaceSeparatedString = Array.from(strippedLowerCaseSet).join(' ');
+    saveBlacklist(spaceSeparatedString)
     
     userPreferences = {
         theme: selectedValue,
         fontSize: inputFont,
-        alignment: selectedAlignValue
+        alignment: selectedAlignValue,
     };
 
     savePreferences(JSON.stringify(userPreferences));
@@ -421,6 +435,7 @@ window.onload = function () {
     document.body.classList.add(theme);
     document.documentElement.style.setProperty('--reader-font-size', (fontSize + "px"))
     document.documentElement.style.setProperty('--text-alignment', alignment)
+
 };
 
 // updatePageNumber();
