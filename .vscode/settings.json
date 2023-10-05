@@ -71,5 +71,6 @@
         "format": "cpp",
         "span": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }

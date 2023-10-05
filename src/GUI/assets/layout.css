@@ -215,7 +215,7 @@ footer {
 /* Apply styles to buttons within the settings section */
 .settings-section button {
     padding: 10px 20px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 3px;
     cursor: pointer;
 }

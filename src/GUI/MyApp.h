@@ -26,13 +26,13 @@ public:
     // Open a File
 
 #ifdef _WIN32
-    virtual JSValue GetFileWindows(const JSObject &thisObject, const JSArgs &args);
+    virtual JSValue getFileWindows(const JSObject &thisObject, const JSArgs &args);
 #else
     // Open a File
-    virtual JSValue GetFileLinux(const ultralight::JSObject &thisObject, const ultralight::JSArgs &args);
+    virtual JSValue getFileLinux(const ultralight::JSObject &thisObject, const ultralight::JSArgs &args);
 #endif
 
-    virtual JSValue GetTranslatedText(const JSObject &thisObject, const JSArgs &args);
+    virtual JSValue getTranslatedText(const JSObject &thisObject, const JSArgs &args);
 
     virtual JSValue writeLocalBook(const JSObject &thisObject, const JSArgs &args);
 
@@ -73,6 +73,9 @@ public:
                                      uint32_t line_number,
                                      uint32_t column_number,
                                      const ultralight::String &source_id);
+    JSValue savePreferences(const JSObject& thisObject, const JSArgs& args);
+    JSValue loadPreferences(const JSObject& thisObject, const JSArgs& args);
+
     // int chunkFileIntoWords(const std::string& filePath, int startChunk, int maxChunksToProcess, int chunkSize);
     void updateReaderContent(const double page);
     void translateNextChunk();

@@ -84,7 +84,8 @@ const settingsHTML = `
     </form>
 </section>
 `;
-
+let userPreferences = {
+};
 
 let currentPage = 0;
 let maxPage = Infinity;
@@ -98,7 +99,7 @@ let currentPath = "";
  * locally and adds the book to the users recently opened books
  */
 function addBook() {
-    const filePath = GetFilePath();
+    const filePath = getFilePath();
     const result = writeLocalBookJS(filePath);
     if (result == "Success") {
         createBook(filePath);
@@ -133,8 +134,15 @@ function saveSettings() {
     // FONT SIZE SWITCHING
     let inputFont = document.getElementById("input-fontsize").value; // Corrected ID attribute
     document.documentElement.style.setProperty('--reader-font-size', (inputFont + "px"))
+        userPreferences = {
+        theme: selectedValue,
+        fontSize: inputFont,
+    };
 
+    savePreferences(JSON.stringify(userPreferences));
 }
+
+
 
 /*! 
  * @brief Creates a book grid item from a filepath in the users recent books
@@ -173,7 +181,7 @@ function openBook(filePath) {
     maxPage = Infinity;
     max = false;
     document.getElementById("view").innerHTML = readerHTML;
-    const status = GetTranslatedText(currentPath, currentPage); // Load the initial content
+    const status = getTranslatedText(currentPath, currentPage); // Load the initial content
     if (status != "normal" && max == false) {
         maxPage = currentPage;
         max = true;
@@ -191,7 +199,7 @@ function changePage(direction) {
         currentPage--;
     }
     updatePageNumber();
-    const status = GetTranslatedText(currentPath, currentPage);
+    const status = getTranslatedText(currentPath, currentPage);
     if (status != "normal" && max == false) {
         maxPage = currentPage;
         max = true;
@@ -399,4 +407,21 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-updatePageNumber();
+window.onload = function () {
+
+    let jsonString = loadPreferences(); // Assume this function is bound and returns a JSON string from C++
+    userPreferences = JSON.parse(jsonString);
+    let { theme, fontSize } = userPreferences;
+    var body = document.body;
+
+    if (body.classList.contains('theme-light')) {
+        body.classList.remove('theme-light');
+    } else if (body.classList.contains('theme-dark')) {
+        body.classList.remove('theme-dark');
+    }
+    // Apply the saved preferences 
+    document.body.classList.add(theme);
+    document.documentElement.style.setProperty('--reader-font-size', (fontSize + "px"))
+};
+
+// updatePageNumber();
