@@ -67,10 +67,6 @@ const settingsHTML = `
             <option value="theme-light">Light Mode</option>
         </select>
 
-        <!-- Large text box for newline-separated strings -->
-        <label for="newlineStrings">Input newline-separated strings to blacklist:</label>
-        <textarea id="newlineStrings" name="newlineStrings" rows="6"></textarea>
-        
         <!-- Add more settings options as needed -->
         
         <button onclick="saveSettings();" type="button">Save</button>

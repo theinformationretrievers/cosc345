@@ -348,6 +348,7 @@ JSValue MyApp::writeLocalBook(const JSObject& thisObject, const JSArgs& args)
             std::cout << "Content '" << filePath2 << "' written to file '" << writeFile << "'." << std::endl;
         } else {
             std::cerr << "Error: Unable to open file '" << writeFile << "' for writing." << std::endl;
+            return JSValue("Unable to open");
         }
     } else {
         return JSValue("Duplicate");
